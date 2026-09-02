@@ -25,7 +25,6 @@ const BANNED_EVERYWHERE = [
   /critical access/i,
   /simplescheduleai/i,
   /cal\.com/i,
-  /script\.google\.com/i,
   /covina/i,
 ];
 

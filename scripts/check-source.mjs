@@ -25,7 +25,6 @@ const BANNED = [
   /\bHIPAA\b/,
   /simplescheduleai/i,
   /cal\.com/i,
-  /script\.google\.com/i,
   /covina/i,
   /\bagency\b/i,
 ];
