@@ -7,7 +7,7 @@ export const SITE_NAME = 'SimpleRosterAI';
 export const SITE_URL = 'https://simplerosterai.com';
 
 export const BOOKING_URL = 'TODO_BOOKING_URL';
-export const SUPPORT_EMAIL = 'pradeep@simplescheduleai.com';
+export const SUPPORT_EMAIL = 'support@simplerosterai.com';
 // Google Apps Script web app shared with the sibling site; rows carry a `source` field.
 export const LEAD_CAPTURE_URL =
   'https://script.google.com/macros/s/AKfycbx5BZhSHWIljxWLWBPngX1CuHyIO4jvd3vQH-HYuPbgfPjj7kA8O4rhQoIHaK10RSJJ/exec';

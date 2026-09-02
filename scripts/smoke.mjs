@@ -19,11 +19,11 @@ const ROUTES = [
 // Applied to every scanned file (.html, .js, .txt, .xml): identifying/competitor
 // strings that must never appear anywhere in the built output.
 const BANNED_EVERYWHERE = [
-  /pradeep(?!@simplescheduleai\.com)/i, // the address is allowed; the name is not
+  /pradeep/i,
   /pandey/i,
   /texas/i,
   /critical access/i,
-  /(?<!@)simplescheduleai/i,
+  /simplescheduleai/i,
   /cal\.com/i,
   /covina/i,
 ];

@@ -14,7 +14,6 @@ or blog.
 
 ## Hard rules
 
-- The support address pradeep@simplescheduleai.com is allowed by user decision; the name itself is not.
 - No personal name other than Gautham appears anywhere: site, schema, images,
   docs, comments, git history. `scripts/smoke.mjs` enforces the banned list.
 - Every external value (booking link, email, capture endpoint, legal entity,
