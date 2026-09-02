@@ -16,14 +16,14 @@ const EXCLUDE_FILES = new Set(
 // This file is excluded from its own scan (like smoke.mjs), so the patterns
 // can be written plainly.
 const BANNED = [
-  /pradeep/i,
+  /pradeep(?!@simplescheduleai\.com)/i, // the address is allowed; the name is not
   /pandey/i,
   /texas/i,
   /critical access/i,
   /\bCAH/,
   /\bFLSA\b/,
   /\bHIPAA\b/,
-  /simplescheduleai/i,
+  /(?<!@)simplescheduleai/i,
   /cal\.com/i,
   /covina/i,
   /\bagency\b/i,
