@@ -1,0 +1,257 @@
+---
+/**
+ * ProductFlow — animated system-flow widget for the product pages.
+ * Roster + rules flow into the engine (3 stations cycle a highlight),
+ * output flows to nursing office approval + exports. CSS-only motion, honors
+ * prefers-reduced-motion. All copy is product-mode (registry tokens).
+ */
+---
+
+<section class="bg-page">
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <div class="max-w-2xl" data-reveal>
+      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">How it works</p>
+      <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+        Staff list in. Duty roster out. Your nursing office stays in charge.
+      </h2>
+    </div>
+
+    <div class="product-flow mt-10 grid gap-4 lg:grid-cols-[1fr_auto_1.7fr_auto_1fr] lg:items-center" data-reveal>
+      <!-- Inputs -->
+      <div class="space-y-3">
+        <div class="pf-card pf-in-1 rounded-xl border border-hairline bg-white p-4 text-center">
+          <p class="text-sm font-semibold">Your roster</p>
+          <p class="mt-1 text-xs text-muted">The staff Excel you already keep</p>
+        </div>
+        <div class="pf-card pf-in-2 rounded-xl border border-hairline bg-white p-4 text-center">
+          <p class="text-sm font-semibold">Your rules</p>
+          <p class="mt-1 text-xs text-muted">
+            In-charge cover, skill mix, 48-hour week, night rotation, mapped once in guided setup
+          </p>
+        </div>
+        <div class="pf-card pf-in-3 rounded-xl border border-hairline bg-white p-4 text-center">
+          <p class="text-sm font-semibold">Your nurses' requests</p>
+          <p class="mt-1 text-xs text-muted">
+            Absences, leave, swaps and availability, from a portal built for their phones
+          </p>
+        </div>
+      </div>
+
+      <div class="pf-connector hidden lg:block" aria-hidden="true">
+        <span class="pf-dot"></span>
+      </div>
+      <div class="pf-vconnector justify-self-center lg:hidden" aria-hidden="true">
+        <span class="pf-vdot"></span>
+      </div>
+
+      <!-- Engine -->
+      <div class="pf-card pf-engine rounded-2xl border-2 border-primary/40 bg-white p-5">
+        <p class="text-center text-xs font-semibold uppercase tracking-[0.18em] text-primary">SimpleRosterAI engine</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          <div class="pf-station pf-station-1 rounded-lg border border-primary/20 p-3 text-center">
+            <p class="text-sm font-semibold">Draft builder</p>
+            <p class="mt-1 text-xs text-muted">Three complete rosters per cycle</p>
+          </div>
+          <div class="pf-station pf-station-2 rounded-lg border border-primary/20 p-3 text-center">
+            <p class="text-sm font-semibold">Rule checks</p>
+            <p class="mt-1 text-xs text-muted">21 automated validations per draft</p>
+          </div>
+          <div class="pf-station pf-station-3 rounded-lg border border-primary/20 p-3 text-center">
+            <p class="text-sm font-semibold">Absence ranker</p>
+            <p class="mt-1 text-xs text-muted">Ranked replacements with reasons</p>
+          </div>
+          <div class="pf-station pf-station-4 rounded-lg border border-primary/20 p-3 text-center">
+            <p class="text-sm font-semibold">Swaps and leave</p>
+            <p class="mt-1 text-xs text-muted">Requests checked against the same rules, routed to you</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pf-connector hidden lg:block" aria-hidden="true">
+        <span class="pf-dot pf-dot-late"></span>
+      </div>
+      <div class="pf-vconnector justify-self-center lg:hidden" aria-hidden="true">
+        <span class="pf-vdot pf-vdot-late"></span>
+      </div>
+
+      <!-- Outputs: the nursing office is the quality gate -->
+      <div class="space-y-3">
+        <div class="pf-card pf-out-1 rounded-xl border-2 border-primary bg-primary/5 p-4 text-center">
+          <p class="text-sm font-semibold">Your nursing office approves</p>
+          <p class="mt-1 text-xs text-muted">Nothing posts without your sign-off</p>
+        </div>
+        <div class="pf-card pf-out-2 rounded-xl border border-hairline bg-white p-4 text-center">
+          <p class="text-sm font-semibold">Post-ready output</p>
+          <p class="mt-1 text-xs text-muted">PDF for the notice board, Excel for HR, audit trail</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Staged card reveal */
+  .pf-card {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: pf-rise 0.5s ease-out forwards;
+  }
+  .pf-in-1 {
+    animation-delay: 0.1s;
+  }
+  .pf-in-2 {
+    animation-delay: 0.25s;
+  }
+  .pf-in-3 {
+    animation-delay: 0.4s;
+  }
+  .pf-engine {
+    animation-delay: 0.5s;
+  }
+  .pf-out-1 {
+    animation-delay: 0.9s;
+  }
+  .pf-out-2 {
+    animation-delay: 1.05s;
+  }
+
+  @keyframes pf-rise {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Flowing connectors: a dot travels the line, forever */
+  .pf-connector {
+    position: relative;
+    width: 3.5rem;
+    height: 2px;
+    background: linear-gradient(90deg, rgb(26 35 50 / 0.15), rgb(26 35 50 / 0.35));
+  }
+  .pf-dot {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    margin-top: -3.5px;
+    border-radius: 9999px;
+    background: var(--aw-color-primary, #1a2332);
+    animation: pf-travel 2.4s ease-in-out infinite;
+  }
+  .pf-dot-late {
+    animation-delay: 1.2s;
+  }
+
+  /* Mobile: the flow runs vertically between stacked blocks */
+  .pf-vconnector {
+    position: relative;
+    width: 2px;
+    height: 2.25rem;
+    background: linear-gradient(180deg, rgb(26 35 50 / 0.15), rgb(26 35 50 / 0.35));
+  }
+  .pf-vdot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border-radius: 9999px;
+    background: var(--aw-color-primary, #2d5a4a);
+    animation: pf-travel-v 2.4s ease-in-out infinite;
+  }
+  .pf-vdot-late {
+    animation-delay: 1.2s;
+  }
+
+  @keyframes pf-travel-v {
+    0% {
+      top: -4px;
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      top: calc(100% - 3px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes pf-travel {
+    0% {
+      left: -4px;
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      left: calc(100% - 3px);
+      opacity: 0;
+    }
+  }
+
+  /* Engine stations cycle a soft highlight, like work moving through */
+  .pf-station {
+    background: rgb(26 35 50 / 0.03);
+    transition: background 0.4s;
+  }
+  .pf-station-1 {
+    animation: pf-glow 5.4s ease-in-out infinite;
+  }
+  .pf-station-2 {
+    animation: pf-glow 5.4s ease-in-out infinite 1.35s;
+  }
+  .pf-station-3 {
+    animation: pf-glow 5.4s ease-in-out infinite 2.7s;
+  }
+  .pf-station-4 {
+    animation: pf-glow 5.4s ease-in-out infinite 4.05s;
+  }
+
+  @keyframes pf-glow {
+    0%,
+    30%,
+    100% {
+      background: rgb(26 35 50 / 0.03);
+      box-shadow: none;
+    }
+    12% {
+      background: rgb(123 175 155 / 0.18);
+      box-shadow: 0 0 0 1px rgb(123 175 155 / 0.45);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-card {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .pf-dot {
+      animation: none;
+      opacity: 0.6;
+      left: 50%;
+    }
+    .pf-vdot {
+      animation: none;
+      opacity: 0.6;
+      top: 50%;
+    }
+    .pf-station-1,
+    .pf-station-2,
+    .pf-station-3,
+    .pf-station-4 {
+      animation: none;
+    }
+  }
+</style>

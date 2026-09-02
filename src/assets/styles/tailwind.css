@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bg-page {
+    background-color: var(--aw-color-bg-page);
+  }
+  .bg-dark {
+    background-color: var(--aw-color-bg-page-dark);
+  }
+  .bg-light {
+    background-color: var(--aw-color-bg-page);
+  }
+  .text-page {
+    color: var(--aw-color-text-page);
+  }
+  .text-muted {
+    color: var(--aw-color-text-muted);
+  }
+}
+
+@layer utilities {
+  .border-hairline {
+    border-color: var(--aw-color-hairline);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg border border-ink/25 bg-transparent font-medium text-center text-base text-default leading-snug transition py-3.5 px-6 md:px-8 ease-out duration-200 focus:ring-primary focus:ring-2 focus:ring-offset-2 hover:border-ink/50 hover:bg-ink/5 cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply btn font-semibold bg-primary text-white border-primary hover:bg-secondary hover:border-secondary hover:text-white;
+  }
+
+  .btn-secondary {
+    @apply btn;
+  }
+
+  .btn-tertiary {
+    @apply btn border-none shadow-none text-muted hover:text-gray-900;
+  }
+
+  /* Secondary button on dark surfaces (footer band, DarkHero, CallToAction).
+     Replaces three ad-hoc raw-hex re-implementations (theme audit 2026-07-21). */
+  .btn-secondary-dark {
+    @apply btn text-ivory border-ivory/25 hover:bg-ivory/10 hover:border-ivory/60 hover:text-ivory;
+  }
+}
+
+/* ---- Motion system (see MotionScripts.astro for the markup contract) ----
+   Desktop-only (min-width 1024px): on phones the hide-then-reveal pattern reads
+   as scroll lag (founder feedback 2026-07-07 item 6), so mobile renders
+   everything visible immediately. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal-group] > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-reveal-group].is-visible > * {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal-group].is-visible > *:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(2) {
+    transition-delay: 80ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(3) {
+    transition-delay: 160ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(4) {
+    transition-delay: 240ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(5) {
+    transition-delay: 320ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(6) {
+    transition-delay: 400ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(7) {
+    transition-delay: 480ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(8) {
+    transition-delay: 560ms;
+  }
+  [data-reveal-group].is-visible > *:nth-child(n + 9) {
+    transition-delay: 640ms;
+  }
+
+  /* per-element delay helpers for hero cascade */
+  [data-reveal].reveal-delay-1 {
+    transition-delay: 100ms;
+  }
+  [data-reveal].reveal-delay-2 {
+    transition-delay: 220ms;
+  }
+  [data-reveal].reveal-delay-3 {
+    transition-delay: 340ms;
+  }
+  [data-reveal].reveal-delay-4 {
+    transition-delay: 460ms;
+  }
+}
+
+/* card hover micro-interaction: quiet border darkening, no lift/glow */
+.card-lift {
+  transition:
+    border-color 0.2s ease-out,
+    background-color 0.2s ease-out;
+}
+.card-lift:hover {
+  border-color: rgb(26 35 50 / 0.24);
+}
+
+/* subtle paper grain on ivory sections */
+.bg-grain {
+  position: relative;
+}
+.bg-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+#header.scroll > div:first-child {
+  @apply bg-page;
+  border-bottom: 1px solid var(--aw-color-hairline);
+  box-shadow: none;
+}
+.dark #header.scroll > div:first-child,
+#header.scroll.dark > div:first-child {
+  @apply bg-page md:bg-[#030621e6] border-b border-gray-500/20;
+  box-shadow: none;
+}
+/* #header.scroll > div:last-child {
+  @apply py-3;
+} */
+
+#header.expanded nav {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  bottom: 70px !important;
+  padding: 0 5px;
+}
+
+.dropdown:focus .dropdown-menu,
+.dropdown:focus-within .dropdown-menu,
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+[astro-icon].icon-light > * {
+  stroke-width: 1.2;
+}
+
+[astro-icon].icon-bold > * {
+  stroke-width: 2.4;
+}
+
+[data-aw-toggle-menu] path {
+  @apply transition;
+}
+[data-aw-toggle-menu].expanded g > path:first-child {
+  @apply -rotate-45 translate-y-[15px] translate-x-[-3px];
+}
+
+[data-aw-toggle-menu].expanded g > path:last-child {
+  @apply rotate-45 translate-y-[-8px] translate-x-[14px];
+}
+
+/* To deprecated */
+
+.dd *:first-child {
+  margin-top: 0;
+}

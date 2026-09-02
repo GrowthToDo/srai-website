@@ -1,0 +1,192 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import SchemaOrg from '~/components/common/SchemaOrg.astro';
+import DarkHero from '~/components/widgets/DarkHero.astro';
+import ProductFlow from '~/components/widgets/ProductFlow.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import { SITE_NAME, SITE_URL, BOOKING_URL } from '~/site';
+
+const metadata = {
+  title: 'How it Works',
+  description: `How ${SITE_NAME} rosters a hospital: the engine builds every ward's duty roster against your rules, nurses see it on their phones, and your nursing office approves. Four weeks from staff list to first live cycle.`,
+};
+
+const rules: [string, string][] = [
+  ['In-charge on every shift', 'A senior staff nurse holds the in-charge seat, morning, evening and night'],
+  [
+    'Skill mix holds',
+    'Staff nurse and nursing assistant seats filled by the right role, ICU and critical areas by cleared staff',
+  ],
+  ['48-hour week', 'No nurse crosses the weekly cap; overtime is visible before it happens'],
+  ['12-hour rest', 'No evening-into-morning turnaround, no night-into-day'],
+  ['One weekly off', 'Every nurse gets a day off in seven, never a seventh straight duty'],
+  ['Night rotation fairness', 'Nights spread across the ward, tracked across weeks'],
+  ['Leave respected', 'Approved CL, SL and EL are never rostered over'],
+  ['Contract availability', 'Contract nurses only on the days they signed up for'],
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+    { '@type': 'ListItem', position: 2, name: 'How it Works', item: `${SITE_URL}/how-it-works` },
+  ],
+};
+---
+
+<Layout metadata={metadata}>
+  <SchemaOrg slot="head" schema={[breadcrumbSchema]} />
+
+  <DarkHero
+    badge="Clear workflow. Predictable handoffs."
+    title="How it works"
+    subtitle="The engine builds every ward's duty roster against your rules. Your nurses see their duties on their phones. Your supervisors and CNO approve. Rostering drops from a third of every in-charge's week to an hour of review."
+    actions={[
+      { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
+      { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
+    ]}
+  />
+
+  <ProductFlow />
+
+  <Steps
+    title="Four weeks to go-live. Most of it is ours."
+    subtitle="Guided setup is included in the subscription. No integration project, nothing for your IT team to install."
+    tagline="Guided setup"
+    items={[
+      {
+        title: 'Week 1: workspace and roster',
+        description: 'We set up your hospital, import the staff Excel you already keep, and map wards and roles.',
+        icon: 'tabler:number-1',
+      },
+      {
+        title: 'Week 2: rules session',
+        description:
+          'One session with your nursing office to map in-charge cover, skill mix, ratios, rotation policy and leave rules.',
+        icon: 'tabler:number-2',
+      },
+      {
+        title: 'Week 3: test cycles',
+        description:
+          'We run test rosters against your real staff list until every rule holds. Your team does nothing this week.',
+        icon: 'tabler:number-3',
+      },
+      {
+        title: 'Week 4: go live',
+        description: 'Supervisors are trained on one live cycle. The CNO approves the first published roster.',
+        icon: 'tabler:number-4',
+      },
+    ]}
+  />
+
+  <section class="bg-ink text-ivory">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div class="max-w-2xl" data-reveal>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-sage">What is checked every cycle</p>
+        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+          Every roster is compliant before it publishes.
+        </h2>
+        <p class="mt-4 text-lg text-ivory/70">
+          21 automated checks run on every draft. The eight below are the ones a CNO asks about first; the rest cover
+          ward-specific norms you map in setup.
+        </p>
+      </div>
+      <ul class="mt-10 grid gap-x-10 gap-y-5 sm:grid-cols-2" data-reveal-group>
+        {
+          rules.map(([rule, why]) => (
+            <li class="border-t border-ivory/15 pt-4">
+              <p class="font-semibold">{rule}</p>
+              <p class="mt-1 text-sm text-ivory/60">{why}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-page">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-2xl" data-reveal>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">When a nurse is absent</p>
+        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+          A ranked shortlist, not a phone tree.
+        </h2>
+      </div>
+      <div class="mt-8 grid gap-6 sm:grid-cols-3" data-reveal-group>
+        <div class="rounded-xl border border-hairline bg-white p-5">
+          <h3 class="font-bold">1. Absence logged</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-muted">
+            The nurse reports it from their phone, or the supervisor logs it. The seat opens on the roster.
+          </p>
+        </div>
+        <div class="rounded-xl border border-hairline bg-white p-5">
+          <h3 class="font-bold">2. Shortlist ranked</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-muted">
+            Every eligible nurse is ranked by rest, hours this week, night load and skill, with the reason shown.
+            Ineligible nurses say why.
+          </p>
+        </div>
+        <div class="rounded-xl border border-hairline bg-white p-5">
+          <h3 class="font-bold">3. One tap to cover</h3>
+          <p class="mt-1.5 text-sm leading-relaxed text-muted">
+            The supervisor assigns, the nurse is notified, the roster and audit trail update themselves.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQs
+    title="Questions about the process"
+    tagline="Common questions"
+    items={[
+      {
+        title: 'How long does setup take, and what does our IT team have to do?',
+        description:
+          'Four weeks, and your IT team has nothing to install. We import the staff Excel, map rules with your nursing office in one session, run test cycles, and train supervisors on a live cycle.',
+      },
+      {
+        title: 'How do we get our data in?',
+        description: 'Excel upload. Export from your HRMS or use the sheet you keep today, edit, re-import any time.',
+      },
+      {
+        title: 'Do nurses need to install anything?',
+        description:
+          'No. The nurse portal runs in the phone browser: duty calendar, leave and swap requests, absence reporting.',
+      },
+      {
+        title: 'What happens when someone is absent at 2 AM?',
+        description:
+          'The engine ranks replacements with reasons the moment the absence is logged. The supervisor on duty assigns with one tap.',
+      },
+      {
+        title: 'How is fairness tracked?',
+        description:
+          'Nights, weekends and public holidays are tracked per nurse across weeks, and every draft shows the trade-off it made.',
+      },
+      {
+        title: 'Does it help with NABH audits?',
+        description:
+          'Every change is logged with who, what and when. Weekly hours, rest and weekly-off reports export in one click.',
+      },
+      {
+        title: 'What if we already use an HRMS?',
+        description:
+          'Keep it. We replace the rostering spreadsheet or a basic HRMS module that does not enforce rules, not your HR or payroll system.',
+      },
+    ]}
+  />
+
+  <CallToAction
+    title="See it on one of your own wards."
+    subtitle="A 30-minute demo on your roster, your rules, your shift pattern. ₹400 per nurse per month, GST extra."
+    tagline="Book a demo"
+    actions={[
+      { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
+      { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
+    ]}
+  />
+</Layout>

@@ -1,0 +1,87 @@
+---
+// Scroll-reveal, stagger, and count-up motion system.
+// Markup contract:
+//   data-reveal            — element fades up when it enters the viewport
+//   data-reveal-group      — direct children fade up staggered 80ms apart
+//   data-countup="45"      — number counts from 0 when visible (optional data-countup-suffix)
+// All motion is disabled under prefers-reduced-motion (see tailwind.css).
+---
+
+<script is:inline>
+  (function () {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function revealAll() {
+      document.querySelectorAll('[data-reveal], [data-reveal-group]').forEach((el) => el.classList.add('is-visible'));
+      document.querySelectorAll('[data-countup]').forEach((el) => {
+        el.textContent = el.getAttribute('data-countup') + (el.getAttribute('data-countup-suffix') || '');
+      });
+    }
+
+    function runCountup(el) {
+      const target = parseInt(el.getAttribute('data-countup'), 10);
+      const suffix = el.getAttribute('data-countup-suffix') || '';
+      if (isNaN(target)) return;
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function init() {
+      if (reduced) {
+        revealAll();
+        return;
+      }
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            el.classList.add('is-visible');
+            if (el.hasAttribute('data-countup')) runCountup(el);
+            el.querySelectorAll('[data-countup]').forEach((c) => runCountup(c));
+            io.unobserve(el);
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -5% 0px' }
+      );
+      document.querySelectorAll('[data-reveal], [data-reveal-group]').forEach((el) => io.observe(el));
+      document.querySelectorAll('[data-countup]').forEach((el) => {
+        if (!el.closest('[data-reveal], [data-reveal-group]')) io.observe(el);
+      });
+
+      // Failsafe: never leave content that is already in (or above) the viewport
+      // hidden if the observer's initial callback is flaky. Below-the-fold
+      // elements still animate on scroll via the observer above.
+      const revealInView = () => {
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        document
+          .querySelectorAll('[data-reveal]:not(.is-visible), [data-reveal-group]:not(.is-visible)')
+          .forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.top < vh * 0.95 && r.bottom > 0) {
+              el.classList.add('is-visible');
+              if (el.hasAttribute('data-countup')) runCountup(el);
+              el.querySelectorAll('[data-countup]').forEach((c) => runCountup(c));
+              io.unobserve(el);
+            }
+          });
+      };
+      requestAnimationFrame(revealInView);
+      window.addEventListener('load', revealInView, { once: true });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    document.addEventListener('astro:after-swap', init);
+  })();
+</script>

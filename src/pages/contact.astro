@@ -1,0 +1,115 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import SchemaOrg from '~/components/common/SchemaOrg.astro';
+import ContactForm from '~/components/ui/forms/ContactForm.astro';
+import { Icon } from 'astro-icon/components';
+import { SITE_NAME, SITE_URL, BOOKING_URL, SUPPORT_EMAIL } from '~/site';
+
+const metadata = {
+  title: 'Contact',
+  description:
+    'Talk to the SimpleRosterAI team. Tell us about your hospital and how you roster today, and we will reply within one working day with a demo slot and a rollout plan.',
+};
+
+const contactPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: `Contact ${SITE_NAME}`,
+  description: metadata.description,
+  url: `${SITE_URL}/contact`,
+  mainEntity: { '@id': `${SITE_URL}/#organization` },
+};
+---
+
+<Layout metadata={metadata}>
+  <SchemaOrg slot="head" schema={[contactPageSchema]} />
+  <section class="bg-page">
+    <div class="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 lg:px-8">
+      <div class="mb-10">
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary mb-2">Talk to us</p>
+        <h1 class="text-4xl font-bold text-default mb-3">Contact</h1>
+        <p class="text-lg text-muted max-w-2xl">{metadata.description}</p>
+      </div>
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
+        <div class="rounded-2xl border border-hairline bg-white p-6 sm:p-8">
+          <div class="mb-6">
+            <h2 class="text-xl font-semibold">Book a demo on your own roster</h2>
+            <p class="mt-2 text-default">
+              Tell us the wards, the bed count and how the duty roster is built today. We reply within one working day
+              with a demo slot. If we are not a fit, we will say so quickly.
+            </p>
+          </div>
+          <ContactForm />
+          <p class="mt-4 text-sm text-muted">No spam. No IT project. Your current Excel roster is enough to start.</p>
+        </div>
+
+        <div class="lg:pl-6">
+          <h2 class="text-xl font-semibold">Contact details</h2>
+          <p class="mt-2 text-default">Prefer email? Send a sample roster or a description of your rules.</p>
+          <div class="mt-6 space-y-5">
+            <div class="flex gap-x-4">
+              <Icon name="tabler:calendar" class="mt-0.5 w-6 h-6 shrink-0 text-primary" />
+              <div class="grow">
+                <p class="font-semibold">Book a demo</p>
+                <a
+                  class="text-sm text-default underline decoration-gray-300 underline-offset-4 transition-colors hover:text-primary"
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer">Pick a 30-minute slot with our team</a
+                >
+              </div>
+            </div>
+            <div class="flex gap-x-4">
+              <Icon name="tabler:mail" class="mt-0.5 w-6 h-6 shrink-0 text-primary" />
+              <div class="grow">
+                <p class="font-semibold">Email</p>
+                <a
+                  class="text-sm text-default underline decoration-gray-300 underline-offset-4 transition-colors hover:text-primary"
+                  href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 border-t border-hairline pt-6">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+              What to include in your message
+            </p>
+            <ul class="mt-4 space-y-2">
+              {
+                [
+                  'Bed count, number of wards and nursing headcount',
+                  'Shift pattern (three 8-hour shifts, 12-hour, or mixed)',
+                  'How the duty roster is built today (Excel, paper, HRMS module)',
+                  'The rules that hurt most: 48-hour weeks, night rotation, weekly offs, leave clashes',
+                ].map((item) => (
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary" />
+                    <span class="text-sm text-default">{item}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    function initTextareaResize() {
+      const textarea = document.querySelector('#input-message');
+      if (!textarea) return;
+      const resize = (offsetTop = 0) => {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight + offsetTop}px`;
+      };
+      resize(3);
+      textarea.addEventListener('input', () => resize(3));
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTextareaResize);
+    } else {
+      initTextareaResize();
+    }
+  </script>
+</Layout>

@@ -1,0 +1,77 @@
+---
+import Button from '~/components/ui/Button.astro';
+import type { CallToAction } from '~/types';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  badge?: string;
+  actions?: string | CallToAction | CallToAction[];
+  id?: string;
+}
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  badge,
+  actions = await Astro.slots.render('actions'),
+  id,
+} = Astro.props;
+---
+
+<section class="bg-ink relative overflow-hidden" {...id ? { id } : {}}>
+  {/* Subtle noise/grain texture overlay */}
+  <div
+    class="pointer-events-none absolute inset-0 opacity-[0.03]"
+    style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%270 0 256 256%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27noise%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23noise)%27 opacity=%271%27/%3E%3C/svg%3E'); background-size: 200px;"
+  >
+  </div>
+
+  {/* Soft teal glow top-center */}
+  <div
+    class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-primary/25 blur-3xl"
+  >
+  </div>
+
+  <div class="mx-auto max-w-[85rem] px-4 pb-8 pt-12 sm:pt-14 lg:pt-16 sm:px-6 lg:px-8">
+    <div class="text-center max-w-4xl mx-auto space-y-6">
+      {
+        badge && (
+          <div class="inline-flex items-center rounded-full border border-sage/30 bg-sage/10 px-3 py-1 text-sm text-sage">
+            {badge}
+          </div>
+        )
+      }
+
+      {
+        title && (
+          <h1
+            class="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.08] tracking-tight text-ivory font-heading"
+            set:html={title}
+          />
+        )
+      }
+
+      {subtitle && <p class="text-lg sm:text-xl text-ivory/70 max-w-3xl mx-auto" set:html={subtitle} />}
+
+      {
+        actions && (
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+            {Array.isArray(actions) ? (
+              actions.map((action) => (
+                <Button
+                  {...(action || {})}
+                  class={`${action.class || ''} ${action.variant === 'secondary' ? 'btn-secondary-dark' : ''}`}
+                />
+              ))
+            ) : (
+              <Fragment set:html={actions} />
+            )}
+          </div>
+        )
+      }
+
+      <slot />
+    </div>
+  </div>
+</section>

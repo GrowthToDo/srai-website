@@ -1,0 +1,38 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import SchemaOrg from '~/components/common/SchemaOrg.astro';
+import DarkHero from '~/components/widgets/DarkHero.astro';
+import CostCalculatorSection from '~/components/widgets/CostCalculatorSection.astro';
+import { SITE_URL, BOOKING_URL } from '~/site';
+
+const metadata = {
+  title: 'Nurse Rostering Cost Calculator',
+  description:
+    'Estimate what nurse duty rostering really costs your hospital each year: in-charge time spent on the roster, overtime premium, contract nurse cover and rostering-linked attrition, in rupees.',
+};
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: metadata.title,
+  description: metadata.description,
+  url: `${SITE_URL}/cost-calculator`,
+  isPartOf: { '@id': `${SITE_URL}/#organization` },
+};
+---
+
+<Layout metadata={metadata}>
+  <SchemaOrg slot="head" schema={[webPageSchema]} />
+  <DarkHero
+    badge="Rostering cost calculator"
+    title="What is rostering really costing you?"
+    subtitle="Move the sliders to match your hospital. Every assumption is shown with the result so your finance team can replace it."
+  />
+  <CostCalculatorSection />
+  <section class="bg-page pb-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+      <a href={BOOKING_URL} class="btn btn-primary inline-flex px-6 py-3 text-base">Book a demo</a>
+      <p class="mt-3 text-sm text-muted">₹400 per nurse per month, GST extra. Supervisors and the CNO are free.</p>
+    </div>
+  </section>
+</Layout>

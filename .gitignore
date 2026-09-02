@@ -1,0 +1,13 @@
+dist/
+.output/
+node_modules/
+npm-debug.log*
+.env
+.env.local
+.env.production
+.DS_Store
+.astro
+.tmp/
+.claude/settings.local.json
+.claude/launch.json
+.superpowers/

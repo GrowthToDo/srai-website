@@ -1,0 +1,168 @@
+---
+import { LEAD_CAPTURE_URL } from '~/site';
+
+const formStrings = {
+  name: 'Name',
+  email: 'Work email',
+  message: 'Message (hospital, bed count, how you roster today)',
+  submit: 'Send',
+  submitting: 'Sending...',
+  success: 'Thank you. We will reply within one working day.',
+  error: 'Something went wrong. Please try again or email us directly.',
+};
+const GOOGLE_SCRIPT_URL = LEAD_CAPTURE_URL;
+---
+
+<form id="contact-form" method="post" class="p-4" aria-labelledby="form-title">
+  {/* Fieldset and legend for grouping form elements */}
+  <fieldset class="space-y-4">
+    <legend id="form-title" class="sr-only">{formStrings.submit}</legend>
+
+    {/* Name input field */}
+    <div class="relative">
+      <input
+        type="text"
+        id="input-name"
+        name="name"
+        class="peer block w-full rounded-lg border border-transparent p-4 text-sm placeholder:text-transparent autofill:pb-2 autofill:pt-6 focus:border-primary focus:pb-2 focus:pt-6 focus:outline-hidden focus:ring-2 focus:ring-primary not-placeholder-shown:pb-2 not-placeholder-shown:pt-6 bg-white dark:bg-gray-800"
+        placeholder={formStrings.name}
+        required
+        aria-required="true"
+        aria-labelledby="input-name-label"
+      />
+      <label
+        id="input-name-label"
+        for="input-name"
+        class="pointer-events-none absolute start-0 top-0 h-full w-full truncate border border-transparent p-4 text-muted transition duration-100 ease-in-out peer-focus:-translate-y-1.5 peer-focus:text-xs peer-not-placeholder-shown:-translate-y-1.5 peer-not-placeholder-shown:text-xs"
+      >
+        {formStrings.name}
+      </label>
+    </div>
+
+    {/* Email input field */}
+    <div class="relative">
+      <input
+        type="email"
+        id="input-email"
+        name="email"
+        class="peer block w-full rounded-lg border border-transparent p-4 text-sm placeholder:text-transparent autofill:pb-2 autofill:pt-6 focus:border-primary focus:pb-2 focus:pt-6 focus:outline-hidden focus:ring-2 focus:ring-primary not-placeholder-shown:pb-2 not-placeholder-shown:pt-6 bg-white dark:bg-gray-800"
+        placeholder={formStrings.email}
+        required
+        aria-required="true"
+        aria-labelledby="input-email-label"
+        aria-invalid="false"
+      />
+      <label
+        id="input-email-label"
+        for="input-email"
+        class="pointer-events-none absolute start-0 top-0 h-full w-full truncate border border-transparent p-4 text-muted transition duration-100 ease-in-out peer-focus:-translate-y-1.5 peer-focus:text-xs peer-not-placeholder-shown:-translate-y-1.5 peer-not-placeholder-shown:text-xs"
+      >
+        {formStrings.email}
+      </label>
+    </div>
+
+    {/* Message textarea field */}
+    <div class="relative">
+      <textarea
+        id="input-message"
+        name="message"
+        class="peer block w-full rounded-lg border border-transparent p-4 text-sm placeholder:text-transparent autofill:pb-2 autofill:pt-6 focus:border-primary focus:pb-2 focus:pt-6 focus:outline-hidden focus:ring-2 focus:ring-primary not-placeholder-shown:pb-2 not-placeholder-shown:pt-6 bg-white dark:bg-gray-800"
+        placeholder={formStrings.message}
+        required
+        aria-required="true"
+        aria-labelledby="input-message-label"></textarea>
+      <label
+        id="input-message-label"
+        for="input-message"
+        class="pointer-events-none absolute start-0 top-0 h-full w-full truncate border border-transparent p-4 text-muted transition duration-100 ease-in-out peer-focus:-translate-y-1.5 peer-focus:text-xs peer-not-placeholder-shown:-translate-y-1.5 peer-not-placeholder-shown:text-xs"
+      >
+        {formStrings.message}
+      </label>
+    </div>
+  </fieldset>
+
+  {/* Submit button */}
+  <div class="mt-8">
+    <button
+      type="submit"
+      id="submit-btn"
+      class="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+      aria-label={formStrings.submit}
+    >
+      <span id="btn-text">{formStrings.submit}</span>
+    </button>
+  </div>
+
+  {/* Success/Error messages */}
+  <div
+    id="form-success"
+    class="hidden mt-4 p-4 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm"
+  >
+    {formStrings.success}
+  </div>
+  <div
+    id="form-error"
+    class="hidden mt-4 p-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 text-sm"
+  >
+    {formStrings.error}
+  </div>
+</form>
+
+<script define:vars={{ GOOGLE_SCRIPT_URL, formStrings }}>
+  function initContactForm() {
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const successDiv = document.getElementById('form-success');
+    const errorDiv = document.getElementById('form-error');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Hide any previous messages
+      successDiv.classList.add('hidden');
+      errorDiv.classList.add('hidden');
+
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      btnText.textContent = formStrings.submitting;
+
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message'),
+        timestamp: new Date().toISOString(),
+      };
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        // With no-cors, we can't read the response, but if fetch completes without error, assume success
+        successDiv.classList.remove('hidden');
+        form.reset();
+      } catch (error) {
+        console.error('Form submission error:', error);
+        errorDiv.classList.remove('hidden');
+      } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        btnText.textContent = formStrings.submit;
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactForm);
+  } else {
+    initContactForm();
+  }
+</script>

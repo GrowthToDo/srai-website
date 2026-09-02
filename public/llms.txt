@@ -1,0 +1,33 @@
+# SimpleRosterAI
+
+> AI nurse duty rostering software for Indian hospitals. The engine builds every
+> ward's duty roster against 48-hour, 12-hour-rest, weekly-off and skill-mix
+> rules; nurses see duties on their phones; the nursing office approves.
+
+## Who it is for
+
+- Chief Nursing Officers and Nursing Superintendents of 300+ bed hospitals and hospital groups in India
+- Nursing supervisors who build ward rosters today in Excel or an HRMS module
+
+## Core features
+
+- Excel staff list upload, no integration project
+- Three roster drafts per cycle: balanced, fairness-optimised, cost-optimised
+- 21 automated rule checks per draft
+- Ranked replacement shortlist when a nurse is absent
+- Nurse phone portal for duties, leave, swaps and absences
+- Audit trail and NABH-ready hours, rest and weekly-off reports
+
+## Pricing
+
+- ₹400 per nurse per month, or ₹4,000 per nurse per year, GST extra. Only nurses are billed.
+
+## Key pages
+
+- https://simplerosterai.com/
+- https://simplerosterai.com/how-it-works
+- https://simplerosterai.com/demo
+- https://simplerosterai.com/pricing
+- https://simplerosterai.com/cost-calculator
+- https://simplerosterai.com/resources/nurse-duty-roster-template
+- https://simplerosterai.com/contact

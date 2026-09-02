@@ -1,0 +1,181 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import SchemaOrg from '~/components/common/SchemaOrg.astro';
+import DarkHero from '~/components/widgets/DarkHero.astro';
+import { SITE_NAME, SITE_URL, BOOKING_URL } from '~/site';
+
+const metadata = {
+  title: 'Nurse Duty Roster Template: Free Excel Download',
+  description:
+    'Download a free Excel nurse duty roster template for Indian hospitals: three 8-hour shift codes, 48-hour week, 12-hour rest and weekly-off flags, leave clashes and a live coverage check. No email required.',
+};
+
+const fileUrl = '/downloads/SimpleRosterAI-Nurse-Duty-Roster-Template.xlsx?v=20260902';
+
+const outputs: [string, string][] = [
+  [
+    'Required nurses per day and night',
+    'Calculated from your census, nursing hours per patient day and staff-nurse share.',
+  ],
+  ['Weekly hours per nurse', 'Totalled automatically from the M8, E8 and N8 codes you assign.'],
+  ['48-hour flag', 'OVER appears when a nurse crosses the weekly hours cap you set on the Rules tab.'],
+  ['Consecutive-days flag', 'OVER appears when a run of duty days passes your limit (six by default).'],
+  [
+    'Rest-hours flag',
+    'SHORT appears when back-to-back duties leave less than 12 hours rest. Evening into morning is the classic catch.',
+  ],
+  ['Leave-clash flag', 'CHECK appears when the grid has someone on duty on a day the Leave tab says they are off.'],
+  [
+    'Coverage gap check',
+    'Assigned versus required nurses for every day and night. A positive number means you are short.',
+  ],
+];
+
+const inputs: [string, string][] = [
+  ['Staff', 'Your roster: name, role (SN or NA), FTE and area skills such as ICU or Emergency.'],
+  [
+    'Wards (Units tab)',
+    'Nursing hours per patient day, day/night split and staff-nurse share for each ward (the tab is named Units).',
+  ],
+  ['Rules', 'Weekly hours cap, minimum rest hours, maximum consecutive duty days and shift length.'],
+  ['Census', 'The patient census per ward for each day of the week.'],
+  ['Holidays and Leave', 'National holidays, plus approved CL, SL and EL for the week.'],
+];
+
+const faqs = [
+  {
+    q: 'Is the template really free?',
+    a: 'Yes. Direct Excel download, no email, no trial. Input cells are open; formula cells are protected so an accidental keystroke cannot break the checks.',
+  },
+  {
+    q: 'Does it support 12-hour shifts?',
+    a: 'It ships with morning, evening and night 8-hour codes. Add a 12-hour code on the Shifts tab in a minute; hours, rest and consecutive-day checks pick it up automatically.',
+  },
+  {
+    q: 'Does it build the roster for me?',
+    a: 'No. You pick a code per nurse per day; the template does the maths and the checking. The judgement stays with your supervisor. Building the roster automatically is what the product does.',
+  },
+  {
+    q: 'Will it work in Google Sheets?',
+    a: 'It is built for Microsoft Excel 2016 or later. It generally imports into Google Sheets, but conditional-format colours may need re-applying.',
+  },
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Free Nurse Duty Roster Template',
+      item: `${SITE_URL}/resources/nurse-duty-roster-template`,
+    },
+  ],
+};
+---
+
+<Layout metadata={metadata}>
+  <SchemaOrg slot="head" schema={[breadcrumbSchema]} />
+  <DarkHero
+    badge="Free download · Excel · No email required"
+    title="Free nurse duty roster template for hospital wards"
+    subtitle="A weekly Excel duty roster that calculates required nurses from your census, then flags 48-hour, rest-hour, consecutive-day and weekly-off breaks, leave clashes and coverage gaps as you assign duties."
+    actions={[{ text: 'Download the template (.xlsx)', href: fileUrl, variant: 'primary' }]}
+  />
+
+  <section class="bg-page">
+    <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <p class="text-lg leading-relaxed text-default/90">
+        Most free duty roster templates are a blank grid with days across the top. This one checks the roster you build
+        against your own rules: hours, rest, consecutive days, weekly off and leave. You still make every assignment.
+        The template does the maths.
+      </p>
+
+      <h2 class="mt-12 font-heading text-2xl font-semibold">What does the template calculate?</h2>
+      <ul class="mt-5 space-y-3">
+        {
+          outputs.map(([t, d]) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              <span class="text-default/80">
+                <strong class="text-default">{t}.</strong> {d}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 class="mt-12 font-heading text-2xl font-semibold">What do you fill in?</h2>
+      <p class="mt-3 text-default/80">
+        Five input tabs with orange cells, plus the roster grid. Pick M8, E8, N8, WO or a leave code per nurse per day
+        from a dropdown; the checks recalculate as you go.
+      </p>
+      <div class="mt-5 overflow-hidden rounded-xl border border-hairline">
+        <table class="w-full text-sm">
+          <tbody>
+            {
+              inputs.map(([t, d], i) => (
+                <tr class={i % 2 ? 'bg-primary/5' : 'bg-white'}>
+                  <td class="w-40 px-4 py-3 font-semibold">{t}</td>
+                  <td class="px-4 py-3 text-default/80">{d}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-10 rounded-2xl border border-primary/40 bg-primary/5 p-8 text-center" id="download">
+        <h2 class="font-heading text-2xl font-semibold">Download the template</h2>
+        <p class="mx-auto mt-2 max-w-xl text-sm text-muted">
+          One .xlsx file. Sample ward included so every output is visible on open; replace it with your own roster and
+          rules.
+        </p>
+        <a href={fileUrl} class="btn btn-primary mt-5">Download the template (.xlsx)</a>
+        <p class="mt-3 text-xs text-muted">No email. No signup. Not medical, legal or compliance advice.</p>
+      </div>
+
+      <h2 class="mt-12 font-heading text-2xl font-semibold">How do you use it?</h2>
+      <ol class="mt-5 list-decimal space-y-2.5 pl-6 text-default/80">
+        <li>Fill the Staff, Wards (Units tab) and Rules tabs with your roster and policies.</li>
+        <li>On the Schedule tab, pick the ward and set the week's Monday.</li>
+        <li>Enter the week's census on the Census tab and approved leave on the Leave tab.</li>
+        <li>Assign a code to each nurse for each day, watching the required rows at the top.</li>
+        <li>Clear every OVER, SHORT and CHECK, and bring each coverage gap to zero.</li>
+      </ol>
+
+      <h2 class="mt-12 font-heading text-2xl font-semibold">What does it not do?</h2>
+      <p class="mt-3 text-default/80">
+        It will not build the roster, balance night rotation and weekends across weeks, or find an under-48-hour
+        replacement when a nurse is absent at 2 AM. Its checks see one week at a time. That ceiling is why
+        {SITE_NAME} exists: the engine builds every ward roster against all these rules at once, and your nursing office approves
+        it. <a href="/how-it-works" class="text-primary underline">See how it works</a>.
+      </p>
+
+      <h2 class="mt-12 font-heading text-2xl font-semibold">Frequently asked questions</h2>
+      <div class="mt-5 space-y-6">
+        {
+          faqs.map((f) => (
+            <div class="border-t border-ink/10 pt-5">
+              <h3 class="font-semibold">{f.q}</h3>
+              <p class="mt-2 text-default/80">{f.a}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-14 rounded-xl bg-primary/5 border border-primary/20 px-8 py-10 text-center">
+        <p class="text-lg font-semibold text-default mb-2">Rather approve a finished roster than build one?</p>
+        <p class="text-muted text-sm mb-6">
+          ₹400 per nurse per month, GST extra. The engine builds it, your nursing office approves it.
+        </p>
+        <a href={BOOKING_URL} class="btn btn-primary">Book a demo</a>
+        <p class="text-sm text-muted mt-4 mb-0">
+          <a href="/demo" class="text-primary underline">Try the interactive demo →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,29 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DemoScheduler from '~/components/demo-scheduler/DemoScheduler.svelte';
+
+const metadata = {
+  title: 'Interactive Nurse Duty Roster Demo',
+  description:
+    'Build a safe ward week in under a minute. A free, no-signup interactive demo of explainable nurse rostering on three 8-hour shifts, with 48-hour, rest and weekly-off rules enforced.',
+  robots: { index: true, follow: true },
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="relative overflow-hidden bg-page">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute -top-24 left-1/2 h-80 w-[52rem] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl"></div>
+    </div>
+    <div class="relative mx-auto max-w-7xl px-4 pb-12 pt-16 sm:px-6 lg:px-8">
+      <header class="mx-auto mb-8 max-w-3xl text-center">
+        <h1 class="text-3xl font-bold tracking-tight text-default sm:text-4xl">Interactive nurse duty roster demo</h1>
+        <p class="mt-3 text-lg text-muted">
+          Watch the engine roster a ward across morning, evening and night shifts, then cover an absence with a ranked
+          shortlist. Free, in your browser, no signup.
+        </p>
+      </header>
+      <DemoScheduler client:visible />
+    </div>
+  </section>
+</Layout>

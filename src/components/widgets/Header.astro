@@ -1,0 +1,174 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from '~/components/Logo.astro';
+import ToggleTheme from '~/components/common/ToggleTheme.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import Button from '~/components/ui/Button.astro';
+
+import { getHomePermalink } from '~/utils/permalinks';
+import { trimSlash, getAsset } from '~/utils/permalinks';
+import type { CallToAction } from '~/types';
+
+interface Link {
+  text?: string;
+  href?: string;
+  ariaLabel?: string;
+  icon?: string;
+}
+
+interface MenuLink extends Link {
+  links?: Array<MenuLink>;
+}
+
+export interface Props {
+  id?: string;
+  links?: Array<MenuLink>;
+  actions?: Array<CallToAction>;
+  isSticky?: boolean;
+  isDark?: boolean;
+  isFullWidth?: boolean;
+  showToggleTheme?: boolean;
+  showRssFeed?: boolean;
+  position?: string;
+}
+
+const {
+  id = 'header',
+  links = [],
+  actions = [],
+  isSticky = false,
+  isDark = false,
+  isFullWidth = false,
+  showToggleTheme = false,
+  showRssFeed = false,
+  position = 'center',
+} = Astro.props;
+
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+---
+
+<header
+  class:list={[
+    { sticky: isSticky, relative: !isSticky, dark: isDark },
+    'top-0 z-40 flex-none mx-auto w-full border-b border-hairline transition-[opacity] ease-in-out bg-page',
+  ]}
+  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+  {...id ? { id } : {}}
+>
+  <div class="absolute inset-0"></div>
+  <div
+    class:list={[
+      'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
+      {
+        'xl:flex xl:justify-between': position !== 'center',
+      },
+      {
+        'xl:grid xl:grid-cols-[auto_1fr_auto] xl:items-center': position === 'center',
+      },
+      {
+        'max-w-7xl': !isFullWidth,
+      },
+    ]}
+  >
+    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
+      <a class="flex items-center" href={getHomePermalink()}>
+        <Logo />
+      </a>
+      <div class="flex items-center xl:hidden">
+        <ToggleMenu />
+      </div>
+    </div>
+    <nav
+      class="items-center w-full xl:w-auto hidden xl:flex xl:mx-5 text-default overflow-y-auto overflow-x-hidden xl:overflow-y-visible xl:overflow-x-auto xl:justify-self-center"
+      aria-label="Main navigation"
+    >
+      <ul
+        class="flex flex-col xl:flex-row xl:self-center w-full xl:w-auto text-xl xl:text-base tracking-[0.01rem] font-medium xl:justify-center"
+      >
+        {
+          links.map(({ text, href, links }) => (
+            <li class={links?.length ? 'dropdown' : ''}>
+              {links?.length ? (
+                <>
+                  <button
+                    type="button"
+                    class:list={[
+                      'text-default/70 hover:text-primary transition-colors duration-200 px-3.5 py-3 flex items-center whitespace-nowrap text-[0.95rem] leading-tight',
+                      { 'text-primary': links?.some(({ href: href2 }) => href2 === currentPath) },
+                    ]}
+                  >
+                    {text}{' '}
+                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden xl:inline" />
+                  </button>
+                  <ul class="dropdown-menu rounded-lg xl:absolute pl-4 xl:pl-0 xl:hidden font-medium xl:bg-white xl:min-w-[210px] xl:border xl:border-hairline xl:shadow-[0_12px_32px_-12px_rgb(26_35_50/0.25)]">
+                    {links.map(({ text: text2, href: href2 }) => (
+                      <li>
+                        <a
+                          class:list={[
+                            'relative text-[0.95rem] text-default/80 first:rounded-t-lg last:rounded-b-lg xl:hover:bg-primary/5 hover:text-primary hover:pl-6 py-2.5 px-5 block whitespace-no-wrap transition-all duration-150',
+                            'before:absolute before:left-2.5 before:top-2.5 before:bottom-2.5 before:w-[2px] before:rounded-full before:bg-primary before:origin-center before:scale-y-0 before:transition-transform before:duration-150 hover:before:scale-y-100',
+                            { 'text-primary pl-6 before:scale-y-100': href2 === currentPath },
+                          ]}
+                          href={href2}
+                          aria-current={href2 === currentPath ? 'page' : undefined}
+                        >
+                          {text2}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <a
+                  class:list={[
+                    'relative text-default/70 hover:text-primary transition-colors duration-200 px-3.5 py-3 flex items-center whitespace-nowrap text-[0.95rem]',
+                    'after:absolute after:left-3.5 after:right-3.5 after:bottom-1.5 after:h-[2px] after:rounded-full after:bg-primary after:origin-left after:scale-x-0 after:transition-transform after:duration-200 hover:after:scale-x-100',
+                    { 'text-primary after:scale-x-100': href === currentPath },
+                  ]}
+                  href={href}
+                  aria-current={href === currentPath ? 'page' : undefined}
+                >
+                  <span class="text-center leading-tight" set:html={text} />
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div
+      class:list={[
+        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
+        'hidden xl:self-center xl:flex items-center xl:mb-0 fixed w-full xl:w-auto xl:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 xl:p-0 xl:justify-self-end',
+      ]}
+    >
+      <div class="items-center flex justify-between w-full xl:w-auto">
+        <div class="flex">
+          {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}
+          {
+            showRssFeed && (
+              <a
+                class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+                aria-label="RSS Feed"
+                href={getAsset('/rss.xml')}
+              >
+                <Icon name="tabler:rss" class="w-5 h-5" />
+              </a>
+            )
+          }
+        </div>
+        {
+          actions?.length ? (
+            <span class="ml-4 rtl:ml-0 rtl:mr-4">
+              {actions.map((btnProps) => (
+                <Button {...btnProps} class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto" />
+              ))}
+            </span>
+          ) : (
+            ''
+          )
+        }
+      </div>
+    </div>
+  </div>
+</header>

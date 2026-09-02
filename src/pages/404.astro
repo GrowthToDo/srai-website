@@ -1,0 +1,26 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import { getHomePermalink } from '~/utils/permalinks';
+
+const metadata = {
+  title: 'Page not found',
+  description: 'The page you were looking for does not exist. Return to the SimpleRosterAI homepage.',
+  robots: { index: false },
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="flex items-center h-full p-16">
+    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
+      <div class="max-w-md text-center">
+        <h2 class="mb-8 font-bold text-9xl">
+          <span class="sr-only">Error</span>
+          <span class="text-primary">404</span>
+        </h2>
+        <p class="text-3xl font-semibold">Sorry, we could not find this page.</p>
+        <p class="mt-4 mb-8 text-lg text-muted">Head back to the homepage to find what you need.</p>
+        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn">Back to homepage</a>
+      </div>
+    </div>
+  </section>
+</Layout>

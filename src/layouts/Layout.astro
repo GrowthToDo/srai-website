@@ -1,0 +1,81 @@
+---
+import '~/assets/styles/tailwind.css';
+
+import { I18N } from 'astrowind:config';
+
+import CommonMeta from '~/components/common/CommonMeta.astro';
+import Favicons from '~/components/Favicons.astro';
+import CustomStyles from '~/components/CustomStyles.astro';
+import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
+import Metadata from '~/components/common/Metadata.astro';
+import SiteVerification from '~/components/common/SiteVerification.astro';
+import Analytics from '~/components/common/Analytics.astro';
+import BasicScripts from '~/components/common/BasicScripts.astro';
+import MotionScripts from '~/components/common/MotionScripts.astro';
+
+// View Transitions disabled — caused 465ms forced reflow on mobile (TBT penalty)
+// import { ClientRouter } from 'astro:transitions';
+
+import type { MetaData as MetaDataType } from '~/types';
+import SchemaOrg from '~/components/common/SchemaOrg.astro';
+import { SITE_NAME, SITE_URL, SUPPORT_EMAIL } from '~/site';
+
+export interface Props {
+  metadata?: MetaDataType;
+}
+
+const { metadata = {} } = Astro.props;
+const { language, textDirection } = I18N;
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon-512.png`,
+  description: 'AI nurse duty rostering software for Indian hospitals.',
+  areaServed: { '@type': 'Country', name: 'India' },
+  founder: [{ '@type': 'Person', name: 'Gautham' }],
+  contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: SUPPORT_EMAIL },
+};
+---
+
+<!doctype html>
+<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+  <head>
+    <CommonMeta />
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
+    <Metadata {...metadata} />
+    <SiteVerification />
+    <Analytics />
+
+    <!-- View Transitions disabled — see import comment above -->
+    <SchemaOrg schema={orgSchema} />
+    <slot name="head" />
+  </head>
+
+  <body class="antialiased text-default bg-page tracking-tight bg-grain">
+    <slot />
+
+    <BasicScripts />
+    <MotionScripts />
+    <script is:inline>
+      function initDataLayerPageView() {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'page_view',
+          page_location: window.location.href,
+          page_title: document.title,
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDataLayerPageView);
+      } else {
+        initDataLayerPageView();
+      }
+    </script>
+  </body>
+</html>

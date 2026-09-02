@@ -1,0 +1,13 @@
+dist
+node_modules
+.github
+.changeset
+public/llms.txt
+# Non-source scratch and report directories
+docs/**
+.superpowers/**
+.claude/**
+# Publish log (operational log, not source)
+PUBLISHING-LOG.md
+# Installed third-party skills (not our source)
+.agents/

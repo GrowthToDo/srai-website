@@ -1,0 +1,128 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DarkHero from '~/components/widgets/DarkHero.astro';
+import { SITE_NAME, LEGAL_ENTITY_NAME, LEGAL_ADDRESS, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, formatINR } from '~/site';
+
+const metadata = {
+  title: 'Terms of Service',
+  description: `The terms that govern your use of simplerosterai.com and the ${SITE_NAME} product.`,
+};
+const effectiveDate = '2 September 2026';
+
+const sections: { h: string; p?: string[]; list?: string[]; after?: string }[] = [
+  {
+    h: 'Agreement to these terms',
+    p: [
+      `By using simplerosterai.com or subscribing to ${SITE_NAME}, you agree to these terms. If you act on behalf of a hospital or group, you confirm you have authority to bind that organisation.`,
+    ],
+  },
+  {
+    h: 'What the product is',
+    p: [
+      `${SITE_NAME} is web-based nurse duty rostering software operated by ${LEGAL_ENTITY_NAME}. The engine builds draft rosters from the staff list, ward rules and leave you enter; your nursing office reviews and approves every roster before it is published. We are not a staffing provider, a healthcare provider or an HR system, and we never publish a roster without your approval.`,
+    ],
+  },
+  {
+    h: 'Subscription',
+    list: [
+      `Pricing is per nurse on the roster: ${formatINR(PRICE_MONTHLY_INR)} per nurse per month, or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year, plus GST. Supervisors, in-charges and the CNO are not billed.`,
+      'Nurses are added or removed as your roster changes; billing follows the nurse count at each billing date.',
+      'Monthly plans can be cancelled at any time and end at the close of the paid month. Annual plans run for twelve months.',
+      'Hospital groups are quoted separately under a written agreement that takes precedence over these terms.',
+    ],
+  },
+  {
+    h: 'Your responsibilities',
+    list: [
+      'Provide accurate staff, rule and leave inputs',
+      'Review every draft roster before it is used on the floor',
+      'Comply with applicable labour law, licensing rules, accreditation standards and your own hospital policies',
+      'Keep account credentials confidential',
+    ],
+  },
+  {
+    h: 'Not medical, legal or HR advice',
+    p: [
+      'Draft rosters are operational tools. Your nursing and administrative leadership remain responsible for patient safety, staffing norms and regulatory compliance.',
+    ],
+  },
+  {
+    h: 'Patient data',
+    p: [
+      'Do not enter patient records or clinical data into the product or this website. The product is scoped to nurse rostering data only.',
+    ],
+  },
+  {
+    h: 'Intellectual property',
+    p: [
+      `The website, product, copy and design are owned by ${LEGAL_ENTITY_NAME}. Rosters produced for your hospital are yours to use for internal purposes.`,
+    ],
+  },
+  {
+    h: 'Limitation of liability',
+    p: [
+      'We are not liable for rostering errors caused by inaccurate inputs, unreviewed drafts or decisions made outside the product. Our total liability is limited to the subscription fees paid in the preceding three months.',
+    ],
+  },
+  {
+    h: 'No warranties',
+    p: [
+      'The website and product are provided as is. We do not guarantee uninterrupted availability or specific rostering outcomes.',
+    ],
+  },
+  {
+    h: 'Governing law',
+    p: [
+      'These terms are governed by the laws of India. Courts at the registered office of the operator have exclusive jurisdiction.',
+    ],
+  },
+  {
+    h: 'Changes',
+    p: [
+      'We may update these terms as the product evolves. Continued use after a change is acceptance of the revised terms.',
+    ],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <DarkHero badge="Legal" title="Terms of Service" subtitle={metadata.description} />
+  <section class="bg-page">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <p class="text-sm text-muted mb-10">Effective date: {effectiveDate}</p>
+      <div class="mx-auto max-w-3xl space-y-10 text-default">
+        {
+          sections.map((s) => (
+            <div>
+              <h2 class="text-xl font-semibold">{s.h}</h2>
+              {s.p?.map((t) => (
+                <p class="mt-3 leading-relaxed">{t}</p>
+              ))}
+              {s.list && (
+                <ul class="mt-4 space-y-2">
+                  {s.list.map((item) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-2 w-1.5 h-1.5 shrink-0 rounded-full bg-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {s.after && <p class="mt-4 leading-relaxed">{s.after}</p>}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="bg-ink">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl">
+        <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-sage">Contact</p>
+        <h2 class="text-2xl font-bold text-white">Questions about these terms?</h2>
+        <p class="mt-6 text-lg font-medium text-sage"><a href="/contact">Contact us</a></p>
+        <p class="mt-2 text-sm text-gray-500">{LEGAL_ENTITY_NAME}, {LEGAL_ADDRESS}</p>
+      </div>
+    </div>
+  </section>
+</Layout>

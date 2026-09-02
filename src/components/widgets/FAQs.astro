@@ -1,0 +1,39 @@
+---
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { Faqs as Props } from '~/types';
+
+const {
+  title = '',
+  subtitle = '',
+  tagline = '',
+  items = [],
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+  <div class="mx-auto max-w-3xl border-t border-hairline">
+    {
+      items.map((item) => (
+        <details class="group border-b border-hairline">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left [&::-webkit-details-marker]:hidden">
+            <span class="text-base font-semibold sm:text-lg">{item.title}</span>
+            <span
+              class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-hairline text-lg leading-none text-primary transition-transform duration-200 group-open:rotate-45"
+              aria-hidden="true"
+            >
+              +
+            </span>
+          </summary>
+          <div class="pb-6 leading-relaxed text-muted" set:html={item.description} />
+        </details>
+      ))
+    }
+  </div>
+</WidgetWrapper>

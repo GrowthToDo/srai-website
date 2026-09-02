@@ -1,0 +1,295 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import SchemaOrg from '~/components/common/SchemaOrg.astro';
+import DarkHero from '~/components/widgets/DarkHero.astro';
+import ProductFlow from '~/components/widgets/ProductFlow.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import { SITE_NAME, SITE_URL, BOOKING_URL, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, formatINR } from '~/site';
+
+const metadata = {
+  title: `${SITE_NAME} | AI Nurse Duty Rostering for Indian Hospitals`,
+  description:
+    'Every shift covered, every ward, without leaning on the same few nurses. AI builds the duty roster against 48-hour, rest and weekly-off rules; your nursing office approves. Per-nurse pricing.',
+  ignoreTitleTemplate: true,
+};
+
+const faqs = [
+  {
+    title: 'How long does it take to get started?',
+    description:
+      'Four weeks of guided setup, included in the subscription. You send the staff Excel you already keep, sit one rules session, and approve the first live roster. Nothing for IT to install.',
+  },
+  {
+    title: 'Do nurses need to install anything?',
+    description:
+      'No. Nurses get a portal in their phone browser: duty calendar, leave and swap requests, absence reporting. Supervisors approve from the roster side.',
+  },
+  {
+    title: 'What happens when a nurse is absent at 2 AM?',
+    description:
+      'The engine ranks every eligible replacement with reasons the moment the absence is logged. The supervisor on duty assigns with one tap; the roster and audit trail update themselves.',
+  },
+  {
+    title: 'How do you handle ward-specific rules?',
+    description:
+      'Mapped once in setup: in-charge cover, skill mix, ratios, night rotation policy, leave rules. Changes take effect from the next cycle.',
+  },
+  {
+    title: 'We already have an HRMS. Does this replace it?',
+    description:
+      'No. Keep your HR and payroll. We replace the rostering spreadsheet, or the HRMS roster module that does not enforce rules.',
+  },
+  {
+    title: 'How is it priced?',
+    description: `${formatINR(PRICE_MONTHLY_INR)} per nurse per month or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year, GST extra. Only nurses on the roster are billed; supervisors, in-charges and the CNO are free.`,
+  },
+];
+
+const webSiteSchema = { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL };
+const softwareAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': `${SITE_URL}/#software`,
+  name: SITE_NAME,
+  url: SITE_URL,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'INR',
+    lowPrice: String(PRICE_MONTHLY_INR),
+    highPrice: String(PRICE_ANNUAL_INR),
+    offerCount: '2',
+    description: 'Per-nurse pricing, GST extra',
+  },
+  provider: { '@id': `${SITE_URL}/#organization` },
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.title,
+    acceptedAnswer: { '@type': 'Answer', text: f.description },
+  })),
+};
+
+const pains: [string, string][] = [
+  [
+    'Version drift',
+    'The notice board, the Excel and the WhatsApp photo disagree by Wednesday, and nobody knows which one is real.',
+  ],
+  [
+    'The hours recount',
+    'Every change means re-checking someone’s week by hand, or finding the 56-hour week on the overtime report after payroll.',
+  ],
+  [
+    'The ripple rebuild',
+    'One leave approval reopens the whole month: nights, weekly offs, in-charge cover, all rebalanced cell by cell, ward by ward.',
+  ],
+];
+
+const screens: { eyebrow: string; title: string; rows: [string, string, boolean][]; foot: string }[] = [
+  {
+    eyebrow: 'Cycle drafts',
+    title: 'Week of 7 Sep · Pick one of three',
+    rows: [
+      ['Balanced', 'Coverage 100% · Fairness 92 · Overtime 0h', true],
+      ['Fairness-optimised', 'Coverage 100% · Fairness 97 · Overtime 8h', false],
+      ['Cost-optimised', 'Coverage 100% · Fairness 88 · Overtime 0h · fewest contract shifts', false],
+    ],
+    foot: 'Every draft covers every shift. You pick the trade-off.',
+  },
+  {
+    eyebrow: 'Rule checks',
+    title: 'Draft validation · 21 / 21',
+    rows: [
+      ['In-charge on every shift', '', true],
+      ['Skill mix holds on nights and weekends', '', true],
+      ['48-hour week clear for every nurse', '', true],
+      [
+        'Caught before publishing',
+        'Ritu V. was headed to 56h. Swapped Thursday night to Meena I., zero overtime.',
+        false,
+      ],
+      ['12-hour rest between duties', '', true],
+    ],
+    foot: 'No rule can be quietly skipped.',
+  },
+  {
+    eyebrow: 'Absence logged · Night shift',
+    title: 'Tue 02:14 · Replacement shortlist',
+    rows: [
+      ['1. Kavitha R. · SN', 'Night-cleared · 32h this week · 1 night so far, below ward average', true],
+      ['2. Arun P. · SN', 'Night-cleared · 40h this week, 48h if extended · in-charge backup', false],
+      ['3. Deepa K. · SN', 'Available · 11h rest only, blocked by the 12-hour rule', false],
+    ],
+    foot: 'Ranked in seconds, with reasons.',
+  },
+  {
+    eyebrow: 'Swap request',
+    title: 'Fri night · Awaiting your call',
+    rows: [
+      ['Sneha J. gives away Fri 23:00 to 07:00', 'Requested from her phone, Tue 20:52', false],
+      ['Priya N. takes it · Sr SN, night-cleared', 'Accepted Wed 06:15', false],
+      ['Skill mix holds on both shifts · No overtime created · Rest gaps preserved', '', true],
+    ],
+    foot: 'One tap to approve; the roster updates itself.',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <SchemaOrg slot="head" schema={[webSiteSchema, softwareAppSchema, faqSchema]} />
+
+  <DarkHero
+    badge="For CNOs of 300+ bed hospitals"
+    title={'Next month’s duty roster <span class="text-sage">in minutes, not weekends</span>'}
+    subtitle="Every shift covered on every ward, without leaning on the same few nurses. The AI builds the roster, 21 automated rule checks validate every draft, your nursing office approves. Runs in the browser, nothing to install."
+    actions={[
+      { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
+      { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
+    ]}
+  >
+    <p class="text-sm text-ivory/50">The demo runs in your browser. No signup, no sales call first.</p>
+  </DarkHero>
+
+  <section class="bg-page border-b border-hairline">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted" data-reveal>
+        {
+          [
+            'Excel staff list in, published roster out',
+            '21 automated rule checks per draft',
+            'Nurses see duties on their phones',
+            'Built for Indian hospitals',
+            `${formatINR(PRICE_MONTHLY_INR)} per nurse per month, no setup fee`,
+          ].map((t) => (
+            <span class="flex items-center gap-2">
+              <span class="h-1.5 w-1.5 rounded-full bg-primary" />
+              {t}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-page border-b border-hairline">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-2xl" data-reveal>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">The spreadsheet you replace</p>
+        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">The grid was never the hard part</h2>
+      </div>
+      <div class="mt-8 grid gap-6 sm:grid-cols-3" data-reveal-group>
+        {
+          pains.map(([t, d]) => (
+            <div class="rounded-xl border border-hairline bg-white p-5">
+              <h3 class="font-bold">{t}</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-muted">{d}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-8 max-w-2xl leading-relaxed text-default/90" data-reveal>
+        The fix is not a better grid. It is not filling the grid at all. <a href="/demo" class="text-primary underline"
+          >Watch the engine do it.</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <ProductFlow />
+
+  <section class="bg-page">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-2xl" data-reveal>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">The screens</p>
+        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Four screens run your week</h2>
+      </div>
+      <div class="mx-auto mt-10 grid max-w-5xl gap-6 sm:grid-cols-2" data-reveal-group>
+        {
+          screens.map((s) => (
+            <div class="flex flex-col rounded-xl border border-hairline bg-white shadow-[0_14px_40px_-28px_rgb(26_35_50/0.22)] overflow-hidden">
+              <div class="bg-primary px-4 py-3">
+                <p class="text-xs font-semibold text-white/70 uppercase tracking-wider">{s.eyebrow}</p>
+                <p class="text-sm font-bold text-white mt-0.5">{s.title}</p>
+              </div>
+              <div class="p-4 space-y-2.5 text-xs flex-1">
+                {s.rows.map(([label, detail, ok]) => (
+                  <div class={`rounded-lg border p-2.5 ${ok ? 'border-primary/40 bg-primary/5' : 'border-hairline'}`}>
+                    <p class="text-sm font-semibold">{label}</p>
+                    {detail && <p class="mt-0.5 text-muted">{detail}</p>}
+                  </div>
+                ))}
+              </div>
+              <div class="border-t border-hairline px-4 py-2.5 bg-ivory">
+                <span class="text-xs text-muted">{s.foot}</span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-8 text-center text-xs text-muted" data-reveal>
+        Illustrative screens with sample data, matching the engine in the <a href="/demo" class="text-primary underline"
+          >interactive demo</a
+        >.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-page">
+    <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-2xl" data-reveal>
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">Pricing</p>
+        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Simple per-nurse pricing</h2>
+        <p class="mt-4 text-lg text-muted">
+          {formatINR(PRICE_MONTHLY_INR)} per nurse per month, or {formatINR(PRICE_ANNUAL_INR)} per nurse per year, GST extra.
+          Only nurses are billed. Supervisors, in-charges and the CNO are free. No setup fee.
+        </p>
+      </div>
+      <div class="mt-6">
+        <a href="/pricing" class="font-medium text-primary underline underline-offset-4"
+          >See full pricing and what is included →</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-page border-t border-hairline">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="flex flex-col items-center gap-6 md:flex-row md:items-start" data-reveal>
+        <img
+          src="/founders/gautham.png"
+          alt="Gautham, co-founder of SimpleRosterAI"
+          class="h-24 w-24 rounded-full object-cover ring-1 ring-primary/25"
+          loading="lazy"
+          decoding="async"
+          width="96"
+          height="96"
+        />
+        <div class="max-w-2xl text-center md:text-left">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">The team</p>
+          <h3 class="mt-2 text-lg font-bold">Gautham, Co-founder</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">
+            3x founder, 15 years in tech. Built the system so it works from the staff list you already keep, with
+            nothing for your nurses to install.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQs title="Frequently asked questions" tagline="Common questions" items={faqs} />
+
+  <CallToAction
+    title="A compliant, published roster for every ward, every cycle."
+    subtitle={`${formatINR(PRICE_MONTHLY_INR)} per nurse per month, GST extra. See it on one of your own wards.`}
+    tagline="Book a demo"
+    actions={[
+      { variant: 'primary', text: 'Book a demo', href: BOOKING_URL },
+      { variant: 'secondary', text: 'Try the interactive demo', href: '/demo' },
+    ]}
+  />
+</Layout>
