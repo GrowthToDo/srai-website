@@ -18,7 +18,7 @@ Indian reality, and produce an Indian-context launch video for the hero.
 - Hours: the engine enforces "the weekly hours cap you set". No page claims a
   48-hour week as a legal or universal rule. The demo defaults its cap to 48
   and labels it "the ward's hours cap (48h in this demo)".
-- Video: fork `$VID` into `D:\Pradeep\Personal\Projects\srai-launch-video`
+- Video: fork `$VID` into a sibling folder `srai-launch-video` next to this repo
   (outside this repo), retheme, rewrite scenes, render landscape and vertical.
 - Look: deep navy ground, saffron accent, teal for "passed", Manrope headings,
   Inter body. Reads clearly different from the sibling site (forest green,
@@ -161,7 +161,7 @@ Replace every "48-hour week" claim:
 Also check and fix in the same pass: leave codes are CL/SL/EL everywhere; ward
 names in the demo and template (General Ward, ICU, HDU); "Nursing
 Superintendent" appears alongside CNO in the hero eyebrow and how-it-works;
-no "unit", "callout", "PTO", "agency", "schedule" as a noun in visible copy.
+no "unit", "callout", "PTO", staffing-firm wording, or "schedule" as a noun in visible copy.
 
 ## 8. Video (`srai-launch-video`, outside this repo)
 
