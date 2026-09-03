@@ -12,6 +12,9 @@ Sibling of a US site for a different hospital market with its own name, vocabula
 and managed-service pricing. Do not import its market framing, vocabulary, pages
 or blog.
 
+Landing page follows the 2026-09-03 redesign spec: navy #0B1F3A, saffron #F5A623,
+teal #2AA79B, Manrope headings, duty-wheel logo (`Logo.astro`).
+
 ## Hard rules
 
 - No personal name other than Gautham appears anywhere: site, schema, images,
@@ -39,17 +42,20 @@ or blog.
 - `npm run smoke:src` — source-tree footprint gate only (`scripts/check-source.mjs`, scans `docs/`, `src/`, `public/`, `scripts/`, `CLAUDE.md`, `README.md`, `package.json`)
 - `python scripts/build-template.py` — regenerate the roster template xlsx
 - `python scripts/build-social.py` — regenerate the OG image
+- `python scripts/build-icons.py` — regenerate favicons/app icons
+- Launch video: sibling folder `../srai-launch-video` (Remotion); renders live in `public/videos/`.
 
 ## Layout
 
-| What                | Where                                                             |
-| ------------------- | ----------------------------------------------------------------- |
-| Pages               | `src/pages/`                                                      |
-| Site values         | `src/site.ts`                                                     |
-| Demo engine + tests | `src/components/demo-scheduler/`                                  |
-| Calculator          | `src/components/widgets/CostCalculatorWidget.svelte`              |
-| Spec                | `docs/superpowers/specs/2026-09-02-simplerosterai-site-design.md` |
-| Plan                | `docs/superpowers/plans/2026-09-02-simplerosterai-site.md`        |
+| What                | Where                                                                                                               |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Pages               | `src/pages/`                                                                                                        |
+| Site values         | `src/site.ts`                                                                                                       |
+| Demo engine + tests | `src/components/demo-scheduler/`                                                                                    |
+| Calculator          | `src/components/widgets/CostCalculatorWidget.svelte`                                                                |
+| Landing widgets     | `src/components/widgets/{HeroVideo,ProofStrip,PainList,PinnedSteps,MiniScreen,Comparison,FitList,DemoTeaser}.astro` |
+| Spec                | `docs/superpowers/specs/2026-09-02-simplerosterai-site-design.md`                                                   |
+| Plan                | `docs/superpowers/plans/2026-09-02-simplerosterai-site.md`                                                          |
 
 ## Git
 

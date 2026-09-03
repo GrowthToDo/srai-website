@@ -56,6 +56,16 @@ if (!fs.existsSync(path.join(dist, '404.html'))) problems.push('missing 404.html
 if (!fs.existsSync(path.join(dist, 'downloads', 'SimpleRosterAI-Nurse-Duty-Roster-Template.xlsx')))
   problems.push('missing template xlsx');
 
+for (const f of [
+  'videos/srai-launch-landscape.mp4',
+  'videos/srai-launch-vertical.mp4',
+  'videos/srai-launch-poster.png',
+]) {
+  const p = path.join(dist, f);
+  if (!fs.existsSync(p)) problems.push(`missing asset: /${f}`);
+  else if (fs.statSync(p).size > 4 * 1024 * 1024) problems.push(`asset over 4 MB: /${f}`);
+}
+
 function walk(dir) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);

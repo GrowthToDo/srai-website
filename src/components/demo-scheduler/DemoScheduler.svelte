@@ -786,7 +786,7 @@
     color: var(--amber);
   }
   .ssa-head h2 {
-    font-family: var(--aw-font-heading, 'Fraunces Variable', Fraunces, Georgia, serif);
+    font-family: var(--aw-font-heading, 'Manrope Variable', Manrope, system-ui, sans-serif);
     font-size: clamp(1.5rem, 4vw, 2.1rem);
     line-height: 1.15;
     margin: 0.75rem 0 0.5rem;
@@ -1192,7 +1192,7 @@
   }
   .ssa-team-head h3 {
     margin: 0;
-    font-family: var(--aw-font-heading, 'Fraunces Variable', Fraunces, Georgia, serif);
+    font-family: var(--aw-font-heading, 'Manrope Variable', Manrope, system-ui, sans-serif);
     font-size: 1.05rem;
   }
   .ssa-fair {
@@ -1321,7 +1321,7 @@
     padding: 1.5rem;
   }
   .ssa-convert h3 {
-    font-family: var(--aw-font-heading, 'Fraunces Variable', Fraunces, Georgia, serif);
+    font-family: var(--aw-font-heading, 'Manrope Variable', Manrope, system-ui, sans-serif);
     font-size: 1.25rem;
     margin: 0 0 0.4rem;
   }
@@ -1395,7 +1395,7 @@
   .ssa-sheet-head h3 {
     font-size: 1.05rem;
     margin: 0;
-    font-family: var(--aw-font-heading, 'Fraunces Variable', Fraunces, Georgia, serif);
+    font-family: var(--aw-font-heading, 'Manrope Variable', Manrope, system-ui, sans-serif);
   }
   .ssa-x {
     border: 0;
