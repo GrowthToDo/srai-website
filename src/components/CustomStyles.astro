@@ -1,38 +1,33 @@
 ---
 import '@fontsource-variable/inter';
-import '@fontsource-variable/fraunces';
+import '@fontsource-variable/manrope';
 ---
 
 <style is:inline>
   :root {
     --aw-font-sans: 'Inter Variable';
-    --aw-font-serif: 'Fraunces Variable';
-    --aw-font-heading: 'Fraunces Variable';
+    --aw-font-serif: 'Manrope Variable';
+    --aw-font-heading: 'Manrope Variable';
 
-    /* Warm Editorial palette — see docs/superpowers/specs/2026-06-12-premium-redesign-warm-editorial-design.md */
-    --aw-color-primary: rgb(45 90 74); /* forest green */
-    --aw-color-secondary: rgb(35 71 57); /* green hover */
-    --aw-color-accent: rgb(45 90 74);
+    /* Navy + saffron system — see docs/superpowers/specs/2026-09-03-landing-redesign-design.md §3 */
+    --aw-color-primary: #f5a623; /* saffron */
+    --aw-color-secondary: #d98f0f; /* saffron hover */
+    --aw-color-accent: #2aa79b; /* teal */
 
-    --aw-color-text-heading: rgb(26 35 50); /* ink navy */
-    --aw-color-text-default: rgb(26 35 50);
-    --aw-color-text-muted: rgb(26 35 50 / 64%);
-    --aw-color-bg-page: rgb(250 247 242); /* warm ivory */
+    --aw-color-text-heading: rgb(11 31 58);
+    --aw-color-text-default: rgb(11 31 58);
+    --aw-color-text-muted: rgb(11 31 58 / 66%);
+    --aw-color-bg-page: #f7f8fa;
+    --aw-color-bg-page-dark: #0b1f3a;
+    --aw-color-hairline: rgb(11 31 58 / 12%);
 
-    --aw-color-bg-page-dark: rgb(26 35 50); /* ink navy anchor */
-
-    --aw-color-hairline: rgb(26 35 50 / 12%);
-
-    /* Single source of truth for named brand hues previously magic-hexed across
-       widgets (theme audit 2026-07-21). Bare RGB channels so Tailwind opacity
-       modifiers (border-ink/25, bg-ivory/10) keep working. */
-    --aw-rgb-ink: 26 35 50; /* = #1A2332 */
-    --aw-rgb-ivory: 250 247 242; /* = #FAF7F2 */
-    --aw-rgb-sage: 123 175 155; /* = #7BAF9B light-green accent */
-    --aw-rgb-green-deep: 35 71 57; /* = #234739 dark green */
+    --aw-rgb-ink: 11 31 58;
+    --aw-rgb-ivory: 247 248 250;
+    --aw-rgb-sage: 42 167 155; /* teal: "passed" states and accents on navy */
+    --aw-rgb-green-deep: 32 128 118;
 
     ::selection {
-      background-color: rgb(45 90 74 / 18%);
+      background-color: rgb(245 166 35 / 30%);
     }
   }
 
@@ -40,8 +35,8 @@ import '@fontsource-variable/fraunces';
   h2,
   h3 {
     font-family: var(--aw-font-heading);
-    font-weight: 560;
-    letter-spacing: -0.015em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
 

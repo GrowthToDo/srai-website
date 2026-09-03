@@ -1,7 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { getHomePermalink } from '~/utils/permalinks';
-import { SITE_NAME, BOOKING_URL } from '~/site';
+import { BOOKING_URL } from '~/site';
+import Logo from '~/components/Logo.astro';
 
 interface Link {
   text?: string;
@@ -33,12 +34,8 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '' } = Ast
     {/* Brand Section with CTA Buttons */}
     <div class="border-b border-ivory/15 py-8 md:py-12">
       <div class="max-w-3xl">
-        <a
-          href={getHomePermalink()}
-          class="inline-block text-2xl font-heading font-semibold tracking-tight mb-4"
-          translate="no"
-        >
-          {SITE_NAME}<span class="text-sage">.</span>
+        <a href={getHomePermalink()} class="inline-block mb-4">
+          <Logo variant="light" />
         </a>
         <p class="text-ivory/70 mb-6 text-base leading-relaxed">
           AI nurse duty rostering for Indian hospitals. The engine builds every ward roster against your rules, your
