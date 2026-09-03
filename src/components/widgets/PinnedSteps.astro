@@ -1,0 +1,87 @@
+---
+import MiniScreen from './MiniScreen.astro';
+import type { Props as MiniScreenProps } from './MiniScreen.astro';
+
+export interface Props {
+  eyebrow: string;
+  title: string;
+  steps: { title: string; body: string; screen: MiniScreenProps }[];
+}
+const { eyebrow, title, steps } = Astro.props;
+---
+
+<section class="bg-ink text-ivory" id="how-it-works" data-pinned-steps>
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <div class="max-w-2xl" data-reveal>
+      <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>
+      <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">{title}</h2>
+    </div>
+
+    <div class="mt-12 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      {/* Rail: desktop only, sticky */}
+      <ol class="hidden lg:block lg:sticky lg:top-28 lg:self-start" data-rail>
+        {
+          steps.map((s, i) => (
+            <li
+              class="group border-l-2 border-ivory/15 py-5 pl-6 transition-colors data-[active]:border-primary"
+              data-rail-item={i}
+            >
+              <p class="font-heading text-sm font-bold text-primary/70 group-data-[active]:text-primary">0{i + 1}</p>
+              <h3 class="mt-1 text-xl font-bold text-ivory/60 transition-colors group-data-[active]:text-ivory">
+                {s.title}
+              </h3>
+              <p class="mt-1.5 max-h-0 overflow-hidden text-sm leading-relaxed text-ivory/70 transition-[max-height] duration-500 group-data-[active]:max-h-40">
+                {s.body}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+
+      {/* Cards: always rendered; on mobile each carries its own title/body */}
+      <div class="space-y-10 lg:space-y-[40vh]">
+        {
+          steps.map((s, i) => (
+            <div data-step-card={i} class="lg:min-h-[50vh] lg:flex lg:items-center">
+              <div class="w-full">
+                <div class="lg:hidden">
+                  <p class="font-heading text-sm font-bold text-primary">0{i + 1}</p>
+                  <h3 class="mt-1 text-xl font-bold text-ivory">{s.title}</h3>
+                  <p class="mb-5 mt-1.5 text-sm leading-relaxed text-ivory/70">{s.body}</p>
+                </div>
+                <MiniScreen {...s.screen} />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initPinned() {
+    const root = document.querySelector('[data-pinned-steps]');
+    if (!root) return;
+    const mq = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-rail-item]'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-step-card]'));
+    if (!items.length || !cards.length) return;
+    const setActive = (i: number) =>
+      items.forEach((el, j) => (j === i ? el.setAttribute('data-active', '') : el.removeAttribute('data-active')));
+    setActive(0);
+    if (!mq.matches) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const best = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (best) setActive(Number((best.target as HTMLElement).dataset.stepCard));
+      },
+      { rootMargin: '-35% 0px -35% 0px', threshold: [0.1, 0.5, 0.9] }
+    );
+    cards.forEach((c) => io.observe(c));
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initPinned);
+  else initPinned();
+</script>

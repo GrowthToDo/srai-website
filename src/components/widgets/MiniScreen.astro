@@ -1,0 +1,32 @@
+---
+export interface Props {
+  eyebrow: string;
+  title: string;
+  rows: [string, string, boolean][];
+  foot: string;
+}
+const { eyebrow, title, rows, foot } = Astro.props;
+---
+
+<div
+  class="flex flex-col overflow-hidden rounded-xl border border-ivory/15 bg-white shadow-[0_24px_60px_-30px_rgb(0_0_0/0.7)]"
+>
+  <div class="bg-ink px-4 py-3">
+    <p class="text-xs font-semibold uppercase tracking-wider text-ivory/60">{eyebrow}</p>
+    <p class="mt-0.5 text-sm font-bold text-ivory">{title}</p>
+  </div>
+  <div class="flex-1 space-y-2.5 p-4 text-xs">
+    {
+      rows.map(([label, detail, ok]) => (
+        <div class={`rounded-lg border p-2.5 ${ok ? 'border-sage/50 bg-sage/10' : 'border-hairline'}`}>
+          <p class="text-sm font-semibold text-ink">
+            {ok && <span class="sr-only">Passed: </span>}
+            {label}
+          </p>
+          {detail && <p class="mt-0.5 text-muted">{detail}</p>}
+        </div>
+      ))
+    }
+  </div>
+  <div class="border-t border-hairline bg-page px-4 py-2.5"><span class="text-xs text-muted">{foot}</span></div>
+</div>
