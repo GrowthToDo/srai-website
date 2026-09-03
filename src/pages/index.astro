@@ -2,7 +2,13 @@
 import Layout from '~/layouts/PageLayout.astro';
 import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
-import ProductFlow from '~/components/widgets/ProductFlow.astro';
+import HeroVideo from '~/components/widgets/HeroVideo.astro';
+import ProofStrip from '~/components/widgets/ProofStrip.astro';
+import PainList from '~/components/widgets/PainList.astro';
+import PinnedSteps from '~/components/widgets/PinnedSteps.astro';
+import Comparison from '~/components/widgets/Comparison.astro';
+import DemoTeaser from '~/components/widgets/DemoTeaser.astro';
+import FitList from '~/components/widgets/FitList.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import { SITE_NAME, SITE_URL, BOOKING_URL, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, formatINR } from '~/site';
@@ -10,9 +16,14 @@ import { SITE_NAME, SITE_URL, BOOKING_URL, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, 
 const metadata = {
   title: `${SITE_NAME} | AI Nurse Duty Rostering for Indian Hospitals`,
   description:
-    'Every shift covered, every ward, without leaning on the same few nurses. AI builds the duty roster against the weekly hours cap you set, rest and weekly-off rules; your nursing office approves. Per-nurse pricing.',
+    'Your in-charges spend a third of their week on the duty roster. The engine builds every ward roster against the weekly hours cap you set, rest and weekly-off rules; your nursing office approves.',
   ignoreTitleTemplate: true,
 };
+
+const actions = [
+  { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' as const },
+  { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' as const },
+];
 
 const faqs = [
   {
@@ -31,9 +42,9 @@ const faqs = [
       'The engine ranks every eligible replacement with reasons the moment the absence is logged. The supervisor on duty assigns with one tap; the roster and audit trail update themselves.',
   },
   {
-    title: 'How do you handle ward-specific rules?',
+    title: 'Which rules does it enforce?',
     description:
-      'Mapped once in setup: in-charge cover, skill mix, ratios, night rotation policy, leave rules. Changes take effect from the next cycle.',
+      'The ones you set: in-charge cover, skill mix, your weekly hours cap, 12-hour rest, one weekly off, night rotation, approved leave and contract availability. Changes take effect from the next cycle.',
   },
   {
     title: 'We already have an HRMS. Does this replace it?',
@@ -46,231 +57,230 @@ const faqs = [
   },
 ];
 
-const webSiteSchema = { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL };
-const softwareAppSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  '@id': `${SITE_URL}/#software`,
-  name: SITE_NAME,
-  url: SITE_URL,
-  applicationCategory: 'BusinessApplication',
-  operatingSystem: 'Web',
-  offers: {
-    '@type': 'AggregateOffer',
-    priceCurrency: 'INR',
-    lowPrice: String(PRICE_MONTHLY_INR),
-    highPrice: String(PRICE_ANNUAL_INR),
-    offerCount: '2',
-    description: 'Per-nurse pricing, GST extra',
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': `${SITE_URL}/#software`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'INR',
+      lowPrice: String(PRICE_MONTHLY_INR),
+      highPrice: String(PRICE_ANNUAL_INR),
+      offerCount: '2',
+      description: 'Per-nurse pricing, GST extra',
+    },
+    provider: { '@id': `${SITE_URL}/#organization` },
   },
-  provider: { '@id': `${SITE_URL}/#organization` },
-};
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((f) => ({
-    '@type': 'Question',
-    name: f.title,
-    acceptedAnswer: { '@type': 'Answer', text: f.description },
-  })),
-};
-
-const pains: [string, string][] = [
-  [
-    'Version drift',
-    'The notice board, the Excel and the WhatsApp photo disagree by Wednesday, and nobody knows which one is real.',
-  ],
-  [
-    'The hours recount',
-    'Every change means re-checking someone’s week by hand, or finding the 56-hour week on the overtime report after payroll.',
-  ],
-  [
-    'The ripple rebuild',
-    'One leave approval reopens the whole month: nights, weekly offs, in-charge cover, all rebalanced cell by cell, ward by ward.',
-  ],
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.title,
+      acceptedAnswer: { '@type': 'Answer', text: f.description },
+    })),
+  },
 ];
 
-const screens: { eyebrow: string; title: string; rows: [string, string, boolean][]; foot: string }[] = [
+const steps = [
   {
-    eyebrow: 'Cycle drafts',
-    title: 'Week of 7 Sep · Pick one of three',
-    rows: [
-      ['Balanced', 'Coverage 100% · Fairness 92 · Overtime 0h', true],
-      ['Fairness-optimised', 'Coverage 100% · Fairness 97 · Overtime 8h', false],
-      ['Cost-optimised', 'Coverage 100% · Fairness 88 · Overtime 0h · fewest contract shifts', false],
-    ],
-    foot: 'Every draft covers every shift. You pick the trade-off.',
+    title: 'Staff list in',
+    body: 'The Excel you already keep: names, grades, wards, leave. No integration project.',
+    screen: {
+      eyebrow: 'Import',
+      title: 'Staff list · 412 nurses · 18 wards',
+      rows: [
+        ['412 nurses matched', 'Grades, wards and leave read from your sheet', true],
+        ['Ward rules mapped', 'In-charge cover, skill mix, your hours cap, rotation', true],
+      ] as [string, string, boolean][],
+      foot: 'One session with your nursing office.',
+    },
   },
   {
-    eyebrow: 'Rule checks',
-    title: 'Draft validation · 21 / 21',
-    rows: [
-      ['In-charge on every shift', '', true],
-      ['Skill mix holds on nights and weekends', '', true],
-      ['Hours cap clear for every nurse', '', true],
-      [
-        'Caught before publishing',
-        'Ritu V. was headed to 56h. Swapped Thursday night to Meena I., zero overtime.',
-        false,
-      ],
-      ['12-hour rest between duties', '', true],
-    ],
-    foot: 'No rule can be quietly skipped.',
+    title: 'Three drafts out',
+    body: 'Balanced, fairness-first and cost-first rosters for every ward, each checked against your rules before you see it.',
+    screen: {
+      eyebrow: 'Cycle drafts',
+      title: 'Week of 7 Sep · Pick one of three',
+      rows: [
+        ['Balanced', 'Coverage 100% · Fairness 92 · Overtime 0h', true],
+        ['Fairness-first', 'Coverage 100% · Fairness 97 · Overtime 8h', false],
+        ['Cost-first', 'Coverage 100% · Fewest contract shifts', false],
+      ] as [string, string, boolean][],
+      foot: 'Every draft covers every shift. You pick the trade-off.',
+    },
   },
   {
-    eyebrow: 'Absence logged · Night shift',
-    title: 'Tue 02:14 · Replacement shortlist',
-    rows: [
-      ['1. Kavitha R. · SN', 'Night-cleared · 32h this week · 1 night so far, below ward average', true],
-      ['2. Arun P. · SN', 'Night-cleared · 40h this week, at the cap if extended · in-charge backup', false],
-      ['3. Deepa K. · SN', 'Available · 11h rest only, blocked by the 12-hour rule', false],
-    ],
-    foot: 'Ranked in seconds, with reasons.',
+    title: 'Nurses on their phones',
+    body: 'Duties, leave, swaps and absences in the phone browser. Nothing to install.',
+    screen: {
+      eyebrow: 'Absence logged · Night',
+      title: 'Tue 02:14 · Replacement shortlist',
+      rows: [
+        ['1. Kavitha R. · SN', 'Night-cleared · 32h this week · below night average', true],
+        ['2. Arun P. · SN', '40h this week, at the cap if extended', false],
+        ['3. Deepa K. · SN', 'Only 11h rest, blocked by the 12-hour rule', false],
+      ] as [string, string, boolean][],
+      foot: 'Ranked in seconds, with reasons.',
+    },
   },
   {
-    eyebrow: 'Swap request',
-    title: 'Fri night · Awaiting your call',
-    rows: [
-      ['Sneha J. gives away Fri 23:00 to 07:00', 'Requested from her phone, Tue 20:52', false],
-      ['Priya N. takes it · Sr SN, night-cleared', 'Accepted Wed 06:15', false],
-      ['Skill mix holds on both shifts · No overtime created · Rest gaps preserved', '', true],
-    ],
-    foot: 'One tap to approve; the roster updates itself.',
+    title: 'Nursing office approves',
+    body: 'Nothing publishes without the supervisor, Nursing Superintendent or CNO signing off. Every change is logged.',
+    screen: {
+      eyebrow: 'Rule checks',
+      title: 'Draft validation · 21 / 21',
+      rows: [
+        ['In-charge on every shift', '', true],
+        ['Hours cap clear for every nurse', '', true],
+        ['Caught before publishing', 'Ritu V. was headed over the cap. Swapped Thursday night to Meena I.', false],
+        ['12-hour rest between duties', '', true],
+      ] as [string, string, boolean][],
+      foot: 'No rule can be quietly skipped.',
+    },
   },
 ];
 ---
 
 <Layout metadata={metadata}>
-  <SchemaOrg slot="head" schema={[webSiteSchema, softwareAppSchema, faqSchema]} />
+  <SchemaOrg slot="head" schema={schema} />
 
   <DarkHero
-    badge="For CNOs of 300+ bed hospitals"
-    title={'Next month’s duty roster <span class="text-sage">in minutes, not weekends</span>'}
-    subtitle="Every shift covered on every ward, without leaning on the same few nurses. The AI builds the roster, 21 automated rule checks validate every draft, your nursing office approves. Runs in the browser, nothing to install."
-    actions={[
-      { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
-      { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
-    ]}
+    badge="For CNOs and Nursing Superintendents"
+    title={'Your in-charges spend a third of their week on the duty roster. <span class="text-primary">Get it back.</span>'}
+    subtitle="The engine builds every ward's roster against your rules, nurses see it on their phones, your nursing office approves."
+    actions={actions}
   >
-    <p class="text-sm text-ivory/50">The demo runs in your browser. No signup, no sales call first.</p>
+    <HeroVideo
+      src="/videos/srai-launch-landscape.mp4"
+      poster="/videos/srai-launch-poster.png"
+      label="Product overview: the engine fills a ward's three-shift week, checks the rules, and ranks a replacement for an absence"
+    />
   </DarkHero>
 
-  <section class="bg-page border-b border-hairline">
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted" data-reveal>
-        {
-          [
-            'Excel staff list in, published roster out',
-            '21 automated rule checks per draft',
-            'Nurses see duties on their phones',
-            'Built for Indian hospitals',
-            `${formatINR(PRICE_MONTHLY_INR)} per nurse per month, no setup fee`,
-          ].map((t) => (
-            <span class="flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-primary" />
-              {t}
-            </span>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  <ProofStrip
+    tiles={[
+      { big: '77 duty seats a week', small: 'filled in one click on a sample ward' },
+      { big: '21 automated checks', small: 'on every draft before anyone sees it' },
+      { big: 'Nurses on their phones', small: 'duties, leave, swaps, absences. Nothing to install' },
+    ]}
+  />
 
-  <section class="bg-page border-b border-hairline">
-    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+  <PainList
+    title="Good wards run on a roster nobody trusts."
+    items={[
+      { title: 'Version drift', body: 'The notice board, the Excel and the WhatsApp photo disagree by Wednesday.' },
+      {
+        title: 'The hours recount',
+        body: 'Every change rechecked by hand. Overtime found on the payroll report, after the fact.',
+      },
+      {
+        title: 'Night rotation fights',
+        body: 'The same nurses on nights, the same complaints at the nursing office door.',
+      },
+      { title: 'Leave clashes', body: 'CL approved on paper, duty still on the grid, nobody covering the gap.' },
+      {
+        title: 'The 2 AM absence',
+        body: 'A phone tree instead of a shortlist. The in-charge covers it herself, again.',
+      },
+    ]}
+  />
+
+  <PinnedSteps
+    eyebrow="How it works"
+    title="Staff list in. Duty roster out. Your nursing office stays in charge."
+    steps={steps}
+  />
+
+  <Comparison
+    title="Roster in Excel vs roster with SimpleRosterAI"
+    leftHead="Roster in Excel"
+    rightHead="Roster with SimpleRosterAI"
+    rows={[
+      {
+        label: 'Building the month',
+        left: 'One in-charge per ward, one to two days each',
+        right: 'Three drafts per ward in minutes',
+      },
+      {
+        label: 'A leave approval',
+        left: 'Reopens the month, rebalanced cell by cell',
+        right: 'Re-checked automatically, gaps refilled from the shortlist',
+      },
+      {
+        label: 'An absence at 2 AM',
+        left: 'Phone tree, or the in-charge covers',
+        right: 'Ranked replacements with reasons, one tap to assign',
+      },
+      {
+        label: 'Nights and weekends',
+        left: 'Remembered by the people who lost out',
+        right: 'Tracked per nurse across weeks',
+      },
+      { label: 'Hours and overtime', left: 'Seen after payroll', right: 'Flagged before the roster publishes' },
+      {
+        label: 'Audit trail',
+        left: 'Whoever last edited the file',
+        right: 'Who changed what, when, exportable for NABH',
+      },
+    ]}
+  />
+
+  <DemoTeaser
+    title="Try it on a sample ward"
+    subtitle="Fill a three-shift week, break a rule on purpose, cover an absence. Free, in your browser."
+  />
+
+  <section class="bg-ink text-ivory">
+    <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
       <div class="max-w-2xl" data-reveal>
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">The spreadsheet you replace</p>
-        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">The grid was never the hard part</h2>
-      </div>
-      <div class="mt-8 grid gap-6 sm:grid-cols-3" data-reveal-group>
-        {
-          pains.map(([t, d]) => (
-            <div class="rounded-xl border border-hairline bg-white p-5">
-              <h3 class="font-bold">{t}</h3>
-              <p class="mt-1.5 text-sm leading-relaxed text-muted">{d}</p>
-            </div>
-          ))
-        }
-      </div>
-      <p class="mt-8 max-w-2xl leading-relaxed text-default/90" data-reveal>
-        The fix is not a better grid. It is not filling the grid at all. <a href="/demo" class="text-primary underline"
-          >Watch the engine do it.</a
-        >
-      </p>
-    </div>
-  </section>
-
-  <ProductFlow />
-
-  <section class="bg-page">
-    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <div class="max-w-2xl" data-reveal>
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">The screens</p>
-        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Four screens run your week</h2>
-      </div>
-      <div class="mx-auto mt-10 grid max-w-5xl gap-6 sm:grid-cols-2" data-reveal-group>
-        {
-          screens.map((s) => (
-            <div class="flex flex-col rounded-xl border border-hairline bg-white shadow-[0_14px_40px_-28px_rgb(26_35_50/0.22)] overflow-hidden">
-              <div class="bg-primary px-4 py-3">
-                <p class="text-xs font-semibold text-white/70 uppercase tracking-wider">{s.eyebrow}</p>
-                <p class="text-sm font-bold text-white mt-0.5">{s.title}</p>
-              </div>
-              <div class="p-4 space-y-2.5 text-xs flex-1">
-                {s.rows.map(([label, detail, ok]) => (
-                  <div class={`rounded-lg border p-2.5 ${ok ? 'border-primary/40 bg-primary/5' : 'border-hairline'}`}>
-                    <p class="text-sm font-semibold">{label}</p>
-                    {detail && <p class="mt-0.5 text-muted">{detail}</p>}
-                  </div>
-                ))}
-              </div>
-              <div class="border-t border-hairline px-4 py-2.5 bg-ivory">
-                <span class="text-xs text-muted">{s.foot}</span>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-      <p class="mt-8 text-center text-xs text-muted" data-reveal>
-        Illustrative screens with sample data, matching the engine in the <a href="/demo" class="text-primary underline"
-          >interactive demo</a
-        >.
-      </p>
-    </div>
-  </section>
-
-  <section class="bg-page">
-    <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <div class="max-w-2xl" data-reveal>
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">Pricing</p>
-        <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">Simple per-nurse pricing</h2>
-        <p class="mt-4 text-lg text-muted">
-          {formatINR(PRICE_MONTHLY_INR)} per nurse per month, or {formatINR(PRICE_ANNUAL_INR)} per nurse per year, GST extra.
-          Only nurses are billed. Supervisors, in-charges and the CNO are free. No setup fee.
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">Pricing</p>
+        <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+          {formatINR(PRICE_MONTHLY_INR)} per nurse per month.
+        </h2>
+        <p class="mt-4 text-lg text-ivory/70">
+          Or {formatINR(PRICE_ANNUAL_INR)} per nurse per year. GST extra. Only nurses are billed; supervisors, in-charges
+          and the CNO are free. No setup fee.
         </p>
-      </div>
-      <div class="mt-6">
-        <a href="/pricing" class="font-medium text-primary underline underline-offset-4"
-          >See full pricing and what is included →</a
+        <a href="/pricing" class="mt-6 inline-block font-semibold text-primary underline underline-offset-4"
+          >See full pricing →</a
         >
       </div>
     </div>
   </section>
+
+  <FitList
+    title="You are a fit if"
+    items={[
+      'You run a 300+ bed hospital or a group of hospitals',
+      'Rosters are built in Excel or an HRMS module that does not enforce rules',
+      'In-charges lose days every month to building and patching the roster',
+      'Overtime and contract cover appear on reports you cannot explain',
+      'NABH audits ask for hours, rest and weekly-off records you assemble by hand',
+    ]}
+    notFit="Not yet a fit: hospitals under 100 beds, or wards already on a roster system that enforces your rules."
+  />
 
   <section class="bg-page border-t border-hairline">
-    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div class="flex flex-col items-center gap-6 md:flex-row md:items-start" data-reveal>
         <img
           src="/founders/gautham.png"
           alt="Gautham, co-founder of SimpleRosterAI"
-          class="h-24 w-24 rounded-full object-cover ring-1 ring-primary/25"
+          class="h-24 w-24 rounded-full object-cover ring-2 ring-primary/40"
           loading="eager"
           decoding="sync"
           width="96"
           height="96"
         />
         <div class="max-w-2xl text-center md:text-left">
-          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">The team</p>
+          <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-primary">The team</h2>
           <h3 class="mt-2 text-lg font-bold">Gautham, Co-founder</h3>
           <p class="mt-2 text-sm leading-relaxed text-muted">
             3x founder, 15 years in tech. Built the system so it works from the staff list you already keep, with
@@ -284,12 +294,9 @@ const screens: { eyebrow: string; title: string; rows: [string, string, boolean]
   <FAQs title="Frequently asked questions" tagline="Common questions" items={faqs} />
 
   <CallToAction
-    title="A compliant, published roster for every ward, every cycle."
-    subtitle={`${formatINR(PRICE_MONTHLY_INR)} per nurse per month, GST extra. See it on one of your own wards.`}
+    title="See it on one of your own wards."
+    subtitle="A 30-minute demo on your roster, your rules, your shift pattern."
     tagline="Book a demo"
-    actions={[
-      { variant: 'primary', text: 'Book a demo', href: BOOKING_URL },
-      { variant: 'secondary', text: 'Try the interactive demo', href: '/demo' },
-    ]}
+    actions={actions}
   />
 </Layout>
