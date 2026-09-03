@@ -1,6 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
-
+  
   const NAVY = '#0b1f3a';
   const NAVY_D = '#071527';
   const SAFFRON = '#f5a623';
@@ -167,7 +166,7 @@
     return { ids, visIds, isCoCell, isRpl, coId, active, full, empty, brd, bgc, display };
   }
 
-  onMount(() => {
+  $effect(() => {
     function loop() {
       clearAll();
       phase = 0;
