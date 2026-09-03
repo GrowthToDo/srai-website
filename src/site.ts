@@ -6,13 +6,13 @@
 export const SITE_NAME = 'SimpleRosterAI';
 export const SITE_URL = 'https://simplerosterai.com';
 
-export const BOOKING_URL = 'TODO_BOOKING_URL';
+export const BOOKING_URL = 'https://cal.com/gautham-8bdvdx/30min';
 export const SUPPORT_EMAIL = 'support@simplerosterai.com';
 // Google Apps Script web app shared with the sibling site; rows carry a `source` field.
 export const LEAD_CAPTURE_URL =
   'https://script.google.com/macros/s/AKfycbx5BZhSHWIljxWLWBPngX1CuHyIO4jvd3vQH-HYuPbgfPjj7kA8O4rhQoIHaK10RSJJ/exec';
-export const LEGAL_ENTITY_NAME = 'TODO_LEGAL_ENTITY_NAME';
-export const LEGAL_ADDRESS = 'TODO_LEGAL_ADDRESS';
+export const LEGAL_ENTITY_NAME = 'SimpleRosterAI';
+export const LEGAL_ADDRESS = '';
 
 export const PRICE_MONTHLY_INR = 400;
 export const PRICE_ANNUAL_INR = 4000;
