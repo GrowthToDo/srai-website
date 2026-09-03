@@ -3,6 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
 import Steps from '~/components/widgets/Steps.astro';
+import EngineSection from '~/components/widgets/EngineSection.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import { SITE_NAME, SITE_URL, BOOKING_URL } from '~/site';
@@ -48,6 +49,8 @@ const breadcrumbSchema = {
       { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
     ]}
   />
+
+  <EngineSection />
 
   <Steps
     title="Four weeks to go-live. Most of it is ours."
