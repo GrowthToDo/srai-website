@@ -41,7 +41,7 @@ const included = [
   {
     title: 'The roster runs',
     items: [
-      'AI-built duty roster for every ward, every cycle, checked against your rules before anyone sees it',
+      'AI-built duty roster for every ward, every cycle, checked based on your rules before anyone sees it',
       '21 automated checks: in-charge cover, skill mix, your weekly hours cap, 12-hour rest, weekly off, night rotation, leave',
       'Excel roster in, published roster out, PDF for the notice board and Excel for HR',
     ],
@@ -49,7 +49,7 @@ const included = [
   {
     title: 'Your nurses on their phones',
     items: [
-      'Duty calendar, leave requests, swap requests and absence reporting in the browser, nothing to install',
+      'Duty calendar, leave requests, swap requests and absence reporting on the mobile and desktop apps',
       'Ranked replacement shortlist with reasons the moment an absence is logged, any hour',
     ],
   },
@@ -86,11 +86,6 @@ const faqs = [
       'Add or remove nurses at any time. Monthly billing follows the count on the billing date. On annual plans, added nurses are billed pro rata for the remaining term.',
   },
   {
-    title: 'Is there a setup fee?',
-    description:
-      'No. Guided setup over four weeks is included: workspace, roster import, rules mapping, test cycles and supervisor training.',
-  },
-  {
     title: 'Can we pilot one ward first?',
     description:
       'Yes. Most hospitals start with one or two wards on the monthly plan and move the rest across once the first live cycle is approved.',
@@ -123,7 +118,7 @@ const productSchema = {
   <DarkHero
     badge="Per nurse. Supervisors and the CNO free."
     title="Simple per-nurse pricing"
-    subtitle={`${formatINR(PRICE_MONTHLY_INR)} per nurse per month, or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year. No setup fee, no per-ward fee, GST extra.`}
+    subtitle={`${formatINR(PRICE_MONTHLY_INR)} per nurse per month, or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year. No per-ward fee. GST extra.`}
     actions={[
       { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
       { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },

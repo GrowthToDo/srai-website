@@ -2,7 +2,6 @@
 import Layout from '~/layouts/PageLayout.astro';
 import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
-import ProductFlow from '~/components/widgets/ProductFlow.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
@@ -10,7 +9,7 @@ import { SITE_NAME, SITE_URL, BOOKING_URL } from '~/site';
 
 const metadata = {
   title: 'How it Works',
-  description: `How ${SITE_NAME} rosters a hospital: the engine builds every ward's duty roster against your rules, nurses see it on their phones, and your nursing office approves. Four weeks from staff list to first live cycle.`,
+  description: `How ${SITE_NAME} rosters a hospital: the engine builds every ward's duty roster based on your rules, nurses see it on their phones, and your nursing office approves. Four weeks from staff list to first live cycle.`,
 };
 
 const rules: [string, string][] = [
@@ -43,14 +42,12 @@ const breadcrumbSchema = {
   <DarkHero
     badge="Clear workflow. Predictable handoffs."
     title="How it works"
-    subtitle="The engine builds every ward's duty roster against your rules. Your nurses see their duties on their phones. Your supervisors, Nursing Superintendent and CNO approve. Rostering drops from a third of every in-charge's week to an hour of review."
+    subtitle="The engine builds every ward's duty roster based on your rules. Your nurses see their duties on their phones. Your supervisors, Nursing Superintendent and CNO approve. Rostering drops from a third of every in-charge's week to an hour of review."
     actions={[
       { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
       { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
     ]}
   />
-
-  <ProductFlow />
 
   <Steps
     title="Four weeks to go-live. Most of it is ours."
@@ -112,7 +109,7 @@ const breadcrumbSchema = {
       <div class="max-w-2xl" data-reveal>
         <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">When a nurse is absent</p>
         <h2 class="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
-          A ranked shortlist, not a phone tree.
+          A ranked shortlist, not a round of calls.
         </h2>
       </div>
       <div class="mt-8 grid gap-6 sm:grid-cols-3" data-reveal-group>
@@ -146,7 +143,7 @@ const breadcrumbSchema = {
       {
         title: 'How long does setup take, and what does our IT team have to do?',
         description:
-          'Four weeks, and your IT team has nothing to install. We import the staff Excel, map rules with your nursing office in one session, run test cycles, and train supervisors on a live cycle.',
+          'Four weeks, and your IT team runs no integration project. We import the staff Excel, map rules with your nursing office in one session, run test cycles, and train supervisors on a live cycle.',
       },
       {
         title: 'How do we get our data in?',
@@ -154,8 +151,7 @@ const breadcrumbSchema = {
       },
       {
         title: 'Do nurses need to install anything?',
-        description:
-          'No. The nurse portal runs in the phone browser: duty calendar, leave and swap requests, absence reporting.',
+        description: 'The mobile and desktop apps: duty calendar, leave and swap requests, absence reporting.',
       },
       {
         title: 'What happens when someone is absent at 2 AM?',

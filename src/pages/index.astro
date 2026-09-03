@@ -4,10 +4,11 @@ import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
 import HeroVideo from '~/components/widgets/HeroVideo.astro';
 import ProofStrip from '~/components/widgets/ProofStrip.astro';
+import ProductFlow from '~/components/widgets/ProductFlow.astro';
 import PainList from '~/components/widgets/PainList.astro';
 import PinnedSteps from '~/components/widgets/PinnedSteps.astro';
 import Comparison from '~/components/widgets/Comparison.astro';
-import DemoTeaser from '~/components/widgets/DemoTeaser.astro';
+import EngineSection from '~/components/widgets/EngineSection.astro';
 import FitList from '~/components/widgets/FitList.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
@@ -96,7 +97,7 @@ const steps = [
       eyebrow: 'Import',
       title: 'Staff list · 412 nurses · 18 wards',
       rows: [
-        ['412 nurses matched', 'Grades, wards and leave read from your sheet', true],
+        ['412 nurses matched', 'Designations, wards and leave read from your sheet', true],
         ['Ward rules mapped', 'In-charge cover, skill mix, your hours cap, rotation', true],
       ] as [string, string, boolean][],
       foot: 'One session with your nursing office.',
@@ -104,13 +105,14 @@ const steps = [
   },
   {
     title: 'Three drafts out',
-    body: 'Three ward rosters, each checked against your rules.',
+    body: 'Three ward rosters, each checked based on your rules.',
     screen: {
       eyebrow: 'Cycle drafts',
       title: 'Week of 7 Sep · Pick one of three',
       rows: [
         ['Balanced', 'Coverage 100% · Fairness 92 · Overtime 0h', true],
         ['Fairness-first', 'Coverage 100% · Fairness 97 · Overtime 8h', false],
+        ['Cost-first', 'Coverage 100% · Fairness 88 · Overtime 0h · least contract cover', false],
       ] as [string, string, boolean][],
       foot: 'Every draft covers every shift. You pick the trade-off.',
     },
@@ -149,9 +151,10 @@ const steps = [
 
   <DarkHero
     badge="For CNOs and Nursing Superintendents"
-    title={'Your in-charges spend a third of their week on the duty roster. <span class="text-primary">Get it back.</span>'}
-    subtitle="The engine builds every ward's roster against your rules, nurses see it on their phones, your nursing office approves."
+    title={'Your in-charges spend a third of their week on the duty roster. <span class="text-primary">Get it done in under 30 minutes.</span>'}
+    subtitle="The engine builds every ward's roster based on your rules, nurses see it on their phones, your nursing office approves."
     actions={actions}
+    backdrop
   >
     <HeroVideo
       src="/videos/srai-launch-landscape.mp4"
@@ -165,9 +168,19 @@ const steps = [
     tiles={[
       { big: '77 duty seats a week', small: 'filled in one click on a sample ward' },
       { big: '21 automated checks', small: 'on every draft before anyone sees it' },
-      { big: 'Nurses on their phones', small: 'duties, leave, swaps, absences. Nothing to install' },
+      { big: 'Nurses on their phones', small: 'duties, leave, swaps, absences on the mobile and desktop apps' },
     ]}
   />
+
+  <ProductFlow />
+
+  <section class="bg-page">
+    <div class="mx-auto max-w-7xl px-4 pb-6 text-center sm:px-6 lg:px-8">
+      <a href="/how-it-works" class="font-semibold text-primary-ink underline underline-offset-4"
+        >See how it works for the full four-week setup →</a
+      >
+    </div>
+  </section>
 
   <PainList
     title="Good wards run on a roster nobody trusts."
@@ -184,7 +197,7 @@ const steps = [
       { title: 'Leave clashes', body: 'CL approved on paper, duty still on the grid, nobody covering the gap.' },
       {
         title: 'The 2 AM absence',
-        body: 'A phone tree instead of a shortlist. The in-charge covers it herself, again.',
+        body: 'A round of calls instead of a shortlist. The in-charge covers it herself, again.',
       },
     ]}
   />
@@ -212,7 +225,7 @@ const steps = [
       },
       {
         label: 'An absence at 2 AM',
-        left: 'Phone tree, or the in-charge covers',
+        left: 'A round of calls, or the in-charge covers',
         right: 'Ranked replacements with reasons, one tap',
       },
       {
@@ -229,10 +242,7 @@ const steps = [
     ]}
   />
 
-  <DemoTeaser
-    title="Try it on a sample ward"
-    subtitle="Fill a three-shift week, break a rule on purpose, cover an absence. Free, in your browser."
-  />
+  <EngineSection />
 
   <section class="bg-ink text-ivory">
     <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
@@ -243,7 +253,7 @@ const steps = [
         </h2>
         <p class="mt-4 text-lg text-ivory/70">
           Or {formatINR(PRICE_ANNUAL_INR)} per nurse per year. GST extra. Only nurses are billed; supervisors, in-charges
-          and the CNO are free. No setup fee.
+          and the CNO are free.
         </p>
         <a href="/pricing" class="mt-6 inline-block font-semibold text-primary-ink underline underline-offset-4"
           >See full pricing →</a
@@ -280,8 +290,8 @@ const steps = [
           <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-primary-ink">The team</h2>
           <h3 class="mt-2 text-lg font-bold">Gautham, Co-founder</h3>
           <p class="mt-2 text-sm leading-relaxed text-muted">
-            3x founder, 15 years in tech. Built the system so it works from the staff list you already keep, with
-            nothing for your nurses to install.
+            3x founder, 15 years in tech. Built the system so it works from the staff list you already keep, with the
+            duty roster on your nurses' phones from day one.
           </p>
         </div>
       </div>
