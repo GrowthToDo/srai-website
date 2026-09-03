@@ -42,7 +42,7 @@
     { label: 'One weekly off, no 7th day in a row', rules: ['weeklyOff', 'maxConsecutive6'] },
     { label: 'In-charge on every shift', rules: ['inchargeCoverage'] },
     { label: 'Right skill mix (staff nurses + assistants)', rules: ['snCoverage', 'naCoverage'] },
-    { label: 'Under 48 hours per nurse', rules: ['maxHours48'] },
+    { label: "Under the ward's hours cap (48h in this demo)", rules: ['maxHours48'] },
     { label: 'Approved leave respected', rules: ['approvedLeave'] },
   ];
 
@@ -293,7 +293,7 @@
         pushUndo();
         schedule = trial;
         track('demo_break_attempt', { nurse: nurse.name, rule_target: 'weeklyOff' });
-        stressNote = `Stress test: we put ${nurse.name} on duty Mon–Sat — six days straight, ${nurseHoursInWeek(schedule, nurse.id)}h (the weekly cap). Now try adding them on Sunday.${gapRemains ? ' A seat or two opened up in the reshuffle — those are the amber cells.' : ''}`;
+        stressNote = `Stress test: we put ${nurse.name} on duty Mon–Sat — six days straight, ${nurseHoursInWeek(schedule, nurse.id)}h (this ward's cap). Now try adding them on Sunday.${gapRemains ? ' A seat or two opened up in the reshuffle — those are the amber cells.' : ''}`;
         picker = { day: seventh, type: seventhType, mode: 'breakit', kind: 'sn', highlightId: nurse.id };
         return;
       }

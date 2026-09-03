@@ -1,7 +1,7 @@
 # SimpleRosterAI
 
 > AI nurse duty rostering software for Indian hospitals. The engine builds every
-> ward's duty roster against 48-hour, 12-hour-rest, weekly-off and skill-mix
+> ward's duty roster against your weekly hours cap, 12-hour-rest, weekly-off and skill-mix
 > rules; nurses see duties on their phones; the nursing office approves.
 
 ## Who it is for

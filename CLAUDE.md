@@ -21,7 +21,7 @@ or blog.
 - `TODO_` placeholders in `src/site.ts` block a production build
   (`SITE_ENV=production npm run build`).
 - Vocabulary: duty roster, ward, in-charge, staff nurse, nursing assistant,
-  absence, contract nurse, weekly off, 48-hour week, 12-hour rest. Three 8-hour
+  absence, contract nurse, weekly off, weekly hours cap (hospital-set; 48h only as the demo default), 12-hour rest. Three 8-hour
   shifts: morning 07:00–15:00, evening 15:00–23:00, night 23:00–07:00.
 - Never use the term for outsourced-staffing firms; say contract or outsourced nurses. Nurse in-charges
   spend 30–40% of their time on rostering; that is the first calculator line.

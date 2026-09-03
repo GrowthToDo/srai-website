@@ -10,7 +10,7 @@ import { SITE_NAME, SITE_URL, BOOKING_URL, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, 
 const metadata = {
   title: `${SITE_NAME} | AI Nurse Duty Rostering for Indian Hospitals`,
   description:
-    'Every shift covered, every ward, without leaning on the same few nurses. AI builds the duty roster against 48-hour, rest and weekly-off rules; your nursing office approves. Per-nurse pricing.',
+    'Every shift covered, every ward, without leaning on the same few nurses. AI builds the duty roster against the weekly hours cap you set, rest and weekly-off rules; your nursing office approves. Per-nurse pricing.',
   ignoreTitleTemplate: true,
 };
 
@@ -107,7 +107,7 @@ const screens: { eyebrow: string; title: string; rows: [string, string, boolean]
     rows: [
       ['In-charge on every shift', '', true],
       ['Skill mix holds on nights and weekends', '', true],
-      ['48-hour week clear for every nurse', '', true],
+      ['Hours cap clear for every nurse', '', true],
       [
         'Caught before publishing',
         'Ritu V. was headed to 56h. Swapped Thursday night to Meena I., zero overtime.',
@@ -122,7 +122,7 @@ const screens: { eyebrow: string; title: string; rows: [string, string, boolean]
     title: 'Tue 02:14 · Replacement shortlist',
     rows: [
       ['1. Kavitha R. · SN', 'Night-cleared · 32h this week · 1 night so far, below ward average', true],
-      ['2. Arun P. · SN', 'Night-cleared · 40h this week, 48h if extended · in-charge backup', false],
+      ['2. Arun P. · SN', 'Night-cleared · 40h this week, at the cap if extended · in-charge backup', false],
       ['3. Deepa K. · SN', 'Available · 11h rest only, blocked by the 12-hour rule', false],
     ],
     foot: 'Ranked in seconds, with reasons.',
@@ -264,8 +264,8 @@ const screens: { eyebrow: string; title: string; rows: [string, string, boolean]
           src="/founders/gautham.png"
           alt="Gautham, co-founder of SimpleRosterAI"
           class="h-24 w-24 rounded-full object-cover ring-1 ring-primary/25"
-          loading="lazy"
-          decoding="async"
+          loading="eager"
+          decoding="sync"
           width="96"
           height="96"
         />

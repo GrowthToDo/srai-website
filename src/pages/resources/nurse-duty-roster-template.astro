@@ -7,7 +7,7 @@ import { SITE_NAME, SITE_URL, BOOKING_URL } from '~/site';
 const metadata = {
   title: 'Nurse Duty Roster Template: Free Excel Download',
   description:
-    'Download a free Excel nurse duty roster template for Indian hospitals: three 8-hour shift codes, 48-hour week, 12-hour rest and weekly-off flags, leave clashes and a live coverage check. No email required.',
+    'Download a free Excel nurse duty roster template for Indian hospitals: three 8-hour shift codes, weekly hours cap, 12-hour rest and weekly-off flags, leave clashes and a live coverage check. No email required.',
 };
 
 const fileUrl = '/downloads/SimpleRosterAI-Nurse-Duty-Roster-Template.xlsx?v=20260902';
@@ -18,7 +18,7 @@ const outputs: [string, string][] = [
     'Calculated from your census, nursing hours per patient day and staff-nurse share.',
   ],
   ['Weekly hours per nurse', 'Totalled automatically from the M8, E8 and N8 codes you assign.'],
-  ['48-hour flag', 'OVER appears when a nurse crosses the weekly hours cap you set on the Rules tab.'],
+  ['Hours-cap flag', 'OVER appears when a nurse crosses the weekly hours cap you set on the Rules tab.'],
   ['Consecutive-days flag', 'OVER appears when a run of duty days passes your limit (six by default).'],
   [
     'Rest-hours flag',
@@ -81,7 +81,7 @@ const breadcrumbSchema = {
   <DarkHero
     badge="Free download · Excel · No email required"
     title="Free nurse duty roster template for hospital wards"
-    subtitle="A weekly Excel duty roster that calculates required nurses from your census, then flags 48-hour, rest-hour, consecutive-day and weekly-off breaks, leave clashes and coverage gaps as you assign duties."
+    subtitle="A weekly Excel duty roster that calculates required nurses from your census, then flags hours-cap, rest-hour, consecutive-day and weekly-off breaks, leave clashes and coverage gaps as you assign duties."
     actions={[{ text: 'Download the template (.xlsx)', href: fileUrl, variant: 'primary' }]}
   />
 
@@ -148,8 +148,8 @@ const breadcrumbSchema = {
 
       <h2 class="mt-12 font-heading text-2xl font-semibold">What does it not do?</h2>
       <p class="mt-3 text-default/80">
-        It will not build the roster, balance night rotation and weekends across weeks, or find an under-48-hour
-        replacement when a nurse is absent at 2 AM. Its checks see one week at a time. That ceiling is why
+        It will not build the roster, balance night rotation and weekends across weeks, or find a replacement who stays
+        under the cap when a nurse is absent at 2 AM. Its checks see one week at a time. That ceiling is why
         {SITE_NAME} exists: the engine builds every ward roster against all these rules at once, and your nursing office approves
         it. <a href="/how-it-works" class="text-primary underline">See how it works</a>.
       </p>

@@ -9,7 +9,7 @@ metadata:
   title:
     default: SimpleRosterAI
     template: '%s — SimpleRosterAI'
-  description: 'AI nurse duty rostering for Indian hospitals. The engine builds every ward roster against 48-hour, rest and weekly-off rules; your nursing office approves.'
+  description: 'AI nurse duty rostering for Indian hospitals. The engine builds every ward roster against the weekly hours cap you set, rest and weekly-off rules; your nursing office approves.'
   robots:
     index: true
     follow: true

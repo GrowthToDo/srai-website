@@ -63,13 +63,17 @@ test('same-day double shift is blocked by rest, and overlapping is noOverlap', (
   assert.ok(placementViolations([a], { ...a }).some((v) => v.rule === 'noOverlap'));
 });
 
-test('48-hour cap, weekly off and 6-day limit all fire on a seventh day', () => {
+test('hours cap, weekly off and 6-day limit all fire on a seventh day', () => {
   const six: Assignment[] = [0, 1, 2, 3, 4, 5].map((d) => ({ nurseId: staffNurse.id, day: d as 0, type: 'morning' }));
   assert.deepEqual(placementViolations(six.slice(0, 5), six[5]!), []);
   const rules = placementViolations(six, { nurseId: staffNurse.id, day: 6, type: 'morning' }).map((v) => v.rule);
   assert.ok(rules.includes('maxHours48'), rules.join());
   assert.ok(rules.includes('weeklyOff'), rules.join());
   assert.ok(rules.includes('maxConsecutive6'), rules.join());
+  const msg = placementViolations(six, { nurseId: staffNurse.id, day: 6, type: 'morning' }).find(
+    (v) => v.rule === 'maxHours48'
+  )!.message;
+  assert.ok(msg.includes("the ward's 48-hour cap"), msg);
 });
 
 test('weekly off fires on 7 distinct days even when the run is broken', () => {

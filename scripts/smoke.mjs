@@ -44,6 +44,7 @@ const BANNED_COPY = [
   /\bCNA\b/,
   /\bPRN\b/,
   /\bagency\b/i,
+  /48-hour week/i,
 ];
 
 const problems = [];

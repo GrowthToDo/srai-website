@@ -5,7 +5,7 @@
  * a fixed seed. Models one ward of an Indian hospital on three 8-hour shifts
  * (morning 07:00–15:00, evening 15:00–23:00, night 23:00–07:00) with the rules a
  * CNO actually enforces: an in-charge on every shift, the right skill mix,
- * 12 hours rest, a 48-hour week, one weekly off, no seventh consecutive day.
+ * 12 hours rest, the ward's weekly hours cap (48h in this demo), one weekly off, no seventh consecutive day.
  */
 
 // ── Types ───────────────────────────────────────────────────────────────────
@@ -322,7 +322,11 @@ export function placementViolations(schedule: Schedule, cand: Assignment, ds: Da
 
   const hours = maxRolling7Hours(workedDays, cand.day);
   if (hours > MAX_WEEK_HOURS) {
-    v.push({ rule: 'maxHours48', ...at, message: `${name} would reach ${hours}h this week — over the 48-hour limit.` });
+    v.push({
+      rule: 'maxHours48',
+      ...at,
+      message: `${name} would reach ${hours}h this week — over the ward's ${MAX_WEEK_HOURS}-hour cap.`,
+    });
   }
 
   if (new Set(workedDays).size > 6) {
