@@ -1,0 +1,21 @@
+---
+export interface Props {
+  tiles: { big: string; small: string }[];
+}
+const { tiles } = Astro.props;
+---
+
+<section class="bg-page border-b border-hairline">
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <ul class="grid gap-4 sm:grid-cols-3" data-reveal-group>
+      {
+        tiles.map((t) => (
+          <li class="rounded-2xl border border-hairline bg-white px-5 py-5">
+            <p class="font-heading text-2xl font-bold text-ink">{t.big}</p>
+            <p class="mt-1 text-sm text-muted">{t.small}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

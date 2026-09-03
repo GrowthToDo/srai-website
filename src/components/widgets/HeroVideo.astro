@@ -1,0 +1,36 @@
+---
+export interface Props {
+  src: string;
+  poster: string;
+  label: string;
+}
+const { src, poster, label } = Astro.props;
+---
+
+<div class="mx-auto mt-10 max-w-4xl" data-reveal>
+  <div class="overflow-hidden rounded-2xl border border-ivory/15 bg-ink shadow-[0_30px_80px_-40px_rgb(0_0_0/0.8)]">
+    <video
+      id="hero-launch-video"
+      class="aspect-video w-full"
+      src={src}
+      poster={poster}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-label={label}></video>
+  </div>
+</div>
+<script is:inline>
+  (function () {
+    const v = document.getElementById('hero-launch-video');
+    if (!v) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.removeAttribute('autoplay');
+      v.removeAttribute('loop');
+      v.setAttribute('controls', '');
+      v.pause();
+    }
+  })();
+</script>

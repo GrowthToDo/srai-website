@@ -1,0 +1,25 @@
+---
+export interface Props {
+  title: string;
+  items: string[];
+  notFit: string;
+}
+const { title, items, notFit } = Astro.props;
+---
+
+<section class="bg-page border-t border-hairline">
+  <div class="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl" data-reveal>{title}</h2>
+    <ul class="mt-8 space-y-3" data-reveal-group>
+      {
+        items.map((it) => (
+          <li class="flex items-start gap-3 text-lg text-ink">
+            <span class="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+            <span>{it}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-8 text-sm text-muted" data-reveal>{notFit}</p>
+  </div>
+</section>
