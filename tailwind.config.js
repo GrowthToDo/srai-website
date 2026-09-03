@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         primary: 'var(--aw-color-primary)',
+        'primary-ink': 'var(--aw-color-primary-ink)',
         secondary: 'var(--aw-color-secondary)',
         accent: 'var(--aw-color-accent)',
         default: 'var(--aw-color-text-default)',
@@ -18,7 +19,6 @@ export default {
         ink: 'rgb(var(--aw-rgb-ink) / <alpha-value>)',
         ivory: 'rgb(var(--aw-rgb-ivory) / <alpha-value>)',
         sage: 'rgb(var(--aw-rgb-sage) / <alpha-value>)',
-        'green-deep': 'rgb(var(--aw-rgb-green-deep) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['var(--aw-font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],

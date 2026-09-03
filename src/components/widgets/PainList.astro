@@ -9,16 +9,16 @@ const { title, items } = Astro.props;
 <section class="bg-page">
   <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
     <div class="max-w-2xl" data-reveal>
-      <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">The problem</p>
+      <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary-ink">The problem</p>
       <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">{title}</h2>
     </div>
-    <ol class="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-3" data-reveal-group>
+    <ol class="mt-10 grid gap-x-6 gap-y-8 md:grid-cols-2 lg:grid-cols-5" data-reveal-group>
       {
         items.map((it, i) => (
           <li class="border-t-2 border-primary/70 pt-4">
-            <p class="font-heading text-sm font-bold text-primary">0{i + 1}</p>
-            <h3 class="mt-1 text-lg font-bold text-ink">{it.title}</h3>
-            <p class="mt-1.5 text-sm leading-relaxed text-muted">{it.body}</p>
+            <p class="font-heading text-sm font-bold text-primary-ink">0{i + 1}</p>
+            <h3 class="mt-1 text-base font-bold text-ink">{it.title}</h3>
+            <p class="mt-1.5 text-[13px] leading-relaxed text-muted">{it.body}</p>
           </li>
         ))
       }

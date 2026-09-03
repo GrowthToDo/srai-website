@@ -91,7 +91,7 @@ const schema = [
 const steps = [
   {
     title: 'Staff list in',
-    body: 'The Excel you already keep: names, grades, wards, leave. No integration project.',
+    body: 'The Excel you already keep, no integration project.',
     screen: {
       eyebrow: 'Import',
       title: 'Staff list · 412 nurses · 18 wards',
@@ -104,43 +104,39 @@ const steps = [
   },
   {
     title: 'Three drafts out',
-    body: 'Balanced, fairness-first and cost-first rosters for every ward, each checked against your rules before you see it.',
+    body: 'Three ward rosters, each checked against your rules.',
     screen: {
       eyebrow: 'Cycle drafts',
       title: 'Week of 7 Sep · Pick one of three',
       rows: [
         ['Balanced', 'Coverage 100% · Fairness 92 · Overtime 0h', true],
         ['Fairness-first', 'Coverage 100% · Fairness 97 · Overtime 8h', false],
-        ['Cost-first', 'Coverage 100% · Fewest contract shifts', false],
       ] as [string, string, boolean][],
       foot: 'Every draft covers every shift. You pick the trade-off.',
     },
   },
   {
     title: 'Nurses on their phones',
-    body: 'Duties, leave, swaps and absences in the phone browser. Nothing to install.',
+    body: 'Duties, leave, swaps and absences in the phone browser.',
     screen: {
       eyebrow: 'Absence logged · Night',
       title: 'Tue 02:14 · Replacement shortlist',
       rows: [
         ['1. Kavitha R. · SN', 'Night-cleared · 32h this week · below night average', true],
         ['2. Arun P. · SN', '40h this week, at the cap if extended', false],
-        ['3. Deepa K. · SN', 'Only 11h rest, blocked by the 12-hour rule', false],
       ] as [string, string, boolean][],
       foot: 'Ranked in seconds, with reasons.',
     },
   },
   {
     title: 'Nursing office approves',
-    body: 'Nothing publishes without the supervisor, Nursing Superintendent or CNO signing off. Every change is logged.',
+    body: 'Nothing publishes without the nursing office signing off.',
     screen: {
       eyebrow: 'Rule checks',
       title: 'Draft validation · 21 / 21',
       rows: [
         ['In-charge on every shift', '', true],
         ['Hours cap clear for every nurse', '', true],
-        ['Caught before publishing', 'Ritu V. was headed over the cap. Swapped Thursday night to Meena I.', false],
-        ['12-hour rest between duties', '', true],
       ] as [string, string, boolean][],
       foot: 'No rule can be quietly skipped.',
     },
@@ -159,6 +155,7 @@ const steps = [
   >
     <HeroVideo
       src="/videos/srai-launch-landscape.mp4"
+      srcVertical="/videos/srai-launch-vertical.mp4"
       poster="/videos/srai-launch-poster.png"
       label="Product overview: the engine fills a ward's three-shift week, checks the rules, and ranks a replacement for an absence"
     />
@@ -205,8 +202,8 @@ const steps = [
     rows={[
       {
         label: 'Building the month',
-        left: 'One in-charge per ward, one to two days each',
-        right: 'Three drafts per ward in minutes',
+        left: 'One in-charge per ward, a day or two',
+        right: 'Three drafts per ward, in minutes',
       },
       {
         label: 'A leave approval',
@@ -216,12 +213,12 @@ const steps = [
       {
         label: 'An absence at 2 AM',
         left: 'Phone tree, or the in-charge covers',
-        right: 'Ranked replacements with reasons, one tap to assign',
+        right: 'Ranked replacements with reasons, one tap',
       },
       {
         label: 'Nights and weekends',
-        left: 'Remembered by the people who lost out',
-        right: 'Tracked per nurse across weeks',
+        left: 'Remembered by whoever lost out',
+        right: 'Tracked per nurse, across weeks',
       },
       { label: 'Hours and overtime', left: 'Seen after payroll', right: 'Flagged before the roster publishes' },
       {
@@ -248,7 +245,7 @@ const steps = [
           Or {formatINR(PRICE_ANNUAL_INR)} per nurse per year. GST extra. Only nurses are billed; supervisors, in-charges
           and the CNO are free. No setup fee.
         </p>
-        <a href="/pricing" class="mt-6 inline-block font-semibold text-primary underline underline-offset-4"
+        <a href="/pricing" class="mt-6 inline-block font-semibold text-primary-ink underline underline-offset-4"
           >See full pricing →</a
         >
       </div>
@@ -258,11 +255,11 @@ const steps = [
   <FitList
     title="You are a fit if"
     items={[
-      'You run a 300+ bed hospital or a group of hospitals',
-      'Rosters are built in Excel or an HRMS module that does not enforce rules',
-      'In-charges lose days every month to building and patching the roster',
-      'Overtime and contract cover appear on reports you cannot explain',
-      'NABH audits ask for hours, rest and weekly-off records you assemble by hand',
+      'You run a 300+ bed hospital or hospital group',
+      'Rosters run in Excel or a rules-blind HRMS module',
+      'In-charges lose days each month building the roster',
+      'Overtime and contract cover show up unexplained on reports',
+      'NABH audits need hours, rest and weekly-off records assembled by hand',
     ]}
     notFit="Not yet a fit: hospitals under 100 beds, or wards already on a roster system that enforces your rules."
   />
@@ -280,7 +277,7 @@ const steps = [
           height="96"
         />
         <div class="max-w-2xl text-center md:text-left">
-          <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-primary">The team</h2>
+          <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-primary-ink">The team</h2>
           <h3 class="mt-2 text-lg font-bold">Gautham, Co-founder</h3>
           <p class="mt-2 text-sm leading-relaxed text-muted">
             3x founder, 15 years in tech. Built the system so it works from the staff list you already keep, with
