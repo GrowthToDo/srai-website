@@ -80,7 +80,9 @@ const { eyebrow, title, steps } = Astro.props;
       if (!mq.matches) return;
       io = new IntersectionObserver(
         (entries) => {
-          const best = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          const best = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
           if (best) setActive(Number((best.target as HTMLElement).dataset.stepCard));
         },
         { rootMargin: '-35% 0px -35% 0px', threshold: [0.1, 0.5] }
