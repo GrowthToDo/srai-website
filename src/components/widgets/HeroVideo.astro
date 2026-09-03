@@ -1,25 +1,31 @@
 ---
 export interface Props {
   src: string;
+  srcVertical: string;
   poster: string;
   label: string;
 }
-const { src, poster, label } = Astro.props;
+const { src, srcVertical, poster, label } = Astro.props;
 ---
 
 <div class="mx-auto mt-10 max-w-4xl" data-reveal>
-  <div class="overflow-hidden rounded-2xl border border-ivory/15 bg-ink shadow-[0_30px_80px_-40px_rgb(0_0_0/0.8)]">
+  <div
+    class="mx-auto aspect-[9/16] max-h-[70vh] max-w-sm overflow-hidden rounded-2xl border border-ivory/15 bg-ink shadow-[0_30px_80px_-40px_rgb(0_0_0/0.8)] sm:aspect-video sm:max-h-none sm:max-w-none"
+  >
     <video
       id="hero-launch-video"
-      class="aspect-video w-full"
-      src={src}
+      class="h-full w-full object-cover sm:aspect-video"
       poster={poster}
       autoplay
       muted
       loop
       playsinline
       preload="metadata"
-      aria-label={label}></video>
+      aria-label={label}
+    >
+      <source src={srcVertical} type="video/mp4" media="(max-width: 767px)" />
+      <source src={src} type="video/mp4" />
+    </video>
   </div>
 </div>
 <script is:inline>
@@ -31,6 +37,9 @@ const { src, poster, label } = Astro.props;
       v.removeAttribute('loop');
       v.setAttribute('controls', '');
       v.pause();
+    }
+    if (window.innerWidth < 768) {
+      v.setAttribute('preload', 'none');
     }
   })();
 </script>

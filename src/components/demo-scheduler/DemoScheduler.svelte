@@ -752,11 +752,11 @@
   /* Vars live on the wrapper so the picker + toast (rendered as siblings of
      .ssa-demo, e.g. position:fixed) resolve them too — not just the widget. */
   .ssa-root {
-    --green: var(--aw-color-primary, #2d5a4a);
-    --green-2: var(--aw-color-secondary, #234739);
-    --ink: #1a2332;
-    --ivory: var(--aw-color-bg-page, #faf7f2);
-    --line: rgb(26 35 50 / 12%);
+    --green: var(--aw-color-primary, #2aa79b);
+    --green-2: var(--aw-color-secondary, #208076);
+    --ink: #0b1f3a;
+    --ivory: var(--aw-color-bg-page, #f7f8fa);
+    --line: rgb(11 31 58 / 12%);
     --amber: #b45309;
     --red: #b91c1c;
     font-family: var(--aw-font-sans, 'Inter Variable', Inter, system-ui, sans-serif);
@@ -792,7 +792,7 @@
     margin: 0.75rem 0 0.5rem;
   }
   .ssa-sub {
-    color: rgb(26 35 50 / 70%);
+    color: rgb(11 31 58 / 70%);
     max-width: 40rem;
     margin: 0 auto;
     font-size: 0.95rem;
@@ -813,7 +813,7 @@
     height: 13px;
     border-radius: 50%;
     background: #dc2626;
-    border: 2px solid #faf7f2;
+    border: 2px solid #f7f8fa;
     animation: ssa-cta-pulse 1.2s ease-in-out infinite;
     pointer-events: none;
   }
@@ -865,7 +865,7 @@
     }
   }
   .ssa-hint {
-    color: rgb(26 35 50 / 60%);
+    color: rgb(11 31 58 / 60%);
     font-size: 0.85rem;
     margin-top: 0.75rem;
   }
@@ -886,7 +886,7 @@
     transition: background 0.15s, border-color 0.15s, transform 0.05s;
   }
   .ssa-btn:hover {
-    background: rgb(26 35 50 / 4%);
+    background: rgb(11 31 58 / 4%);
   }
   .ssa-btn:active {
     transform: translateY(1px);
@@ -941,7 +941,7 @@
     align-items: center;
     gap: 0.35rem;
     font-size: 0.82rem;
-    color: rgb(26 35 50 / 45%);
+    color: rgb(11 31 58 / 45%);
     transition: color 0.3s;
   }
   .ssa-checklist li.done {
@@ -1008,7 +1008,7 @@
     flex: 1;
   }
   .ssa-alert span {
-    color: rgb(26 35 50 / 75%);
+    color: rgb(11 31 58 / 75%);
   }
   .ssa-alert.ssa-warn {
     background: color-mix(in srgb, var(--amber) 8%, #fff);
@@ -1034,7 +1034,7 @@
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    color: rgb(26 35 50 / 60%);
+    color: rgb(11 31 58 / 60%);
     text-transform: uppercase;
   }
   .ssa-col-head span {
@@ -1105,7 +1105,7 @@
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: rgb(26 35 50 / 50%);
+    color: rgb(11 31 58 / 50%);
   }
   .ssa-chips {
     display: flex;
@@ -1137,7 +1137,7 @@
   .ssa-empty {
     background: transparent;
     border: 1px dashed var(--line);
-    color: rgb(26 35 50 / 45%);
+    color: rgb(11 31 58 / 45%);
     font-weight: 500;
   }
   .ssa-chip-lvl {
@@ -1257,7 +1257,7 @@
   .ssa-rbar {
     height: 7px;
     border-radius: 999px;
-    background: rgb(26 35 50 / 8%);
+    background: rgb(11 31 58 / 8%);
     overflow: hidden;
   }
   .ssa-rfill {
@@ -1270,12 +1270,12 @@
     text-align: right;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    color: rgb(26 35 50 / 70%);
+    color: rgb(11 31 58 / 70%);
   }
   .ssa-team-foot {
     margin: 0.6rem 0 0;
     font-size: 0.72rem;
-    color: rgb(26 35 50 / 50%);
+    color: rgb(11 31 58 / 50%);
   }
 
   /* what you'd actually get — bridge to the managed service */
@@ -1296,7 +1296,7 @@
     padding: 0.8rem 0.9rem;
     font-size: 0.88rem;
     line-height: 1.45;
-    color: rgb(26 35 50 / 80%);
+    color: rgb(11 31 58 / 80%);
   }
   .ssa-deliver-item strong {
     color: var(--ink);
@@ -1326,7 +1326,7 @@
     margin: 0 0 0.4rem;
   }
   .ssa-convert p {
-    color: rgb(26 35 50 / 70%);
+    color: rgb(11 31 58 / 70%);
     font-size: 0.92rem;
     margin: 0 auto 1rem;
     max-width: 34rem;
@@ -1368,7 +1368,7 @@
   .ssa-backdrop {
     position: fixed;
     inset: 0;
-    background: rgb(26 35 50 / 45%);
+    background: rgb(11 31 58 / 45%);
     z-index: 60;
   }
   .ssa-sheet {
@@ -1382,7 +1382,7 @@
     overflow: auto;
     background: #fff;
     border-radius: 0.9rem;
-    box-shadow: 0 24px 60px rgb(26 35 50 / 25%);
+    box-shadow: 0 24px 60px rgb(11 31 58 / 25%);
     padding: 1rem 1.1rem 1.2rem;
   }
   .ssa-sheet-head {
@@ -1402,7 +1402,7 @@
     background: transparent;
     font-size: 1.1rem;
     cursor: pointer;
-    color: rgb(26 35 50 / 55%);
+    color: rgb(11 31 58 / 55%);
     padding: 0.2rem 0.4rem;
   }
   .ssa-x:focus-visible {
@@ -1410,7 +1410,7 @@
   }
   .ssa-tip {
     font-size: 0.82rem;
-    color: rgb(26 35 50 / 70%);
+    color: rgb(11 31 58 / 70%);
     background: var(--ivory);
     border-radius: 0.5rem;
     padding: 0.5rem 0.7rem;
@@ -1474,7 +1474,7 @@
     padding-left: 1.4rem;
   }
   .ssa-ok-reason {
-    color: rgb(26 35 50 / 65%);
+    color: rgb(11 31 58 / 65%);
   }
   .ssa-bad-reason {
     display: block;
@@ -1484,7 +1484,7 @@
     margin-top: 0.15rem;
   }
   .ssa-muted {
-    color: rgb(26 35 50 / 45%);
+    color: rgb(11 31 58 / 45%);
   }
   .ssa-cand-act {
     grid-area: act;
@@ -1496,13 +1496,13 @@
     bottom: 1.25rem;
     transform: translateX(-50%);
     z-index: 70;
-    background: #1a2332;
+    background: #0b1f3a;
     color: #fff;
     padding: 0.65rem 1rem;
     border-radius: 0.6rem;
     font-size: 0.85rem;
     max-width: calc(100vw - 2rem);
-    box-shadow: 0 12px 30px rgb(26 35 50 / 30%);
+    box-shadow: 0 12px 30px rgb(11 31 58 / 30%);
   }
 
   /* ── Mobile: stack the week into day cards ─────────────────────────────── */
