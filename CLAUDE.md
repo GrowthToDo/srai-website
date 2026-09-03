@@ -56,6 +56,8 @@ teal #2AA79B, Manrope headings, duty-wheel logo (`Logo.astro`).
 | Landing widgets     | `src/components/widgets/{HeroVideo,ProofStrip,PainList,PinnedSteps,MiniScreen,Comparison,FitList,DemoTeaser}.astro` |
 | Spec                | `docs/superpowers/specs/2026-09-02-simplerosterai-site-design.md`                                                   |
 | Plan                | `docs/superpowers/plans/2026-09-02-simplerosterai-site.md`                                                          |
+| Redesign spec       | `docs/superpowers/specs/2026-09-03-landing-redesign-design.md`                                                      |
+| Redesign plan       | `docs/superpowers/plans/2026-09-03-landing-redesign.md`                                                             |
 
 ## Git
 
