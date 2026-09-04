@@ -10,6 +10,6 @@ export function circle(text: string): string {
   return (
     `<span class="circ">${text}` +
     `<svg class="circ-svg" aria-hidden="true" viewBox="0 0 320 110" preserveAspectRatio="none">` +
-    `<path d="${PATH}" pathLength="1" /></svg></span>`
+    `<path d="${PATH}" /></svg></span>`
   );
 }
