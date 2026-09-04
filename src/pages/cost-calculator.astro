@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { circle } from '~/utils/circle';
 import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
 import CostCalculatorSection from '~/components/widgets/CostCalculatorSection.astro';
@@ -25,7 +26,7 @@ const webPageSchema = {
   <SchemaOrg slot="head" schema={[webPageSchema]} />
   <DarkHero
     badge="Rostering cost calculator"
-    title="What is rostering really costing you?"
+    title={`What is rostering ${circle('really costing')} you?`}
     subtitle="Move the sliders to match your hospital. Every assumption is shown with the result so your finance team can replace it."
   />
   <CostCalculatorSection />

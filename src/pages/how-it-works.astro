@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { circle } from '~/utils/circle';
 import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
 import Steps from '~/components/widgets/Steps.astro';
@@ -42,7 +43,7 @@ const breadcrumbSchema = {
 
   <DarkHero
     badge="Clear workflow. Predictable handoffs."
-    title="How it works"
+    title={`Staff list in. Duty ${circle('roster out')}.`}
     subtitle="The engine builds every ward's duty roster based on your rules. Your nurses see their duties on their phones. Your supervisors, Nursing Superintendent and CNO approve. Rostering drops from a third of every in-charge's week to an hour of review."
     actions={[
       { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },

@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { circle } from '~/utils/circle';
 import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
 import HeroVideo from '~/components/widgets/HeroVideo.astro';
@@ -150,7 +151,7 @@ const steps = [
 
   <DarkHero
     badge="For CNOs and Nursing Superintendents"
-    title={'Your in-charges spend a third of their week on the duty roster. <span class="text-primary">Get it done in under 30 minutes.</span>'}
+    title={`Your in-charges spend a third of their week on the duty roster. Get it done in under ${circle('30 minutes')}.`}
     subtitle="The engine builds every ward's roster based on your rules, nurses see it on their phones, your nursing office approves."
     actions={actions}
     backdrop

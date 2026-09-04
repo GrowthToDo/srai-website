@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { circle } from '~/utils/circle';
 import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
 import { SITE_NAME, SITE_URL, BOOKING_URL } from '~/site';
@@ -80,7 +81,7 @@ const breadcrumbSchema = {
   <SchemaOrg slot="head" schema={[breadcrumbSchema]} />
   <DarkHero
     badge="Free download · Excel · No email required"
-    title="Free nurse duty roster template for hospital wards"
+    title={`${circle('Free')} nurse duty roster template for hospital wards`}
     subtitle="A weekly Excel duty roster that calculates required nurses from your census, then flags hours-cap, rest-hour, consecutive-day and weekly-off breaks, leave clashes and coverage gaps as you assign duties."
     actions={[{ text: 'Download the template (.xlsx)', href: fileUrl, variant: 'primary' }]}
   />

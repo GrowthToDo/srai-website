@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { circle } from '~/utils/circle';
 import DemoScheduler from '~/components/demo-scheduler/DemoScheduler.svelte';
 
 const metadata = {
@@ -17,7 +18,10 @@ const metadata = {
     </div>
     <div class="relative mx-auto max-w-7xl px-4 pb-12 pt-16 sm:px-6 lg:px-8">
       <header class="mx-auto mb-8 max-w-3xl text-center">
-        <h1 class="text-3xl font-bold tracking-tight text-default sm:text-4xl">Interactive nurse duty roster demo</h1>
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary-ink">Free, in your browser</p>
+        <h1 class="text-4xl font-extrabold tracking-tight text-default sm:text-5xl lg:text-6xl">
+          Interactive nurse duty roster <Fragment set:html={circle('demo')} />
+        </h1>
         <p class="mt-3 text-lg text-muted">
           Watch the engine roster a ward across morning, evening and night shifts, then cover an absence with a ranked
           shortlist. Free, in your browser, no signup.
