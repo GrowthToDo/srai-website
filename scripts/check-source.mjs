@@ -24,7 +24,6 @@ const BANNED = [
   /\bFLSA\b/,
   /\bHIPAA\b/,
   /simplescheduleai/i,
-  /cal\.com/i,
   /covina/i,
   /\bagency\b/i,
 ];
