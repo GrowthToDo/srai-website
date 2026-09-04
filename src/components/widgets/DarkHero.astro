@@ -9,6 +9,7 @@ export interface Props {
   actions?: string | CallToAction | CallToAction[];
   id?: string;
   backdrop?: boolean;
+  overlap?: boolean;
 }
 
 const {
@@ -18,10 +19,11 @@ const {
   actions = await Astro.slots.render('actions'),
   id,
   backdrop = false,
+  overlap = false,
 } = Astro.props;
 ---
 
-<section class="bg-ink relative overflow-hidden" {...id ? { id } : {}}>
+<section class={`bg-ink relative ${overlap ? 'overflow-x-clip' : 'overflow-hidden'}`} {...id ? { id } : {}}>
   {
     backdrop && (
       <>
@@ -51,26 +53,22 @@ const {
   >
   </div>
 
-  <div class="relative z-10 mx-auto max-w-[85rem] px-4 pb-8 pt-12 sm:pt-14 lg:pt-16 sm:px-6 lg:px-8">
-    <div class="text-center max-w-4xl mx-auto space-y-6">
-      {
-        badge && (
-          <div class="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-sm text-primary">
-            {badge}
-          </div>
-        )
-      }
+  <div
+    class={`relative z-10 mx-auto max-w-[85rem] px-4 pt-14 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24 ${overlap ? 'pb-0' : 'pb-8'}`}
+  >
+    <div class="text-center max-w-5xl mx-auto space-y-6">
+      {badge && <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary">{badge}</p>}
 
       {
         title && (
           <h1
-            class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight text-ivory font-heading"
+            class="text-4xl sm:text-5xl lg:text-[4.25rem] font-extrabold leading-[1.02] tracking-tight text-ivory font-heading"
             set:html={title}
           />
         )
       }
 
-      {subtitle && <p class="text-lg sm:text-xl text-ivory/70 max-w-3xl mx-auto" set:html={subtitle} />}
+      {subtitle && <p class="text-lg sm:text-xl text-ivory/75 max-w-2xl mx-auto leading-relaxed" set:html={subtitle} />}
 
       {
         actions && (
@@ -88,8 +86,7 @@ const {
           </div>
         )
       }
-
-      <slot />
     </div>
+    <slot />
   </div>
 </section>

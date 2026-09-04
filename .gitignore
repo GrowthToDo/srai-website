@@ -11,3 +11,4 @@ npm-debug.log*
 .claude/settings.local.json
 .claude/launch.json
 .superpowers/
+design-explorations/

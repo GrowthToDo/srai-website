@@ -8,9 +8,9 @@ export interface Props {
 const { src, srcVertical, poster, label } = Astro.props;
 ---
 
-<div class="mx-auto mt-10 max-w-4xl" data-reveal>
+<div class="mx-auto mt-10 -mb-12 max-w-5xl sm:mt-14 sm:-mb-16 lg:-mb-24" data-reveal>
   <div
-    class="mx-auto aspect-[9/16] max-h-[70vh] max-w-sm overflow-hidden rounded-2xl border border-ivory/15 bg-ink shadow-[0_30px_80px_-40px_rgb(0_0_0/0.8)] sm:aspect-video sm:max-h-none sm:max-w-none"
+    class="mx-auto aspect-[9/16] max-h-[70vh] max-w-sm overflow-hidden rounded-2xl bg-ink ring-1 ring-ivory/15 shadow-[0_60px_120px_-40px_rgb(0_0_0/0.9)] sm:aspect-video sm:max-h-none sm:max-w-none sm:rounded-3xl"
   >
     <video
       id="hero-launch-video"
