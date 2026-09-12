@@ -1,7 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
-import { SITE_NAME, LEGAL_ENTITY_NAME, LEGAL_ADDRESS, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, formatINR } from '~/site';
+import { SITE_NAME, LEGAL_ENTITY_NAME, LEGAL_ADDRESS, PRICE_BANDS, formatINR } from '~/site';
 
 const metadata = {
   title: 'Terms of Service',
@@ -25,8 +25,8 @@ const sections: { h: string; p?: string[]; list?: string[]; after?: string }[] =
   {
     h: 'Subscription',
     list: [
-      `Pricing is per nurse on the roster: ${formatINR(PRICE_MONTHLY_INR)} per nurse per month, or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year, plus GST. Supervisors, in-charges and the CNO are not billed.`,
-      'Nurses are added or removed as your roster changes; billing follows the nurse count at each billing date.',
+      `Pricing is by the licensed bed count of each facility, in the bands published on the pricing page, from ${formatINR(PRICE_BANDS[0].roster)} to ${formatINR(PRICE_BANDS[PRICE_BANDS.length - 1].engine)} per year plus GST depending on band and plan. The number of nurses, wards or users does not change the price.`,
+      'The band is set from the licensed bed count on your registration or NABH certificate at the start of each term. Monthly billing is one tenth of the annual price.',
       'Monthly plans can be cancelled at any time and end at the close of the paid month. Annual plans run for twelve months.',
       'Hospital groups are quoted separately under a written agreement that takes precedence over these terms.',
     ],

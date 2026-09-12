@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { LEAD_CAPTURE_URL, formatINR, PRICE_MONTHLY_INR } from '~/site';
+  import { LEAD_CAPTURE_URL, formatINR, bandForBeds } from '~/site';
   import RangeField from './RangeField.svelte';
 
   // Assumption constants (INR). Educated estimates for a 300+ bed Indian corporate
@@ -16,14 +16,15 @@
   let otHours = $state(200); // overtime hours/week across nursing staff
   let contractShifts = $state(60); // contract nurse shifts per month
   let exits = $state(12); // exits in past year where rostering was a factor
-  let nurses = $state(400); // roster size, for the comparison line
+  let beds = $state(300); // licensed beds, for the comparison line
 
   const inChargeTimeCost = $derived(Math.round(inCharges * inChargeCost * 12 * (rosterShare / 100)));
   const otCost = $derived(Math.round(otHours * 52 * RATES.overtimePremiumHour));
   const contractCost = $derived(Math.round(contractShifts * 8 * RATES.contractNurseHour * 12));
   const attritionCost = $derived(exits * RATES.replacementCost);
   const totalCost = $derived(inChargeTimeCost + otCost + contractCost + attritionCost);
-  const subscription = $derived(nurses * PRICE_MONTHLY_INR * 12);
+  const band = $derived(bandForBeds(beds));
+  const subscription = $derived(band.engine);
 
   let showForm = $state(false);
   let showResults = $state(false);
@@ -51,7 +52,8 @@
       otHours,
       contractShifts,
       exits,
-      nurses,
+      beds,
+      band: band.label,
       inChargeTimeCost,
       otCost,
       contractCost,
@@ -137,13 +139,13 @@
     />
 
     <RangeField
-      label="Nurses on your roster (for the comparison line)"
-      id="slider-nurses"
+      label="Licensed beds (for the comparison line)"
+      id="slider-beds"
       min={50}
-      max={2000}
-      step={50}
-      display={`${nurses.toLocaleString('en-IN')} nurses`}
-      bind:value={nurses}
+      max={1000}
+      step={10}
+      display={`${beds.toLocaleString('en-IN')} beds`}
+      bind:value={beds}
     />
   </div>
 
@@ -188,7 +190,7 @@
           <span class="text-2xl font-bold text-primary">{formatINR(totalCost)}</span>
         </div>
         <div class="flex items-center justify-between border-t border-primary/10 pt-3">
-          <span class="text-sm text-gray-700">SimpleRosterAI for {nurses.toLocaleString('en-IN')} nurses, per year, GST extra</span>
+          <span class="text-sm text-gray-700">SimpleRosterAI Engine for a hospital of {beds.toLocaleString('en-IN')} beds ({band.label.toLowerCase()}), per year, GST extra</span>
           <span class="text-sm font-semibold">{formatINR(subscription)}</span>
         </div>
       </div>

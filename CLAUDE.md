@@ -4,8 +4,10 @@
 
 SimpleRosterAI: AI nurse duty rostering software for Indian hospitals. Buyer: the
 CNO or Nursing Superintendent of a 300+ bed hospital or hospital group. Product
-pricing: ₹400 per nurse per month, ₹4,000 per nurse per year, GST extra; only
-nurses are billed. Frame everything from hospital nursing operations, not generic
+pricing (decided 2026-09-12): by licensed bed band, never per nurse. Two plans,
+Roster and Engine, five bands from up to 100 beds to over 500; annual prices in
+`PRICE_BANDS` in `src/site.ts`, GST extra, monthly = one tenth of annual. Never
+quote a per-nurse or per-seat price. Frame everything from hospital nursing operations, not generic
 tech.
 
 Sibling of a US site for a different hospital market with its own name, vocabulary
@@ -29,6 +31,7 @@ teal #2AA79B, Manrope headings, duty-wheel logo (`Logo.astro`).
 - Never use the term for outsourced-staffing firms; say contract or outsourced nurses. Nurse in-charges
   spend 30–40% of their time on rostering; that is the first calculator line.
 - Currency INR with Indian grouping via `formatINR`. Always "GST extra" next to a price.
+- Pricing copy: "Priced by beds, not by nurses"; "Add nurses, wards and supervisors without your bill changing."
 - CTAs: primary "Book a demo" (`BOOKING_URL`), secondary "Try the interactive demo" (`/demo`).
 - `scripts/smoke.mjs`, `scripts/check-source.mjs` and `scripts/build-template.py` necessarily contain the
   banned patterns themselves (and the source workbook's path) to define and

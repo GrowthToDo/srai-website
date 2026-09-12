@@ -5,91 +5,85 @@ import SchemaOrg from '~/components/common/SchemaOrg.astro';
 import DarkHero from '~/components/widgets/DarkHero.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
-import { SITE_NAME, SITE_URL, BOOKING_URL, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, formatINR } from '~/site';
+import {
+  SITE_NAME,
+  SITE_URL,
+  BOOKING_URL,
+  PRICE_BANDS,
+  GROUP_DISCOUNTS,
+  PRICE_SUMMARY,
+  bandForBeds,
+  monthlyFromAnnual,
+  formatINR,
+} from '~/site';
 
 const metadata = {
   title: 'Pricing',
-  description: `${SITE_NAME} pricing: ${formatINR(PRICE_MONTHLY_INR)} per nurse per month or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year, GST extra. Only nurses are billed; supervisors, in-charges and the CNO are free.`,
+  description: `${SITE_NAME} pricing: ${PRICE_SUMMARY} Add nurses, wards and supervisors without your bill changing.`,
 };
 
-const tiers = [
+const lowest = PRICE_BANDS[0];
+const highest = PRICE_BANDS[PRICE_BANDS.length - 1];
+
+const plans = [
   {
-    name: 'Monthly',
-    price: formatINR(PRICE_MONTHLY_INR),
-    cadence: 'per nurse / month',
-    note: 'Month to month, cancel anytime. GST extra.',
+    name: 'Roster',
+    tagline: 'Excel replaced',
+    from: lowest.roster,
     featured: false,
+    items: [
+      'Duty roster grid for every ward, three shifts, on the web',
+      'Rule flags as you assign: hours cap, 12-hour rest, weekly off, consecutive days, leave clashes',
+      'One approval step: nothing publishes without the nursing office',
+      'PDF for the notice board, Excel for HR',
+      'Self-serve setup from the staff Excel you already keep',
+    ],
   },
   {
-    name: 'Annual',
-    price: formatINR(PRICE_ANNUAL_INR),
-    cadence: 'per nurse / year',
-    note: 'Two months free against monthly billing. GST extra.',
+    name: 'Engine',
+    tagline: 'Everything in Roster, plus the engine',
+    from: lowest.engine,
     featured: true,
-  },
-  {
-    name: 'Hospital groups',
-    price: 'Talk to us',
-    cadence: 'multi-hospital rollout',
-    note: 'Volume pricing, group-level reporting, a single rollout plan across sites.',
-    featured: false,
-  },
-];
-
-const example = { nurses: 400, monthly: 400 * PRICE_MONTHLY_INR, annual: 400 * PRICE_ANNUAL_INR };
-
-const included = [
-  {
-    title: 'The roster runs',
     items: [
-      'AI-built duty roster for every ward, every cycle, checked based on your rules before anyone sees it',
-      '21 automated checks: in-charge cover, skill mix, your weekly hours cap, 12-hour rest, weekly off, night rotation, leave',
-      'Excel roster in, published roster out, PDF for the notice board and Excel for HR',
-    ],
-  },
-  {
-    title: 'Your nurses on their phones',
-    items: [
-      'Duty calendar, leave requests, swap requests and absence reporting on the mobile and desktop apps',
+      'Three complete drafts per ward per cycle, each checked against 21 rules before anyone sees it',
       'Ranked replacement shortlist with reasons the moment an absence is logged, any hour',
-    ],
-  },
-  {
-    title: 'Your nursing office in control',
-    items: [
-      'Nothing publishes without the CNO or supervisor approving it',
-      'Rule changes (ratios, ward norms, rotation policy) applied from the next cycle',
-      'Nurses added or removed as the roster changes; billing follows headcount',
-    ],
-  },
-  {
-    title: 'The paper trail',
-    items: [
-      'Full audit trail of every change: who, what, when',
-      'Overtime, weekly-off and rest-hour reports ready for NABH audit and HR',
+      'Nurses on their phones: duty calendar, leave, swaps and absence reporting',
+      'NABH audit pack: overtime, weekly-off and rest-hour reports, full change trail',
+      'Four-week guided setup with your nursing office, included',
     ],
   },
 ];
+
+const example = bandForBeds(300);
 
 const faqs = [
   {
-    title: 'Who counts as a billed user?',
+    title: 'Why beds and not nurses?',
     description:
-      'Only nurses on the duty roster: staff nurses, senior staff nurses and nursing assistants you roster. Supervisors, in-charges who approve, the Nursing Superintendent and the CNO are free.',
+      'A 300-bed hospital rosters 300 to 450 nurses, so a per-nurse price grows faster than the value. Licensed beds are a number you already publish, they do not change month to month, and nobody has to count heads at billing time. Add nurses, wards and supervisors without your bill changing.',
+  },
+  {
+    title: 'Which bed count do you use?',
+    description:
+      'The licensed bed count of the facility on your registration or NABH certificate. Hospitals on the boundary of a band are placed in the lower one.',
   },
   {
     title: 'Is GST included?',
     description: 'No. Prices are exclusive of GST, which is added at the applicable rate on the invoice.',
   },
   {
-    title: 'What happens when our nurse count changes?',
+    title: 'Can we start on Roster and move to Engine later?',
     description:
-      'Add or remove nurses at any time. Monthly billing follows the count on the billing date. On annual plans, added nurses are billed pro rata for the remaining term.',
+      'Yes. Roster is the grid, the rule flags and the approval step. Engine adds the drafts, the replacement shortlist, the nurse phone portal and the audit pack. Moving up applies from the next cycle, and the annual difference is charged pro rata.',
   },
   {
     title: 'Can we pilot one ward first?',
     description:
-      'Yes. Most hospitals start with one or two wards on the monthly plan and move the rest across once the first live cycle is approved.',
+      'Yes. The first cycle on one ward is free on Engine. Most hospitals move the remaining wards across once the nursing office has approved that first live roster.',
+  },
+  {
+    title: 'How are hospital groups priced?',
+    description: `Three or more facilities on one contract get ${GROUP_DISCOUNTS[0].percent}% off every site; six or more get ${GROUP_DISCOUNTS[1].percent}% off, with group-level reporting included. Each facility is banded by its own bed count.`,
   },
 ];
 
@@ -105,10 +99,10 @@ const productSchema = {
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'INR',
-    lowPrice: String(PRICE_MONTHLY_INR),
-    highPrice: String(PRICE_ANNUAL_INR),
-    offerCount: '2',
-    description: 'Per-nurse pricing, GST extra',
+    lowPrice: String(lowest.roster),
+    highPrice: String(highest.engine),
+    offerCount: String(PRICE_BANDS.length * 2),
+    description: 'Annual subscription priced by licensed beds, GST extra',
   },
 };
 ---
@@ -117,9 +111,9 @@ const productSchema = {
   <SchemaOrg slot="head" schema={[productSchema]} />
 
   <DarkHero
-    badge="Per nurse. Supervisors and the CNO free."
-    title={`Simple ${circle('per-nurse')} pricing`}
-    subtitle={`${formatINR(PRICE_MONTHLY_INR)} per nurse per month, or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year. No per-ward fee. GST extra.`}
+    badge="Priced by licensed beds. No per-nurse fee."
+    title={`Priced by ${circle('beds')}, not by nurses.`}
+    subtitle={`Two plans, five bed bands. Add nurses, wards and supervisors without your bill changing. Annual prices, GST extra; monthly billing at one tenth of the annual price.`}
     actions={[
       { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
       { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
@@ -128,17 +122,30 @@ const productSchema = {
 
   <section class="bg-page">
     <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <div class="grid gap-6 md:grid-cols-3">
+      <div class="grid gap-6 md:grid-cols-2">
         {
-          tiers.map((tier) => (
+          plans.map((plan) => (
             <div
-              class={`rounded-2xl border p-8 ${tier.featured ? 'border-primary/50 bg-primary/5' : 'border-hairline bg-white'}`}
+              class={`rounded-2xl border p-8 ${plan.featured ? 'border-primary/50 bg-primary/5' : 'border-hairline bg-white'}`}
             >
-              <h2 class="text-xl font-bold">{tier.name}</h2>
-              <p class="mt-4 text-4xl font-bold">{tier.price}</p>
-              <p class="mt-1 text-sm font-medium text-primary">{tier.cadence}</p>
-              <p class="mt-2 text-sm text-muted">{tier.note}</p>
-              <a href={BOOKING_URL} class={`btn mt-6 w-full ${tier.featured ? 'btn-primary' : ''}`}>
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary-ink">{plan.tagline}</p>
+              <h2 class="mt-2 font-heading text-3xl font-bold">{plan.name}</h2>
+              <p class="mt-4 text-4xl font-bold">
+                from <span class="whitespace-nowrap">{formatINR(plan.from)}</span>
+                <span class="whitespace-nowrap text-base font-medium text-muted">/ year</span>
+              </p>
+              <p class="mt-1 text-sm text-muted">
+                or {formatINR(monthlyFromAnnual(plan.from))} a month, for a hospital of up to 100 beds. GST extra.
+              </p>
+              <ul class="mt-6 space-y-2.5">
+                {plan.items.map((item) => (
+                  <li class="flex items-start gap-3">
+                    <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span class="text-default/80">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={BOOKING_URL} class={`btn mt-8 w-full ${plan.featured ? 'btn-primary' : ''}`}>
                 Book a demo
               </a>
             </div>
@@ -146,32 +153,49 @@ const productSchema = {
         }
       </div>
 
-      <p class="mt-6 text-center text-sm text-muted">
-        Worked example: a hospital rostering {example.nurses} nurses pays {formatINR(example.monthly)} a month, or
-        {formatINR(example.annual)} a year on the annual plan, plus GST.
-      </p>
-
       <div class="mt-14">
-        <h2 class="font-heading text-2xl font-semibold">What the subscription includes</h2>
-        <p class="mt-2 text-muted">The list a CNO can put in front of finance at renewal.</p>
-        <div class="mt-6 grid gap-x-10 gap-y-8 sm:grid-cols-2">
-          {
-            included.map((group) => (
-              <div class="border-t border-ink/10 pt-5">
-                <h3 class="text-lg font-bold">{group.title}</h3>
-                <ul class="mt-3 space-y-2.5">
-                  {group.items.map((item) => (
-                    <li class="flex items-start gap-3">
-                      <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                      <span class="text-default/80">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
+        <h2 class="font-heading text-2xl font-semibold">Price by bed band</h2>
+        <p class="mt-2 text-muted">
+          Find your facility's licensed bed count. Annual price, GST extra; monthly billing is one tenth of the annual.
+        </p>
+        <div class="mt-6 overflow-x-auto rounded-2xl border border-hairline bg-white">
+          <table class="w-full min-w-[40rem] text-left text-sm">
+            <thead class="bg-ink text-ivory">
+              <tr>
+                <th scope="col" class="px-5 py-3.5 font-semibold">Licensed beds</th>
+                <th scope="col" class="px-5 py-3.5 font-semibold">Roster, per year</th>
+                <th scope="col" class="px-5 py-3.5 font-semibold">Engine, per year</th>
+                <th scope="col" class="px-5 py-3.5 font-semibold">Engine, per month</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                PRICE_BANDS.map((band, i) => (
+                  <tr class={i % 2 ? 'bg-page/60' : ''}>
+                    <th scope="row" class="px-5 py-3.5 font-semibold">
+                      {band.label}
+                    </th>
+                    <td class="px-5 py-3.5">{formatINR(band.roster)}</td>
+                    <td class="px-5 py-3.5 font-semibold">{formatINR(band.engine)}</td>
+                    <td class="px-5 py-3.5 text-muted">{formatINR(monthlyFromAnnual(band.engine))}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
         </div>
+        <p class="mt-4 text-sm text-muted">
+          Hospital groups: {GROUP_DISCOUNTS[0].minSites} or more facilities on one contract, {
+            GROUP_DISCOUNTS[0].percent
+          }% off every site; {GROUP_DISCOUNTS[1].minSites} or more, {GROUP_DISCOUNTS[1].percent}% off, with group-level
+          reporting included.
+        </p>
       </div>
+
+      <p class="mt-8 text-center text-sm text-muted">
+        Worked example: a 300-bed hospital pays {formatINR(example.engine)} a year on Engine, or
+        {formatINR(monthlyFromAnnual(example.engine))} a month, plus GST, whether it rosters 300 nurses or 450.
+      </p>
 
       <div class="mt-12 border-t border-ink/10 pt-10 text-center">
         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">What it replaces</p>
@@ -188,7 +212,7 @@ const productSchema = {
 
   <CallToAction
     title="See it on one of your own wards."
-    subtitle="A 30-minute demo on your roster, your rules, your shift pattern."
+    subtitle="A 30-minute demo on your roster, your rules, your shift pattern. The first cycle on one ward is free."
     tagline="Book a demo"
     actions={[
       { variant: 'primary', text: 'Book a demo', href: BOOKING_URL },

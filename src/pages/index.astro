@@ -12,7 +12,18 @@ import Comparison from '~/components/widgets/Comparison.astro';
 import FitList from '~/components/widgets/FitList.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
-import { SITE_NAME, SITE_URL, BOOKING_URL, PRICE_MONTHLY_INR, PRICE_ANNUAL_INR, formatINR } from '~/site';
+import {
+  SITE_NAME,
+  SITE_URL,
+  BOOKING_URL,
+  PRICE_BANDS,
+  PRICE_SUMMARY,
+  bandForBeds,
+  monthlyFromAnnual,
+  formatINR,
+} from '~/site';
+
+const example = bandForBeds(300);
 
 const metadata = {
   title: `${SITE_NAME} | AI Nurse Duty Rostering for Indian Hospitals`,
@@ -54,7 +65,7 @@ const faqs = [
   },
   {
     title: 'How is it priced?',
-    description: `${formatINR(PRICE_MONTHLY_INR)} per nurse per month or ${formatINR(PRICE_ANNUAL_INR)} per nurse per year, GST extra. Only nurses on the roster are billed; supervisors, in-charges and the CNO are free.`,
+    description: `${PRICE_SUMMARY} A 300-bed hospital pays ${formatINR(example.engine)} a year on Engine, whether it rosters 300 nurses or 450. Add nurses, wards and supervisors without your bill changing.`,
   },
 ];
 
@@ -71,10 +82,10 @@ const schema = [
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'INR',
-      lowPrice: String(PRICE_MONTHLY_INR),
-      highPrice: String(PRICE_ANNUAL_INR),
-      offerCount: '2',
-      description: 'Per-nurse pricing, GST extra',
+      lowPrice: String(PRICE_BANDS[0].roster),
+      highPrice: String(PRICE_BANDS[PRICE_BANDS.length - 1].engine),
+      offerCount: String(PRICE_BANDS.length * 2),
+      description: 'Annual subscription priced by licensed beds, GST extra',
     },
     provider: { '@id': `${SITE_URL}/#organization` },
   },
@@ -247,12 +258,11 @@ const steps = [
     <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
       <div class="max-w-2xl" data-reveal>
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">Pricing</p>
-        <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-          {formatINR(PRICE_MONTHLY_INR)} per nurse per month.
-        </h2>
+        <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl">Priced by beds, not by nurses.</h2>
         <p class="mt-4 text-lg text-ivory/70">
-          Or {formatINR(PRICE_ANNUAL_INR)} per nurse per year. GST extra. Only nurses are billed; supervisors, in-charges
-          and the CNO are free.
+          A 300-bed hospital pays {formatINR(example.engine)} a year on Engine, or
+          {formatINR(monthlyFromAnnual(example.engine))} a month, GST extra, whether it rosters 300 nurses or 450. Add nurses,
+          wards and supervisors without your bill changing.
         </p>
         <a href="/pricing" class="mt-6 inline-block font-semibold text-primary-ink underline underline-offset-4"
           >See full pricing →</a
