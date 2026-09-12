@@ -5,7 +5,7 @@
 SimpleRosterAI: AI nurse duty rostering software for Indian hospitals. Buyer: the
 CNO or Nursing Superintendent of a 300+ bed hospital or hospital group. Product
 pricing (decided 2026-09-12): by licensed bed band, never per nurse. Two plans,
-Roster and Engine, five bands from up to 100 beds to over 500; annual prices in
+Basic and Pro, five bands from up to 100 beds to over 500; annual prices in
 `PRICE_BANDS` in `src/site.ts`, GST extra, monthly = one tenth of annual. Never
 quote a per-nurse or per-seat price. Frame everything from hospital nursing operations, not generic
 tech.

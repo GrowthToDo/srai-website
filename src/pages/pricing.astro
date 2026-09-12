@@ -27,9 +27,9 @@ const highest = PRICE_BANDS[PRICE_BANDS.length - 1];
 
 const plans = [
   {
-    name: 'Roster',
+    key: 'basic' as const,
+    name: 'Basic',
     tagline: 'Excel replaced',
-    from: lowest.roster,
     featured: false,
     items: [
       'Duty roster grid for every ward, three shifts, on the web',
@@ -40,9 +40,9 @@ const plans = [
     ],
   },
   {
-    name: 'Engine',
-    tagline: 'Everything in Roster, plus the engine',
-    from: lowest.engine,
+    key: 'pro' as const,
+    name: 'Pro',
+    tagline: 'Everything in Basic, plus the engine',
     featured: true,
     items: [
       'Three complete drafts per ward per cycle, each checked against 21 rules before anyone sees it',
@@ -72,14 +72,14 @@ const faqs = [
     description: 'No. Prices are exclusive of GST, which is added at the applicable rate on the invoice.',
   },
   {
-    title: 'Can we start on Roster and move to Engine later?',
+    title: 'Can we start on Basic and move to Pro later?',
     description:
-      'Yes. Roster is the grid, the rule flags and the approval step. Engine adds the drafts, the replacement shortlist, the nurse phone portal and the audit pack. Moving up applies from the next cycle, and the annual difference is charged pro rata.',
+      'Yes. Basic is the grid, the rule flags and the approval step. Pro adds the drafts, the replacement shortlist, the nurse phone portal and the audit pack. Moving up applies from the next cycle, and the annual difference is charged pro rata.',
   },
   {
     title: 'Can we pilot one ward first?',
     description:
-      'Yes. The first cycle on one ward is free on Engine. Most hospitals move the remaining wards across once the nursing office has approved that first live roster.',
+      'Yes. The first cycle on one ward is free on Pro. Most hospitals move the remaining wards across once the nursing office has approved that first live roster.',
   },
   {
     title: 'How are hospital groups priced?',
@@ -99,8 +99,8 @@ const productSchema = {
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'INR',
-    lowPrice: String(lowest.roster),
-    highPrice: String(highest.engine),
+    lowPrice: String(lowest.basic),
+    highPrice: String(highest.pro),
     offerCount: String(PRICE_BANDS.length * 2),
     description: 'Annual subscription priced by licensed beds, GST extra',
   },
@@ -126,16 +126,17 @@ const productSchema = {
         {
           plans.map((plan) => (
             <div
-              class={`rounded-2xl border p-8 ${plan.featured ? 'border-primary/50 bg-primary/5' : 'border-hairline bg-white'}`}
+              class={`flex flex-col rounded-2xl border p-8 ${plan.featured ? 'border-primary/50 bg-primary/5' : 'border-hairline bg-white'}`}
             >
               <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary-ink">{plan.tagline}</p>
               <h2 class="mt-2 font-heading text-3xl font-bold">{plan.name}</h2>
               <p class="mt-4 text-4xl font-bold">
-                from <span class="whitespace-nowrap">{formatINR(plan.from)}</span>
+                from <span class="whitespace-nowrap">{formatINR(lowest[plan.key])}</span>
                 <span class="whitespace-nowrap text-base font-medium text-muted">/ year</span>
               </p>
               <p class="mt-1 text-sm text-muted">
-                or {formatINR(monthlyFromAnnual(plan.from))} a month, for a hospital of up to 100 beds. GST extra.
+                or {formatINR(monthlyFromAnnual(lowest[plan.key]))} a month, for a hospital of up to 100 beds. GST
+                extra.
               </p>
               <ul class="mt-6 space-y-2.5">
                 {plan.items.map((item) => (
@@ -145,7 +146,27 @@ const productSchema = {
                   </li>
                 ))}
               </ul>
-              <a href={BOOKING_URL} class={`btn mt-8 w-full ${plan.featured ? 'btn-primary' : ''}`}>
+
+              <div class="mt-8 flex-1 rounded-xl border border-hairline bg-white/70">
+                <p class="border-b border-hairline px-4 py-2.5 text-xs font-bold uppercase tracking-[0.18em] text-primary-ink">
+                  {plan.name} by licensed beds, per year
+                </p>
+                <dl class="divide-y divide-hairline">
+                  {PRICE_BANDS.map((band) => (
+                    <div class="flex items-baseline justify-between gap-4 px-4 py-2.5 text-sm">
+                      <dt class="text-muted">{band.label}</dt>
+                      <dd class="font-semibold tabular-nums">
+                        {formatINR(band[plan.key])}
+                        <span class="ml-1 font-normal text-muted">
+                          or {formatINR(monthlyFromAnnual(band[plan.key]))}/mo
+                        </span>
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <a href={BOOKING_URL} class={`btn mt-6 w-full ${plan.featured ? 'btn-primary' : ''}`}>
                 Book a demo
               </a>
             </div>
@@ -153,48 +174,14 @@ const productSchema = {
         }
       </div>
 
-      <div class="mt-14">
-        <h2 class="font-heading text-2xl font-semibold">Price by bed band</h2>
-        <p class="mt-2 text-muted">
-          Find your facility's licensed bed count. Annual price, GST extra; monthly billing is one tenth of the annual.
-        </p>
-        <div class="mt-6 overflow-x-auto rounded-2xl border border-hairline bg-white">
-          <table class="w-full min-w-[40rem] text-left text-sm">
-            <thead class="bg-ink text-ivory">
-              <tr>
-                <th scope="col" class="px-5 py-3.5 font-semibold">Licensed beds</th>
-                <th scope="col" class="px-5 py-3.5 font-semibold">Roster, per year</th>
-                <th scope="col" class="px-5 py-3.5 font-semibold">Engine, per year</th>
-                <th scope="col" class="px-5 py-3.5 font-semibold">Engine, per month</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                PRICE_BANDS.map((band, i) => (
-                  <tr class={i % 2 ? 'bg-page/60' : ''}>
-                    <th scope="row" class="px-5 py-3.5 font-semibold">
-                      {band.label}
-                    </th>
-                    <td class="px-5 py-3.5">{formatINR(band.roster)}</td>
-                    <td class="px-5 py-3.5 font-semibold">{formatINR(band.engine)}</td>
-                    <td class="px-5 py-3.5 text-muted">{formatINR(monthlyFromAnnual(band.engine))}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-        <p class="mt-4 text-sm text-muted">
-          Hospital groups: {GROUP_DISCOUNTS[0].minSites} or more facilities on one contract, {
-            GROUP_DISCOUNTS[0].percent
-          }% off every site; {GROUP_DISCOUNTS[1].minSites} or more, {GROUP_DISCOUNTS[1].percent}% off, with group-level
-          reporting included.
-        </p>
-      </div>
-
-      <p class="mt-8 text-center text-sm text-muted">
-        Worked example: a 300-bed hospital pays {formatINR(example.engine)} a year on Engine, or
-        {formatINR(monthlyFromAnnual(example.engine))} a month, plus GST, whether it rosters 300 nurses or 450.
+      <p class="mt-6 text-center text-sm text-muted">
+        Hospital groups: {GROUP_DISCOUNTS[0].minSites} or more facilities on one contract, {GROUP_DISCOUNTS[0].percent}%
+        off every site; {GROUP_DISCOUNTS[1].minSites} or more, {GROUP_DISCOUNTS[1].percent}% off, with group-level
+        reporting included.
+      </p>
+      <p class="mt-3 text-center text-sm text-muted">
+        Worked example: a 300-bed hospital pays {formatINR(example.pro)} a year on Pro, or
+        {formatINR(monthlyFromAnnual(example.pro))} a month, plus GST, whether it rosters 300 nurses or 450.
       </p>
 
       <div class="mt-12 border-t border-ink/10 pt-10 text-center">

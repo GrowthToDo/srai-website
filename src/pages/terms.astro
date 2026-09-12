@@ -25,7 +25,7 @@ const sections: { h: string; p?: string[]; list?: string[]; after?: string }[] =
   {
     h: 'Subscription',
     list: [
-      `Pricing is by the licensed bed count of each facility, in the bands published on the pricing page, from ${formatINR(PRICE_BANDS[0].roster)} to ${formatINR(PRICE_BANDS[PRICE_BANDS.length - 1].engine)} per year plus GST depending on band and plan. The number of nurses, wards or users does not change the price.`,
+      `Pricing is by the licensed bed count of each facility, in the bands published on the pricing page, from ${formatINR(PRICE_BANDS[0].basic)} to ${formatINR(PRICE_BANDS[PRICE_BANDS.length - 1].pro)} per year plus GST depending on band and plan. The number of nurses, wards or users does not change the price.`,
       'The band is set from the licensed bed count on your registration or NABH certificate at the start of each term. Monthly billing is one tenth of the annual price.',
       'Monthly plans can be cancelled at any time and end at the close of the paid month. Annual plans run for twelve months.',
       'Hospital groups are quoted separately under a written agreement that takes precedence over these terms.',

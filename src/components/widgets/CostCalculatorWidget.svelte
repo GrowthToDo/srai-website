@@ -24,7 +24,7 @@
   const attritionCost = $derived(exits * RATES.replacementCost);
   const totalCost = $derived(inChargeTimeCost + otCost + contractCost + attritionCost);
   const band = $derived(bandForBeds(beds));
-  const subscription = $derived(band.engine);
+  const subscription = $derived(band.pro);
 
   let showForm = $state(false);
   let showResults = $state(false);
@@ -190,7 +190,7 @@
           <span class="text-2xl font-bold text-primary">{formatINR(totalCost)}</span>
         </div>
         <div class="flex items-center justify-between border-t border-primary/10 pt-3">
-          <span class="text-sm text-gray-700">SimpleRosterAI Engine for a hospital of {beds.toLocaleString('en-IN')} beds ({band.label.toLowerCase()}), per year, GST extra</span>
+          <span class="text-sm text-gray-700">SimpleRosterAI Pro for a hospital of {beds.toLocaleString('en-IN')} beds ({band.label.toLowerCase()}), per year, GST extra</span>
           <span class="text-sm font-semibold">{formatINR(subscription)}</span>
         </div>
       </div>

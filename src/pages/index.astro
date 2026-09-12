@@ -65,7 +65,7 @@ const faqs = [
   },
   {
     title: 'How is it priced?',
-    description: `${PRICE_SUMMARY} A 300-bed hospital pays ${formatINR(example.engine)} a year on Engine, whether it rosters 300 nurses or 450. Add nurses, wards and supervisors without your bill changing.`,
+    description: `${PRICE_SUMMARY} A 300-bed hospital pays ${formatINR(example.pro)} a year on Pro, whether it rosters 300 nurses or 450. Add nurses, wards and supervisors without your bill changing.`,
   },
 ];
 
@@ -82,8 +82,8 @@ const schema = [
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'INR',
-      lowPrice: String(PRICE_BANDS[0].roster),
-      highPrice: String(PRICE_BANDS[PRICE_BANDS.length - 1].engine),
+      lowPrice: String(PRICE_BANDS[0].basic),
+      highPrice: String(PRICE_BANDS[PRICE_BANDS.length - 1].pro),
       offerCount: String(PRICE_BANDS.length * 2),
       description: 'Annual subscription priced by licensed beds, GST extra',
     },
@@ -169,8 +169,8 @@ const steps = [
     overlap
   >
     <HeroVideo
-      src="/videos/srai-launch-landscape.mp4"
-      srcVertical="/videos/srai-launch-vertical.mp4"
+      src="/videos/srai-launch-landscape.mp4?v=2"
+      srcVertical="/videos/srai-launch-vertical.mp4?v=2"
       poster="/videos/srai-launch-poster.png"
       label="Product overview: the engine fills a ward's three-shift week, checks the rules, and ranks a replacement for an absence"
     />
@@ -260,8 +260,8 @@ const steps = [
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-primary">Pricing</p>
         <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl">Priced by beds, not by nurses.</h2>
         <p class="mt-4 text-lg text-ivory/70">
-          A 300-bed hospital pays {formatINR(example.engine)} a year on Engine, or
-          {formatINR(monthlyFromAnnual(example.engine))} a month, GST extra, whether it rosters 300 nurses or 450. Add nurses,
+          A 300-bed hospital pays {formatINR(example.pro)} a year on Pro, or
+          {formatINR(monthlyFromAnnual(example.pro))} a month, GST extra, whether it rosters 300 nurses or 450. Add nurses,
           wards and supervisors without your bill changing.
         </p>
         <a href="/pricing" class="mt-6 inline-block font-semibold text-primary-ink underline underline-offset-4"
