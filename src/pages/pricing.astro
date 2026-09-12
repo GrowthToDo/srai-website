@@ -24,37 +24,60 @@ const metadata = {
 
 const lowest = PRICE_BANDS[0];
 const highest = PRICE_BANDS[PRICE_BANDS.length - 1];
+const example = bandForBeds(300);
+
+/** Feature rows: what each plan does. `null` renders as "not included". */
+const features: { label: string; basic: string | null; pro: string }[] = [
+  {
+    label: 'Duty roster grid, three shifts, every ward',
+    basic: 'Filled by the in-charge',
+    pro: 'Filled by the engine',
+  },
+  {
+    label: 'Rule checks as you assign',
+    basic: 'Hours cap, 12-hour rest, weekly off, consecutive days, leave clashes',
+    pro: 'All 21 checks, run on every draft before anyone sees it',
+  },
+  {
+    label: 'Leave and swap requests',
+    basic: 'Reach the in-charge as they do today; she updates the grid and approves leave',
+    pro: 'Raised by nurses on their phones, approved by the in-charge with one tap',
+  },
+  {
+    label: 'Roster approval and publishing',
+    basic: 'Nursing office approves; PDF for the notice board, Excel for HR',
+    pro: 'Nursing office approves; nurses get the roster on their phones',
+  },
+  { label: 'Change log', basic: 'Every change recorded: who, what, when', pro: 'Full NABH audit pack on top' },
+  {
+    label: 'Absence cover',
+    basic: 'In-charge edits the grid',
+    pro: 'Ranked replacement shortlist with reasons, any hour',
+  },
+  { label: 'Nurses on their phones', basic: null, pro: 'Duty calendar, leave, swaps, absence reporting' },
+  { label: 'Night and weekend fairness', basic: null, pro: 'Tracked per nurse across weeks' },
+  { label: 'NABH audit pack', basic: null, pro: 'Overtime, weekly-off and rest-hour reports, exportable' },
+  { label: 'Onboarding', basic: 'One guided session, remote', pro: 'Four-week guided setup to the first live cycle' },
+  { label: 'Support', basic: 'Email, working hours', pro: 'Priority, named contact' },
+];
 
 const plans = [
   {
     key: 'basic' as const,
     name: 'Basic',
     tagline: 'Excel replaced',
+    blurb: 'The grid, the rule checks and the approval step. The in-charge fills it; the nursing office approves it.',
     featured: false,
-    items: [
-      'Duty roster grid for every ward, three shifts, on the web',
-      'Rule flags as you assign: hours cap, 12-hour rest, weekly off, consecutive days, leave clashes',
-      'One approval step: nothing publishes without the nursing office',
-      'PDF for the notice board, Excel for HR',
-      'Self-serve setup from the staff Excel you already keep',
-    ],
   },
   {
     key: 'pro' as const,
     name: 'Pro',
     tagline: 'Everything in Basic, plus the engine',
+    blurb:
+      'The engine fills every ward, nurses get their duties on their phones, and the audit pack is ready for NABH.',
     featured: true,
-    items: [
-      'Three complete drafts per ward per cycle, each checked against 21 rules before anyone sees it',
-      'Ranked replacement shortlist with reasons the moment an absence is logged, any hour',
-      'Nurses on their phones: duty calendar, leave, swaps and absence reporting',
-      'NABH audit pack: overtime, weekly-off and rest-hour reports, full change trail',
-      'Four-week guided setup with your nursing office, included',
-    ],
   },
 ];
-
-const example = bandForBeds(300);
 
 const faqs = [
   {
@@ -74,7 +97,7 @@ const faqs = [
   {
     title: 'Can we start on Basic and move to Pro later?',
     description:
-      'Yes. Basic is the grid, the rule flags and the approval step. Pro adds the drafts, the replacement shortlist, the nurse phone portal and the audit pack. Moving up applies from the next cycle, and the annual difference is charged pro rata.',
+      'Yes. Basic is the grid, the rule checks and the approval step. Pro adds the engine, the replacement shortlist, the nurse phone app and the audit pack. Moving up applies from the next cycle, and the annual difference is charged pro rata.',
   },
   {
     title: 'Can we pilot one ward first?',
@@ -105,6 +128,9 @@ const productSchema = {
     description: 'Annual subscription priced by licensed beds, GST extra',
   },
 };
+
+const cellHead = 'px-2.5 py-3 text-left text-xs font-semibold sm:px-5 sm:py-3.5 sm:text-sm';
+const cell = 'px-2.5 py-3 align-top text-xs sm:px-5 sm:py-3.5 sm:text-sm';
 ---
 
 <Layout metadata={metadata}>
@@ -113,68 +139,131 @@ const productSchema = {
   <DarkHero
     badge="Priced by licensed beds. No per-nurse fee."
     title={`Priced by ${circle('beds')}, not by nurses.`}
-    subtitle={`Two plans, five bed bands. Add nurses, wards and supervisors without your bill changing. Annual prices, GST extra; monthly billing at one tenth of the annual price.`}
+    subtitle={`Two plans, five bed bands. Add nurses, wards and supervisors without your bill changing. GST extra.`}
     actions={[
       { text: 'Book a demo', href: BOOKING_URL, variant: 'primary' },
       { text: 'Try the interactive demo', href: '/demo', variant: 'secondary' },
     ]}
   />
 
-  <section class="bg-page">
+  <section class="bg-page" data-pricing data-cadence="annual">
     <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <div class="grid gap-6 md:grid-cols-2">
+      {/* Monthly / Annual toggle */}
+      <div class="flex flex-col items-center gap-3">
+        <div
+          class="inline-flex rounded-full border border-hairline bg-white p-1 text-sm font-semibold"
+          role="group"
+          aria-label="Billing period"
+        >
+          <button
+            type="button"
+            class="rounded-full px-5 py-2 transition-colors data-[on]:bg-ink data-[on]:text-ivory"
+            data-cadence-btn="monthly">Monthly</button
+          >
+          <button
+            type="button"
+            class="rounded-full px-5 py-2 transition-colors data-[on]:bg-ink data-[on]:text-ivory"
+            data-cadence-btn="annual"
+            data-on>Annual</button
+          >
+        </div>
+        <p class="text-sm text-muted">
+          <span data-show="annual">Annual billing, two months free against monthly.</span>
+          <span data-show="monthly" hidden>Monthly billing, cancel anytime. Annual saves two months.</span>
+          GST extra.
+        </p>
+      </div>
+
+      {/* Comparison table */}
+      <div class="mt-8 overflow-x-auto rounded-2xl border border-hairline bg-white">
+        <table class="w-full table-fixed border-collapse sm:table-auto sm:min-w-[44rem]">
+          <thead>
+            <tr class="bg-ink text-ivory">
+              <th scope="col" class={`${cellHead} w-[30%] sm:w-auto`}>Licensed beds</th>
+              <th scope="col" class={cellHead}>
+                Basic
+                <span class="block text-xs font-normal text-ivory/70">Excel replaced</span>
+              </th>
+              <th scope="col" class={`${cellHead} bg-primary text-ink`}>
+                Pro
+                <span class="block text-xs font-normal text-ink/70">Everything in Basic, plus the engine</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              PRICE_BANDS.map((band, i) => (
+                <tr class={`border-t border-hairline ${i % 2 ? 'bg-page/60' : ''}`}>
+                  <th scope="row" class={`${cell} font-semibold`}>
+                    {band.label}
+                  </th>
+                  <td class={`${cell} tabular-nums`}>
+                    <span data-show="annual">{formatINR(band.basic)} / year</span>
+                    <span data-show="monthly" hidden>
+                      {formatINR(monthlyFromAnnual(band.basic))} / month
+                    </span>
+                  </td>
+                  <td class={`${cell} bg-primary/5 font-semibold tabular-nums`}>
+                    <span data-show="annual">{formatINR(band.pro)} / year</span>
+                    <span data-show="monthly" hidden>
+                      {formatINR(monthlyFromAnnual(band.pro))} / month
+                    </span>
+                  </td>
+                </tr>
+              ))
+            }
+            <tr class="border-t-2 border-ink/20 bg-page">
+              <th scope="col" class={`${cellHead} text-xs uppercase tracking-[0.18em] text-primary-ink`} colspan="3">
+                What each plan does
+              </th>
+            </tr>
+            {
+              features.map((f, i) => (
+                <tr class={`border-t border-hairline ${i % 2 ? 'bg-page/60' : ''}`}>
+                  <th scope="row" class={`${cell} font-semibold`}>
+                    {f.label}
+                  </th>
+                  <td class={`${cell} text-default/80`}>{f.basic ?? <span class="text-muted">Not included</span>}</td>
+                  <td class={`${cell} bg-primary/5 text-default/90`}>{f.pro}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      {/* CTA cards */}
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
         {
           plans.map((plan) => (
             <div
-              class={`flex flex-col rounded-2xl border p-8 ${plan.featured ? 'border-primary/50 bg-primary/5' : 'border-hairline bg-white'}`}
+              class={`rounded-2xl border p-8 ${plan.featured ? 'border-primary/50 bg-primary/5' : 'border-hairline bg-white'}`}
             >
               <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary-ink">{plan.tagline}</p>
               <h2 class="mt-2 font-heading text-3xl font-bold">{plan.name}</h2>
-              <p class="mt-4 text-4xl font-bold">
-                from <span class="whitespace-nowrap">{formatINR(lowest[plan.key])}</span>
-                <span class="whitespace-nowrap text-base font-medium text-muted">/ year</span>
+              <p class="mt-4 text-3xl font-bold tabular-nums">
+                from
+                <span data-show="annual">
+                  {formatINR(lowest[plan.key])}
+                  <span class="text-base font-medium text-muted">/ year</span>
+                </span>
+                <span data-show="monthly" hidden>
+                  {formatINR(monthlyFromAnnual(lowest[plan.key]))}
+                  <span class="text-base font-medium text-muted">/ month</span>
+                </span>
               </p>
-              <p class="mt-1 text-sm text-muted">
-                or {formatINR(monthlyFromAnnual(lowest[plan.key]))} a month, for a hospital of up to 100 beds. GST
-                extra.
-              </p>
-              <ul class="mt-6 space-y-2.5">
-                {plan.items.map((item) => (
-                  <li class="flex items-start gap-3">
-                    <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                    <span class="text-default/80">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div class="mt-8 flex-1 rounded-xl border border-hairline bg-white/70">
-                <p class="border-b border-hairline px-4 py-2.5 text-xs font-bold uppercase tracking-[0.18em] text-primary-ink">
-                  {plan.name} by licensed beds, per year
-                </p>
-                <dl class="divide-y divide-hairline">
-                  {PRICE_BANDS.map((band) => (
-                    <div class="flex items-baseline justify-between gap-4 px-4 py-2.5 text-sm">
-                      <dt class="text-muted">{band.label}</dt>
-                      <dd class="font-semibold tabular-nums">
-                        {formatINR(band[plan.key])}
-                        <span class="ml-1 font-normal text-muted">
-                          or {formatINR(monthlyFromAnnual(band[plan.key]))}/mo
-                        </span>
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-
+              <p class="mt-1 text-sm text-muted">for a hospital of up to 100 beds. GST extra.</p>
+              <p class="mt-4 text-default/80">{plan.blurb}</p>
               <a href={BOOKING_URL} class={`btn mt-6 w-full ${plan.featured ? 'btn-primary' : ''}`}>
                 Book a demo
               </a>
+              {plan.featured && <p class="mt-3 text-center text-sm text-muted">First cycle on one ward free.</p>}
             </div>
           ))
         }
       </div>
 
-      <p class="mt-6 text-center text-sm text-muted">
+      <p class="mt-8 text-center text-sm text-muted">
         Hospital groups: {GROUP_DISCOUNTS[0].minSites} or more facilities on one contract, {GROUP_DISCOUNTS[0].percent}%
         off every site; {GROUP_DISCOUNTS[1].minSites} or more, {GROUP_DISCOUNTS[1].percent}% off, with group-level
         reporting included.
@@ -207,3 +296,22 @@ const productSchema = {
     ]}
   />
 </Layout>
+
+<script>
+  function initPricingToggle() {
+    const root = document.querySelector<HTMLElement>('[data-pricing]');
+    if (!root) return;
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-cadence-btn]'));
+    const spans = Array.from(root.querySelectorAll<HTMLElement>('[data-show]'));
+    const apply = (cadence: string) => {
+      root.dataset.cadence = cadence;
+      buttons.forEach((b) =>
+        b.dataset.cadenceBtn === cadence ? b.setAttribute('data-on', '') : b.removeAttribute('data-on')
+      );
+      spans.forEach((s) => (s.hidden = s.dataset.show !== cadence));
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.cadenceBtn!)));
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initPricingToggle);
+  else initPricingToggle();
+</script>
