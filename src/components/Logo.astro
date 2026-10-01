@@ -7,31 +7,29 @@ export interface Props {
 }
 const { variant = 'dark', class: className = '' } = Astro.props;
 const text = variant === 'light' ? 'text-ivory' : 'text-ink';
+// "AI" in teal; a darker teal on light grounds keeps it at AA contrast for large text.
+const aiColor = variant === 'light' ? '#2AA79B' : '#1F8A80';
+const name = SITE?.name ?? 'SimpleRosterAI';
+const base = name.replace(/AI$/, '');
 ---
 
 <span
-  class={`self-center flex items-center gap-2.5 text-2xl md:text-[1.35rem] font-heading font-bold tracking-tight whitespace-nowrap ${text} ${className}`}
+  class={`self-center flex items-center gap-2.5 text-2xl md:text-[1.35rem] font-heading font-extrabold tracking-tight whitespace-nowrap ${text} ${className}`}
   translate="no"
+  aria-label={name}
 >
-  {/* Duty wheel: three arcs for morning, evening, night; saffron on any ground. */}
-  <svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true" class="shrink-0">
-    <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-opacity="0.18" stroke-width="7"></circle>
-    <path d="M24 7 A17 17 0 0 1 38.7 15.5" fill="none" stroke="#F5A623" stroke-width="7" stroke-linecap="round"></path>
+  {/* Three shift cells: morning, evening, night; the last one checked. */}
+  <svg width="40" height="12" viewBox="0 0 74 22" aria-hidden="true" class="h-[1.05rem] w-auto shrink-0">
+    <rect x="0" y="0" width="22" height="22" rx="6" fill="#2AA79B"></rect>
+    <rect x="26" y="0" width="22" height="22" rx="6" fill="#2AA79B"></rect>
+    <rect x="52" y="0" width="22" height="22" rx="6" fill="#F5A623"></rect>
     <path
-      d="M38.7 32.5 A17 17 0 0 1 24 41"
+      d="M58 11.4 L61.7 15 L68.3 7.5"
       fill="none"
-      stroke="#F5A623"
-      stroke-width="7"
+      stroke="#0B1F3A"
+      stroke-width="2.9"
       stroke-linecap="round"
-      stroke-opacity="0.75"></path>
-    <path
-      d="M9.3 32.5 A17 17 0 0 1 9.3 15.5"
-      fill="none"
-      stroke="#F5A623"
-      stroke-width="7"
-      stroke-linecap="round"
-      stroke-opacity="0.5"></path>
-    <circle cx="24" cy="24" r="4" fill="currentColor"></circle>
+      stroke-linejoin="round"></path>
   </svg>
-  <span>{SITE?.name}</span>
+  <span aria-hidden="true">{base}<span style={`color:${aiColor}`}>AI</span></span>
 </span>

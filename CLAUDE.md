@@ -15,7 +15,7 @@ and managed-service pricing. Do not import its market framing, vocabulary, pages
 or blog.
 
 Landing page follows the 2026-09-03 redesign spec: navy #0B1F3A, saffron #F5A623,
-teal #2AA79B, Manrope headings, duty-wheel logo (`Logo.astro`).
+teal #2AA79B, Manrope headings, three-cell logo (`Logo.astro`: two teal shift cells and a saffron checked cell; "AI" in teal). Tagline: "Every shift. Every rule. Checked." (`TAGLINE` in `src/site.ts`).
 
 ## Hard rules
 

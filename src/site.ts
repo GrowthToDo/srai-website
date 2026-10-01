@@ -5,6 +5,7 @@
  */
 export const SITE_NAME = 'SimpleRosterAI';
 export const SITE_URL = 'https://simplerosterai.com';
+export const TAGLINE = 'Every shift. Every rule. Checked.';
 
 export const BOOKING_URL = 'https://cal.com/gautham-8bdvdx/30min';
 export const SUPPORT_EMAIL = 'support@simplerosterai.com';

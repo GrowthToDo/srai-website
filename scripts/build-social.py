@@ -1,4 +1,4 @@
-"""Generate the 1200x628 Open Graph image on navy with the duty-wheel mark. Run: python scripts/build-social.py"""
+"""Generate the 1200x628 Open Graph image on navy with the three-cell mark. Run: python scripts/build-social.py"""
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -16,15 +16,19 @@ def font(size, bold=True):
             continue
     return ImageFont.load_default()
 
-# mark
-c, r, w = (140, 140), 52, 18
-box = (c[0] - r, c[1] - r, c[0] + r, c[1] + r)
-d.arc(box, 0, 360, fill=(60, 78, 104), width=w)
-d.arc(box, -90, -30, fill=SAFFRON, width=w)
-d.arc(box, 30, 90, fill=(214, 146, 36), width=w)
-d.arc(box, 150, 210, fill=(160, 112, 40), width=w)
-d.ellipse((c[0] - 12, c[1] - 12, c[0] + 12, c[1] + 12), fill=IVORY)
-d.text((220, 105), "SimpleRosterAI", font=font(64), fill=IVORY)
+# mark: three shift cells, the last saffron and checked
+TEAL = (42, 167, 155)
+x, y, cell, gap = 80, 112, 46, 9
+for i, fill in enumerate([TEAL, TEAL, SAFFRON]):
+    cx = x + i * (cell + gap)
+    d.rounded_rectangle((cx, y, cx + cell, y + cell), radius=12, fill=fill)
+tx = x + 2 * (cell + gap)
+tick = [(tx + cell * 0.27, y + cell * 0.52), (tx + cell * 0.44, y + cell * 0.68), (tx + cell * 0.74, y + cell * 0.34)]
+d.line(tick, fill=NAVY, width=7, joint="curve")
+d.text((x + 3 * cell + 2 * gap + 26, 100), "SimpleRoster", font=font(64), fill=IVORY)
+w_base = d.textlength("SimpleRoster", font=font(64))
+d.text((x + 3 * cell + 2 * gap + 26 + w_base, 100), "AI", font=font(64), fill=TEAL)
+d.text((80, 196), "EVERY SHIFT. EVERY RULE. CHECKED.", font=font(24), fill=SAFFRON)
 d.text((80, 290), "Your in-charges spend a third of their", font=font(46), fill=IVORY)
 d.text((80, 350), "week on the duty roster.", font=font(46), fill=IVORY)
 d.text((80, 410), "Get it back.", font=font(46), fill=SAFFRON)
