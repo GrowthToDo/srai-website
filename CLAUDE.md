@@ -46,6 +46,7 @@ teal #2AA79B, Manrope headings, three-cell logo (`Logo.astro`: two teal shift ce
 - `python scripts/build-template.py` — regenerate the roster template xlsx
 - `python scripts/build-social.py` — regenerate the OG image
 - `python scripts/build-icons.py` — regenerate favicons/app icons
+- `python scripts/build-brand.py` then `node scripts/build-brand-png.mjs` — regenerate the brand kit in `brand/` (vector SVG logos with and without tagline, light and dark, plus 3000px PNGs)
 - Launch video: sibling folder `../srai-launch-video` (Remotion); renders live in `public/videos/`.
 
 ## Layout
